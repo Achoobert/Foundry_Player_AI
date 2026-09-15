@@ -142,6 +142,40 @@ export type StreamCallback = (chunk: {
 	error?: string
 }) => void
 
+// ---- Audio Helpers ----
+
+/** Wrap raw 16-bit PCM samples in a standard WAV container so <audio> can play them. */
+function pcm16ToWav(pcmData: Uint8Array, sampleRate: number, numChannels: number): ArrayBuffer {
+	const bitsPerSample = 16
+	const blockAlign = (numChannels * bitsPerSample) / 8
+	const byteRate = sampleRate * blockAlign
+	const dataSize = pcmData.byteLength
+
+	const buffer = new ArrayBuffer(44 + dataSize)
+	const view = new DataView(buffer)
+
+	const writeString = (offset: number, str: string) => {
+		for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i))
+	}
+
+	writeString(0, 'RIFF')
+	view.setUint32(4, 36 + dataSize, true)
+	writeString(8, 'WAVE')
+	writeString(12, 'fmt ')
+	view.setUint32(16, 16, true) // fmt chunk size
+	view.setUint16(20, 1, true) // audio format: PCM
+	view.setUint16(22, numChannels, true)
+	view.setUint32(24, sampleRate, true)
+	view.setUint32(28, byteRate, true)
+	view.setUint16(32, blockAlign, true)
+	view.setUint16(34, bitsPerSample, true)
+	writeString(36, 'data')
+	view.setUint32(40, dataSize, true)
+
+	new Uint8Array(buffer, 44).set(pcmData)
+	return buffer
+}
+
 // ---- Service Class ----
 
 export class OpenRouterService {
@@ -436,14 +470,40 @@ export class OpenRouterService {
 
 	// ---- Text-to-Speech ----
 
-	async generateSpeech(input: string, voice?: string, model?: string): Promise<ArrayBuffer> {
+	/**
+	 * Generate speech audio for the given text. OpenRouter serves two different
+	 * families of TTS models behind two different endpoints:
+	 * - Audio-preview chat models (e.g. openai/gpt-4o-mini-audio-preview) via
+	 *   /chat/completions with `modalities: ['text', 'audio']`.
+	 * - Dedicated TTS-only models (e.g. fish-audio/*) via /audio/speech.
+	 * There's no reliable way to tell which family a model belongs to from its
+	 * ID alone, so we try the chat-completions path first and fall back to the
+	 * dedicated endpoint when OpenRouter's own error tells us to.
+	 */
+	async generateSpeech(input: string, voice?: string, model?: string): Promise<{ buffer: ArrayBuffer; mimeType: string }> {
 		if (!this.apiKey) throw new Error('OpenRouter API key not configured')
 
 		const selectedVoice = voice || 'nova'
 		const selectedModel = model || this.ttsModel || 'openai/gpt-4o-mini-audio-preview'
 
+		try {
+			return await this.generateSpeechViaChatCompletions(input, selectedVoice, selectedModel)
+		} catch (err: any) {
+			if (typeof err?.message === 'string' && /\/audio\/speech/i.test(err.message)) {
+				console.log(`FoundryAI | ${selectedModel} requires the dedicated audio/speech endpoint, retrying there`)
+				return await this.generateSpeechViaAudioEndpoint(input, selectedVoice, selectedModel)
+			}
+			throw err
+		}
+	}
+
+	private async generateSpeechViaChatCompletions(
+		input: string,
+		selectedVoice: string,
+		selectedModel: string,
+	): Promise<{ buffer: ArrayBuffer; mimeType: string }> {
 		console.log(
-			`FoundryAI | API generateSpeech — model: ${selectedModel}, voice: ${selectedVoice}, input length: ${input.length}`,
+			`FoundryAI | API generateSpeech (chat/completions) — model: ${selectedModel}, voice: ${selectedVoice}, input length: ${input.length}`,
 		)
 
 		// OpenRouter uses the chat/completions endpoint with modalities for audio output
@@ -458,7 +518,9 @@ export class OpenRouterService {
 			modalities: ['text', 'audio'],
 			audio: {
 				voice: selectedVoice,
-				format: 'wav',
+				// OpenAI only supports 'pcm16' for audio.format when stream=true;
+				// we wrap the raw PCM in a WAV header ourselves after decoding.
+				format: 'pcm16',
 			},
 			stream: true,
 		}
@@ -530,7 +592,39 @@ export class OpenRouterService {
 		}
 
 		console.log(`FoundryAI | TTS audio generated: ${bytes.byteLength} bytes from ${audioChunks.length} chunks`)
-		return bytes.buffer
+		// pcm16 is raw, headerless samples — wrap in a WAV container so <audio> can play it.
+		return { buffer: pcm16ToWav(bytes, 24000, 1), mimeType: 'audio/wav' }
+	}
+
+	private async generateSpeechViaAudioEndpoint(
+		input: string,
+		selectedVoice: string,
+		selectedModel: string,
+	): Promise<{ buffer: ArrayBuffer; mimeType: string }> {
+		console.log(
+			`FoundryAI | API generateSpeech (audio/speech) — model: ${selectedModel}, voice: ${selectedVoice}, input length: ${input.length}`,
+		)
+
+		const response = await fetch(`${OPENROUTER_BASE}/audio/speech`, {
+			method: 'POST',
+			headers: this.headers,
+			body: JSON.stringify({
+				model: selectedModel,
+				input,
+				voice: selectedVoice,
+				response_format: 'mp3',
+			}),
+		})
+
+		if (!response.ok) {
+			const error = await response.json().catch(() => ({ message: response.statusText }))
+			console.error(`FoundryAI | TTS error (${response.status}):`, error)
+			throw new Error(`TTS error (${response.status}): ${error.message || error.error?.message || 'Unknown error'}`)
+		}
+
+		const buffer = await response.arrayBuffer()
+		console.log(`FoundryAI | TTS audio generated: ${buffer.byteLength} bytes via dedicated audio/speech endpoint`)
+		return { buffer, mimeType: 'audio/mpeg' }
 	}
 
 	// ---- Connection Test ----

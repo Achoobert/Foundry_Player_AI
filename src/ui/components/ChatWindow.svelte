@@ -8,6 +8,7 @@
   import { getEnabledTools, executeTool } from '@core/tool-system';
   import { buildSystemPrompt, buildActorRoleplayPrompt, getPlayerCharacterActors, type ActorRoleplayContext } from '@core/system-prompt';
   import { buildPartyContextMessages, PARTY_CHAT_MODE_INSTRUCTIONS } from '@core/party-chat';
+  import { autoSpeakText, stopTTS, stripMarkdownForSpeech } from '@core/tts-service';
   import { estimateTokens, getModelContextLimit } from '@core/token-estimator';
   import { summarizeConversation } from '@core/context-summarizer';
   import { getSetting } from '../../settings';
@@ -285,8 +286,9 @@ IMPORTANT: You already have all the information you need about this character fr
         );
 
         if (fullContent) {
-          const assistantMsg: LLMMessage = { role: 'assistant', content: fullContent };
+          const assistantMsg: LLMMessage = { role: 'assistant', content: fullContent, name: actorName, speakerActorId: actorId };
           messages = [assistantMsg];
+          await maybeAutoSpeak(fullContent, actorId);
         }
       } else {
         const response = await openRouterService.chatCompletion({
@@ -298,8 +300,9 @@ IMPORTANT: You already have all the information you need about this character fr
 
         const content = response.choices?.[0]?.message?.content;
         if (content) {
-          const assistantMsg: LLMMessage = { role: 'assistant', content };
+          const assistantMsg: LLMMessage = { role: 'assistant', content, name: actorName, speakerActorId: actorId };
           messages = [assistantMsg];
+          await maybeAutoSpeak(content, actorId);
         }
       }
 
@@ -350,6 +353,7 @@ IMPORTANT: You already have all the information you need about this character fr
       abortController = null;
       isGenerating = false;
       streamingContent = '';
+      stopTTS();
       console.log('FoundryAI | Chat generation stopped by user');
     }
   }
@@ -481,6 +485,8 @@ IMPORTANT: You already have all the information you need about this character fr
         if (replyText) {
           const assistantMsg: LLMMessage = { role: 'assistant', content: replyText, name: actor.name, speakerActorId: actor.id };
           messages = [...messages, assistantMsg];
+          // Awaited so overlapping party members don't talk over each other.
+          await maybeAutoSpeak(replyText, actor.id);
         }
       }
 
@@ -664,8 +670,11 @@ IMPORTANT: You already have all the information you need about this character fr
       }
     } else {
       // Normal text response
-      const msg: LLMMessage = { role: 'assistant', content: fullContent };
+      const msg: LLMMessage = currentActorId
+        ? { role: 'assistant', content: fullContent, name: currentActorName || undefined, speakerActorId: currentActorId }
+        : { role: 'assistant', content: fullContent };
       messages = [...messages, msg];
+      await maybeAutoSpeak(fullContent, currentActorId);
     }
 
     // Update token tracking from streaming usage
@@ -705,8 +714,12 @@ IMPORTANT: You already have all the information you need about this character fr
     if (assistantMessage?.tool_calls?.length) {
       await handleToolCalls(assistantMessage, apiMessages, model, temperature, maxTokens, 0, signal);
     } else {
-      const msg: LLMMessage = { role: 'assistant', content: assistantMessage?.content || '' };
+      const content = assistantMessage?.content || '';
+      const msg: LLMMessage = currentActorId
+        ? { role: 'assistant', content, name: currentActorName || undefined, speakerActorId: currentActorId }
+        : { role: 'assistant', content };
       messages = [...messages, msg];
+      await maybeAutoSpeak(content, currentActorId);
     }
 
     // Update token tracking from response usage
@@ -806,7 +819,12 @@ IMPORTANT: You already have all the information you need about this character fr
       // Recursive tool calls
       await handleToolCalls(nextMessage, continuedMessages, model, temperature, maxTokens, depth + 1, signal);
     } else {
-      messages = [...messages, { role: 'assistant', content: nextMessage?.content || '' }];
+      const content = nextMessage?.content || '';
+      const msg: LLMMessage = currentActorId
+        ? { role: 'assistant', content, name: currentActorName || undefined, speakerActorId: currentActorId }
+        : { role: 'assistant', content };
+      messages = [...messages, msg];
+      await maybeAutoSpeak(content, currentActorId);
     }
   }
 
@@ -1032,6 +1050,31 @@ IMPORTANT: You already have all the information you need about this character fr
     const next = new Set(selectedResponders);
     if (next.has(actorId)) next.delete(actorId); else next.add(actorId);
     selectedResponders = next;
+  }
+
+  /** Look up a character's configured voice override, if any. */
+  function resolveVoiceForActor(actorId?: string | null): string | undefined {
+    if (!actorId) return undefined;
+    try {
+      return getSetting('characterVoices')?.[actorId] || undefined;
+    } catch {
+      return undefined;
+    }
+  }
+
+  /**
+   * Read a finished assistant reply aloud when the "auto speak" setting is
+   * on. Resolves once playback finishes so callers that generate multiple
+   * replies in a row (party mode) can await it and avoid overlapping voices.
+   */
+  async function maybeAutoSpeak(content: string | null | undefined, actorId?: string | null): Promise<void> {
+    if (!content) return;
+    try {
+      if (!getSetting('enableTTS') || !getSetting('autoSpeakResponses')) return;
+    } catch {
+      return;
+    }
+    await autoSpeakText(stripMarkdownForSpeech(content), resolveVoiceForActor(actorId));
   }
 </script>
 
@@ -1276,6 +1319,7 @@ IMPORTANT: You already have all the information you need about this character fr
                 content={typeof item.msg.content === 'string' ? item.msg.content : ''}
                 toolName={item.msg.name}
                 speakerName={item.msg.speakerActorId ? item.msg.name : undefined}
+                voice={resolveVoiceForActor(item.msg.speakerActorId)}
               />
               {#if item.msg.role === 'assistant' && !isGenerating && !isPartyMode}
                 <div class="message-actions">

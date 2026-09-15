@@ -45,6 +45,8 @@ export interface FoundryAISettings {
 	enableImageTools: boolean
 	enableTTS: boolean
 	ttsVoice: string
+	autoSpeakResponses: boolean
+	characterVoices: Record<string, string>
 	contextSummarizeThreshold: number
 	summarizeKeepMessages: number
 }
@@ -402,6 +404,24 @@ export function registerSettings(): void {
 		config: false,
 		type: String,
 		default: 'nova',
+	})
+
+	game.settings.register(MODULE_ID, 'autoSpeakResponses', {
+		name: 'Automatically Speak Responses',
+		hint: 'Read AI chat replies aloud automatically as they arrive, using the default TTS voice (or a character-specific voice if set)',
+		scope: 'world',
+		config: false,
+		type: Boolean,
+		default: false,
+	})
+
+	game.settings.register(MODULE_ID, 'characterVoices', {
+		name: 'Character Voices',
+		hint: 'Per-character TTS voice overrides, keyed by actor ID',
+		scope: 'world',
+		config: false,
+		type: Object,
+		default: {},
 	})
 
 	// ---- Context Management ----

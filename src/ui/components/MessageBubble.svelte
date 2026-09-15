@@ -11,9 +11,11 @@
     toolName?: string;
     /** Party chat only: the character's name, shown in place of "FoundryAI" */
     speakerName?: string;
+    /** Character-specific TTS voice override, if one is configured */
+    voice?: string;
   }
 
-  let { role, content, isStreaming = false, toolName, speakerName }: Props = $props();
+  let { role, content, isStreaming = false, toolName, speakerName, voice }: Props = $props();
 
   // Check if TTS is enabled (safe fallback if settings not ready)
   function isTTSEnabled(): boolean {
@@ -103,7 +105,7 @@
       event.stopPropagation();
       const text = decodeURIComponent(ttsBtn.dataset.ttsText || '');
       if (text) {
-        playTTS(text, ttsBtn).catch((err: any) => {
+        playTTS(text, ttsBtn, voice).catch((err: any) => {
           console.error('FoundryAI | TTS failed:', err);
           ui.notifications.error(`TTS failed: ${err.message}`);
         });

@@ -2,6 +2,7 @@
   import { openRouterService, type ModelInfo } from '@core/openrouter-service';
   import { embeddingService } from '@core/embedding-service';
   import { collectionReader } from '@core/collection-reader';
+  import { getPlayerCharacterActors } from '@core/system-prompt';
   import { getSetting, setSetting } from '../../settings';
 
   interface Props {
@@ -33,6 +34,8 @@
   let enableSpatialTools = $state(true);
   let enableTTS = $state(true);
   let ttsVoice = $state('nova');
+  let autoSpeakResponses = $state(false);
+  let characterVoices = $state<Record<string, string>>({});
   let enableActorTools = $state(true);
   let enableItemTools = $state(true);
   let enableMacroTools = $state(true);
@@ -55,11 +58,14 @@
   let journalFolders = $state<Array<{ id: string; name: string; path: string }>>([]);
   let actorFolders = $state<Array<{ id: string; name: string; path: string }>>([]);
   let sceneFolders = $state<Array<{ id: string; name: string; path: string }>>([]);
+  let partyCharacters = $state<Array<{ id: string; name: string }>>([]);
 
   let isLoadingModels = $state(false);
   let isTesting = $state(false);
   let testResult = $state<{ success: boolean; message: string } | null>(null);
   let isSaving = $state(false);
+  let isTestingTTS = $state(false);
+  let ttsTestResult = $state<{ success: boolean; message: string } | null>(null);
   let indexStats = $state<{ totalVectors: number; documents: number } | null>(null);
   let isIndexing = $state(false);
   let indexProgress = $state('');
@@ -89,6 +95,8 @@
       enableSpatialTools = getSetting('enableSpatialTools') ?? true;
       enableTTS = getSetting('enableTTS') ?? true;
       ttsVoice = getSetting('ttsVoice') || 'nova';
+      autoSpeakResponses = getSetting('autoSpeakResponses') ?? false;
+      characterVoices = { ...(getSetting('characterVoices') || {}) };
       enableActorTools = getSetting('enableActorTools') ?? true;
       enableItemTools = getSetting('enableItemTools') ?? true;
       enableMacroTools = getSetting('enableMacroTools') ?? true;
@@ -109,6 +117,7 @@
     actorFolders = collectionReader.getActorFolders();
     sceneFolders = collectionReader.getSceneFolders();
     macroFolders = collectionReader.getMacroFolders();
+    partyCharacters = getPlayerCharacterActors().map(a => ({ id: a.id, name: a.name }));
 
     // Load index stats
     embeddingService.getStats().then(stats => {
@@ -165,6 +174,35 @@
     }
   }
 
+  // ---- TTS Test ----
+  async function testTTS() {
+    if (!apiKey) {
+      ttsTestResult = { success: false, message: 'API key is required.' };
+      return;
+    }
+
+    isTestingTTS = true;
+    ttsTestResult = null;
+    try {
+      openRouterService.configure({ apiKey, ttsModel });
+      const { buffer, mimeType } = await openRouterService.generateSpeech(
+        'This is a test of text to speech.',
+        ttsVoice,
+        ttsModel
+      );
+      const blob = new Blob([buffer], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audio.onended = () => URL.revokeObjectURL(url);
+      await audio.play();
+      ttsTestResult = { success: true, message: '✅ Playing test audio...' };
+    } catch (err: any) {
+      ttsTestResult = { success: false, message: `❌ ${err.message}` };
+    } finally {
+      isTestingTTS = false;
+    }
+  }
+
   // ---- Save ----
   async function handleSave() {
     isSaving = true;
@@ -191,6 +229,8 @@
       await setSetting('enableSpatialTools', enableSpatialTools);
       await setSetting('enableTTS', enableTTS);
       await setSetting('ttsVoice', ttsVoice);
+      await setSetting('autoSpeakResponses', autoSpeakResponses);
+      await setSetting('characterVoices', Object.fromEntries(Object.entries(characterVoices).filter(([, v]) => !!v?.trim())));
       await setSetting('enableActorTools', enableActorTools);
       await setSetting('enableItemTools', enableItemTools);
       await setSetting('enableMacroTools', enableMacroTools);
@@ -448,16 +488,51 @@
       </div>
 
       {#if enableTTS}
+      <div class="field checkbox-field" style="margin-left: 1.5rem;">
+        <label>
+          <input type="checkbox" bind:checked={autoSpeakResponses} />
+          Automatically speak new responses
+        </label>
+        <small style="color: var(--color-text-dark-5); margin-left: 1.5rem; display: block;">
+          Reads each AI reply aloud as soon as it's generated, using the default voice below (or a character's own voice, if set).
+        </small>
+      </div>
+
       <div class="field" style="margin-left: 1.5rem;">
-        <label for="tts-voice">TTS Voice</label>
-        <select id="tts-voice" bind:value={ttsVoice}>
-          <option value="alloy">Alloy</option>
-          <option value="echo">Echo</option>
-          <option value="fable">Fable</option>
-          <option value="onyx">Onyx</option>
-          <option value="nova">Nova</option>
-          <option value="shimmer">Shimmer</option>
-        </select>
+        <label for="tts-voice">Default TTS Voice</label>
+        <div class="input-group">
+          <select id="tts-voice" bind:value={ttsVoice}>
+            <option value="alloy">Alloy</option>
+            <option value="echo">Echo</option>
+            <option value="fable">Fable</option>
+            <option value="onyx">Onyx</option>
+            <option value="nova">Nova</option>
+            <option value="shimmer">Shimmer</option>
+          </select>
+          <button class="inline-btn" onclick={testTTS} disabled={isTestingTTS}>
+            {isTestingTTS ? 'Testing...' : 'Test'}
+          </button>
+        </div>
+        {#if ttsTestResult}
+          <span class="field-result" class:success={ttsTestResult.success} class:error={!ttsTestResult.success}>
+            {ttsTestResult.message}
+          </span>
+        {/if}
+      </div>
+
+      <div class="field" style="margin-left: 1.5rem;">
+        <span class="field-label"><i class="fas fa-microphone"></i> Character Voices</span>
+        <small style="color: var(--color-text-dark-5); display: block; margin-bottom: 4px;">
+          Override the voice per player character (used in Actor Roleplay and Party Chat). Leave blank to use the default voice above.
+        </small>
+        {#each partyCharacters as actor (actor.id)}
+          <div class="input-group" style="margin-top: 4px;">
+            <span style="min-width: 120px; flex: 0 0 auto;">{actor.name}</span>
+            <input type="text" placeholder={ttsVoice} bind:value={characterVoices[actor.id]} />
+          </div>
+        {:else}
+          <p class="section-hint">No player characters found. Configure the Player Character Folder above.</p>
+        {/each}
       </div>
       {/if}
     </section>
@@ -762,7 +837,8 @@
     gap: 6px;
   }
 
-  .input-group input {
+  .input-group input,
+  .input-group select {
     flex: 1;
   }
 
