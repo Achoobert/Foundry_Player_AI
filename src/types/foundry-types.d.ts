@@ -670,6 +670,26 @@ declare namespace foundry {
 	}
 }
 
+// ---- Quench ----
+interface QuenchBatchContext {
+	describe: (name: string, fn: () => void) => void
+	it: (name: string, fn: (this: { skip: () => void }) => void | Promise<void>) => void
+	before: (fn: () => void | Promise<void>) => void
+	beforeEach: (fn: () => void | Promise<void>) => void
+	after: (fn: () => void | Promise<void>) => void
+	afterEach: (fn: () => void | Promise<void>) => void
+	assert: any
+	expect: any
+}
+
+interface Quench {
+	registerBatch: (
+		key: string,
+		fn: (context: QuenchBatchContext) => void,
+		options?: { displayName?: string },
+	) => void
+}
+
 // ---- Svelte Module Declarations ----
 declare module '*.svelte' {
 	import type { Component } from 'svelte'

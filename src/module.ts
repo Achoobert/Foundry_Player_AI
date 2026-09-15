@@ -17,6 +17,9 @@ import ChatWindow from '@ui/components/ChatWindow.svelte'
 // Import styles so Vite bundles them
 import './styles/foundry-ai.scss'
 
+// Registers Quench batches (no-op unless Quench is installed and active)
+import './quench'
+
 const MODULE_ID = 'foundry-ai'
 
 // ---- Module Initialization ----

@@ -26,3 +26,8 @@ fvtt.config.js
 
 # Reference project (not part of the module)
 reference/
+
+# Cypress artifacts
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/

@@ -203,10 +203,18 @@ bun install
 | `bun run watch`     | Watch mode, builds straight into your Foundry userdata `modules/` folder (see below) |
 | `bun run package`   | Build + create `foundry-ai.zip` for release       |
 | `bun run link`      | Symlink `dist/` into local Foundry modules folder |
-| `bun run test`      | Run tests                                         |
+| `bun run test`      | Run unit tests (Vitest)                           |
+| `bun run test:e2e`  | Open Cypress interactively against a running Foundry world |
+| `bun run test:ci`   | Run Cypress headless — logs in, opens Quench, runs all batches, fails on any failed test (or zero tests run) |
 | `bun run typecheck` | TypeScript type checking                          |
 
 `bun run watch` reads `fvtt.config.js` (gitignored — copy `fvtt.config.example.js` and set `userDataPath` to the folder that *contains* your Foundry `Data/` directory) and rebuilds directly into `<userDataPath>/Data/modules/foundry-ai` on every save, so Foundry picks up changes with just a refresh — no separate `link` step needed.
+
+### Testing
+
+Quench batches live under `src/quench/` and register themselves via a `quenchReady` hook — they're bundled into the module but only activate in a world with [Quench](https://github.com/Ethaks/FVTT-Quench) installed. `cypress/` drives Foundry end-to-end: log in, launch the test world, open Quench, run everything, and fail the run if any batch fails or if zero tests ran.
+
+To run locally, point `fvtt.config.js` (`baseURL`, `testWorldName`) at a running Foundry instance with Quench and this module already enabled in that world, then `bun run test:ci`. CI runs the same flow via the [`Achoobert/FoundryvttTestEnv`](https://github.com/Achoobert/FoundryvttTestEnv) action, which provisions Foundry + Quench in Docker automatically (see `.github/workflows/ci.yml`).
 
 ### Project Structure
 

@@ -15,11 +15,16 @@
 		"link": "node scripts/link-module.mjs",
 		"package": "node scripts/package-module.mjs",
 		"release": "node scripts/release.mjs",
-		"publish": "node scripts/publish.mjs"
+		"publish": "node scripts/publish.mjs",
+		"cypress:install": "cypress install",
+		"test:e2e": "cypress open",
+		"test:ci": "cypress run --headless --browser chrome"
 	},
 	"devDependencies": {
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
 		"@tsconfig/svelte": "^5.0.0",
+		"cypress": "^15.17.0",
+		"cypress-if": "^1.13.2",
 		"eslint": "^9.0.0",
 		"sass": "^1.80.0",
 		"svelte": "^5.0.0",

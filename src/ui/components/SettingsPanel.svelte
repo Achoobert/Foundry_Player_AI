@@ -353,7 +353,7 @@
             {/each}
           </select>
         {:else}
-          <input id="tts-model" type="text" bind:value={ttsModel} placeholder="e.g. openai/tts-1" />
+          <input id="tts-model" type="text" bind:value={ttsModel} placeholder="e.g. openai/gpt-4o-mini-audio-preview" />
         {/if}
       </div>
 

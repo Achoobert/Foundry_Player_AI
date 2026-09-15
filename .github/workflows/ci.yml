@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  actions: write
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Run Foundry E2E
+        uses: Achoobert/FoundryvttTestEnv@v0.1.0
+        with:
+          foundry_version: '14.364'
+          foundry_world: foundry-ai-test
+          build_script: |
+            bun run build
+            dest=foundrydata/Data/modules/foundry-ai
+            mkdir -p "$dest"
+            cp -r dist/* "$dest/"
+          foundry_username: ${{ secrets.FOUNDRY_USERNAME }}
+          foundry_password: ${{ secrets.FOUNDRY_PASSWORD }}
+          foundry_admin_key: ${{ secrets.FOUNDRY_ADMIN_KEY }}
