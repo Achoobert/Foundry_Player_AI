@@ -92,7 +92,7 @@ class SessionRecapManager {
 			const formatted = session.messages
 				.filter((m) => m.role !== 'system')
 				.map((m) => {
-					const role = m.role === 'user' ? 'DM' : m.role === 'assistant' ? 'AI Assistant' : m.role
+					const role = m.role === 'user' ? 'User' : m.role === 'assistant' ? 'AI Player Character' : m.role
 					return `[${role}]: ${typeof m.content === 'string' ? m.content : ''}`
 				})
 				.join('\n\n')

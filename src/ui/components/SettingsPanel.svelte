@@ -595,7 +595,7 @@
     <section class="settings-section">
       <h2><i class="fas fa-scroll"></i> System Prompt Override</h2>
       <div class="field">
-        <label for="system-prompt">Leave blank to use the default DM assistant prompt.</label>
+        <label for="system-prompt">Leave blank to use the default player-character prompt.</label>
         <textarea
           id="system-prompt"
           bind:value={systemPromptOverride}

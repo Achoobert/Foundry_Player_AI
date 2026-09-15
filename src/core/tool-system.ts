@@ -426,7 +426,7 @@ const TOKEN_TOOLS: ToolDefinition[] = [
 		function: {
 			name: 'place_token',
 			description:
-				'Place a new token on the active scene from an actor. Tokens are placed HIDDEN by default so the DM can approve placement before revealing.',
+				'Place a new token on the active scene from an actor. Tokens are placed HIDDEN by default so they can be approved before revealing.',
 			parameters: {
 				type: 'object',
 				properties: {

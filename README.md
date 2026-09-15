@@ -1,12 +1,13 @@
 # FoundryAI
 
-AI-powered DM assistant module for [Foundry VTT](https://foundryvtt.com/) v13.
+AI-powered player character companion module for [Foundry VTT](https://foundryvtt.com/) v13.
 
-FoundryAI adds an intelligent chat assistant to your Foundry game that can read your journals and actors, answer questions about your world, generate session recaps, roleplay as NPCs, manage combat, control audio, and more — all powered by [OpenRouter](https://openrouter.ai/).
+FoundryAI lets an LLM play a party member's character in your Foundry game — it can read your journals and actors, answer questions about your world in character, generate session recaps, roleplay as NPCs, manage combat, control audio, and more — all powered by [OpenRouter](https://openrouter.ai/).
 
 ## Features
 
 - **AI Chat** — Sidebar tab and popout window with streaming responses
+- **AI Player Agents** — Auto-reply in chat, in character, whenever a message @mentions a player character (e.g. "@ed") — no manual button click needed
 - **RAG (Retrieval-Augmented Generation)** — Indexes your journals, actors, and scenes into a local vector store so the AI can search and reference your world content
 - **40+ Tools** — The AI can search content, manage tokens, run combat, play audio, place spell templates, and much more (see [Tools](#tools) below)
 - **Actor Roleplay** — Start a dedicated chat session where the AI roleplays as a specific actor, using their biography, personality traits, abilities, and equipment
@@ -223,7 +224,8 @@ src/
 │   ├── session-recap-manager.ts  # AI-generated session recaps
 │   ├── folder-manager.ts     # FoundryAI journal folder hierarchy manager
 │   ├── tts-service.ts        # Text-to-speech audio playback
-│   └── system-prompt.ts      # Dynamic system prompt builder (DM + actor roleplay)
+│   ├── player-agent.ts       # Auto-replies to @mentions as the matching player character
+│   └── system-prompt.ts      # Dynamic system prompt builder (general + actor roleplay)
 ├── ui/
 │   ├── svelte-application.ts # Foundry ApplicationV2 ↔ Svelte 5 bridge
 │   └── components/

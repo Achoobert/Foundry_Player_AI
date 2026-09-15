@@ -1,7 +1,7 @@
 {
 	"FOUNDRYAI": {
 		"Title": "FoundryAI",
-		"Description": "AI-powered DM Assistant for Foundry VTT",
+		"Description": "AI-powered Player Character companion for Foundry VTT",
 
 		"Settings": {
 			"MenuName": "FoundryAI Configuration",
@@ -36,7 +36,7 @@
 			"MaxTokensHint": "Maximum number of tokens in the AI's response. Default: 4096",
 
 			"SystemPrompt": "System Prompt Override",
-			"SystemPromptHint": "Override the default DM assistant system prompt. Leave blank to use the built-in prompt.",
+			"SystemPromptHint": "Override the default player-character system prompt. Leave blank to use the built-in prompt.",
 
 			"StreamResponses": "Stream Responses",
 			"StreamResponsesHint": "Show AI responses as they are generated (real-time streaming).",
@@ -108,7 +108,7 @@
 
 		"Welcome": {
 			"Title": "Welcome to FoundryAI",
-			"Subtitle": "Your AI DM Assistant",
+			"Subtitle": "Your AI Player Character",
 			"Description": "Configure your OpenRouter API key to get started.",
 			"OpenSettings": "Open Settings",
 			"Ready": "FoundryAI is ready! Click the brain icon to start chatting."

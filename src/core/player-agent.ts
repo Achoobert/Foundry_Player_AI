@@ -52,7 +52,7 @@ async function handleCreateChatMessage(message: ChatMessage): Promise<void> {
 	if (matches.length === 0) return
 
 	// Sequential across all matched actors so replies keep dialogue order
-	// when the DM addresses multiple AI players in one message.
+	// when a message addresses multiple AI players at once.
 	for (const actor of matches) {
 		await enqueueForActor(actor.id, () => replyAsActor(actor, plainText, speakerName))
 	}

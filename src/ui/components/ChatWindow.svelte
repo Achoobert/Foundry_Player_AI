@@ -222,7 +222,7 @@
 4. **Dialogue hooks** — topics players might bring up and how you'd respond (e.g. "If asked about the war...", "If asked about the artifact...")
 5. **Persuasion & social checks** — list 3-5 things players might try to convince you of, and for each one state the type of check (Persuasion, Intimidation, Deception, etc.) and the DC (difficulty class) required. Format as a table.
 
-Stay fully in character for the introduction, but present the dialogue hooks and check DCs in a helpful OOC (out-of-character) section at the end marked with --- so the DM can reference it.
+Stay fully in character for the introduction, but present the dialogue hooks and check DCs in a helpful OOC (out-of-character) section at the end marked with --- so it's easy to reference later.
 
 IMPORTANT: You already have all the information you need about this character from the system prompt. Do NOT output any tool calls, function calls, or special syntax like [TOOL_CALL]. Simply write your introduction using the character information provided.`,
       };
@@ -1085,16 +1085,16 @@ IMPORTANT: You already have all the information you need about this character fr
         <div class="empty-chat">
           <i class="fas fa-brain"></i>
           <h3>FoundryAI</h3>
-          <p>Your AI DM Assistant</p>
+          <p>Your AI Player Character</p>
           <div class="suggestions">
-            <button onclick={() => { inputText = 'What do the players see when they enter the room?'; sendMessage(); }}>
-              🎭 Describe a scene
+            <button onclick={() => { inputText = 'What does my character notice entering this room?'; sendMessage(); }}>
+              🎭 React to a scene
             </button>
-            <button onclick={() => { inputText = 'What DC should a Perception check be to notice the hidden door?'; sendMessage(); }}>
-              🎲 Skill check guidance
+            <button onclick={() => { inputText = 'Would my character know anything useful here, and why?'; sendMessage(); }}>
+              🎲 Ability check help
             </button>
-            <button onclick={() => { inputText = 'Voice the tavern keeper greeting the party'; sendMessage(); }}>
-              🗣️ NPC dialogue
+            <button onclick={() => { inputText = 'Give me an in-character line reacting to the tavern keeper greeting the party'; sendMessage(); }}>
+              🗣️ In-character line
             </button>
             <button onclick={() => { inputText = 'Search my journals for information about the villain'; sendMessage(); }}>
               📖 Search lore

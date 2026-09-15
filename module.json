@@ -1,7 +1,7 @@
 {
   "id": "foundry-ai",
   "title": "FoundryAI",
-  "description": "AI-powered DM assistant with chat interface, RAG over journals/actors, session recaps, quest tracking, and more.",
+  "description": "AI-powered player character companion with chat interface, RAG over journals/actors, in-character @mention auto-replies, session recaps, and more.",
   "version": "1.3.1",
   "authors": [
     {
