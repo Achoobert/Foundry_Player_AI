@@ -198,11 +198,14 @@ bun install
 | Command             | Description                                       |
 | ------------------- | ------------------------------------------------- |
 | `bun run build`     | Production build → `dist/`                        |
-| `bun run dev`       | Watch mode (rebuilds on changes)                  |
+| `bun run dev`       | Watch mode (rebuilds `dist/` on changes)          |
+| `bun run watch`     | Watch mode, builds straight into your Foundry userdata `modules/` folder (see below) |
 | `bun run package`   | Build + create `foundry-ai.zip` for release       |
 | `bun run link`      | Symlink `dist/` into local Foundry modules folder |
 | `bun run test`      | Run tests                                         |
 | `bun run typecheck` | TypeScript type checking                          |
+
+`bun run watch` reads `fvtt.config.js` (gitignored — copy `fvtt.config.example.js` and set `userDataPath` to the folder that *contains* your Foundry `Data/` directory) and rebuilds directly into `<userDataPath>/Data/modules/foundry-ai` on every save, so Foundry picks up changes with just a refresh — no separate `link` step needed.
 
 ### Project Structure
 
