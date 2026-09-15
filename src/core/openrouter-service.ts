@@ -16,6 +16,8 @@ export interface LLMMessage {
 	name?: string
 	tool_calls?: ToolCall[]
 	tool_call_id?: string
+	/** Party chat only: the actor id that spoke this turn (unset = the GM/user). Never sent to the API. */
+	speakerActorId?: string
 }
 
 export interface ToolCall {
@@ -382,9 +384,12 @@ export class OpenRouterService {
 
 	async listTTSModels(): Promise<ModelInfo[]> {
 		const models = await this.listModels()
-		return models.filter(
-			(m) => m.id.includes('tts') || m.id.includes('audio') || m.architecture?.modality?.includes('audio'),
-		)
+		return models.filter((m) => {
+			// modality is formatted as "<input modalities>->output modalities>" — only the
+			// output side tells us whether the model can actually produce audio.
+			const outputModality = m.architecture?.modality?.split('->')[1] ?? ''
+			return m.id.includes('tts') || m.id.includes('audio') || outputModality.includes('audio')
+		})
 	}
 
 	// ---- Image Generation ----
@@ -435,7 +440,7 @@ export class OpenRouterService {
 		if (!this.apiKey) throw new Error('OpenRouter API key not configured')
 
 		const selectedVoice = voice || 'nova'
-		const selectedModel = model || this.ttsModel || 'openai/gpt-4o-mini-tts'
+		const selectedModel = model || this.ttsModel || 'openai/gpt-4o-mini-audio-preview'
 
 		console.log(
 			`FoundryAI | API generateSpeech — model: ${selectedModel}, voice: ${selectedVoice}, input length: ${input.length}`,

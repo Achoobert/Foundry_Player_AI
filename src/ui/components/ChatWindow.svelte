@@ -6,7 +6,8 @@
   import { sessionRecapManager, type RecapProgress } from '@core/session-recap-manager';
   import { embeddingService } from '@core/embedding-service';
   import { getEnabledTools, executeTool } from '@core/tool-system';
-  import { buildSystemPrompt, buildActorRoleplayPrompt, type ActorRoleplayContext } from '@core/system-prompt';
+  import { buildSystemPrompt, buildActorRoleplayPrompt, getPlayerCharacterActors, type ActorRoleplayContext } from '@core/system-prompt';
+  import { buildPartyContextMessages, PARTY_CHAT_MODE_INSTRUCTIONS } from '@core/party-chat';
   import { estimateTokens, getModelContextLimit } from '@core/token-estimator';
   import { summarizeConversation } from '@core/context-summarizer';
   import { getSetting } from '../../settings';
@@ -42,6 +43,10 @@
   let currentActorId = $state<string | null>(null);
   let currentActorName = $state<string | null>(null);
   let showActorPicker = $state(false);
+
+  // Party chat state — multiple AI-controlled actors sharing one conversation
+  let currentPartyActors = $state<Array<{ id: string; name: string }> | null>(null);
+  let selectedResponders = $state<Set<string>>(new Set());
 
   // Context tracking state
   let lastPromptTokens = $state<number | null>(null);
@@ -175,6 +180,7 @@
     currentSessionName = session.name;
     currentActorId = null;
     currentActorName = null;
+    currentPartyActors = null;
     messages = [];
     streamingContent = '';
     lastPromptTokens = null;
@@ -190,6 +196,7 @@
     currentSessionName = session.name;
     currentActorId = actorId;
     currentActorName = actorName;
+    currentPartyActors = null;
     messages = [];
     streamingContent = '';
     viewMode = 'chat';
@@ -197,6 +204,30 @@
 
     // Auto-generate character introduction
     await generateCharacterIntro(actorId, actorName);
+    inputEl?.focus();
+  }
+
+  /** Start a shared party chat, rostered from the configured Player Character Folder */
+  async function startPartySession() {
+    const roster = getPlayerCharacterActors().map(a => ({ id: a.id, name: a.name }));
+    if (roster.length === 0) {
+      ui.notifications.warn('No player-character actors found. Configure the Player Character Folder in FoundryAI settings.');
+      return;
+    }
+
+    const session = await chatSessionManager.createPartySession(undefined, roster.map(a => a.id), roster.map(a => a.name));
+    currentSessionId = session.id;
+    currentSessionName = session.name;
+    currentActorId = null;
+    currentActorName = null;
+    currentPartyActors = roster;
+    selectedResponders = new Set();
+    messages = [];
+    streamingContent = '';
+    lastPromptTokens = null;
+    showSummarizeBanner = false;
+    summarizeBannerDismissed = false;
+    viewMode = 'chat';
     inputEl?.focus();
   }
 
@@ -300,6 +331,10 @@ IMPORTANT: You already have all the information you need about this character fr
     currentSessionName = session.name;
     currentActorId = session.actorId || null;
     currentActorName = session.actorName || null;
+    currentPartyActors = session.actorIds?.length
+      ? session.actorIds.map((id, i) => ({ id, name: session.actorNames?.[i] || 'Unknown' }))
+      : null;
+    selectedResponders = new Set();
     messages = session.messages;
     streamingContent = '';
     lastPromptTokens = null;
@@ -326,6 +361,11 @@ IMPORTANT: You already have all the information you need about this character fr
 
     if (!hasApiKey) {
       ui.notifications.warn('Please configure your OpenRouter API key in FoundryAI settings.');
+      return;
+    }
+
+    if (isPartyMode) {
+      await sendPartyMessage(text);
       return;
     }
 
@@ -395,6 +435,66 @@ IMPORTANT: You already have all the information you need about this character fr
     } finally {
       isGenerating = false;
       streamingContent = '';
+      abortController = null;
+    }
+  }
+
+  /**
+   * Send a message in a shared party chat. The GM's line is added to the
+   * transcript unconditionally; only the actors checked in the responder
+   * row actually generate a reply ("only speak when called"). Each
+   * responder replies in sequence, using only their own actor sheet plus
+   * the shared transcript so far — later responders can react to earlier
+   * ones' lines in the same turn.
+   */
+  async function sendPartyMessage(text: string) {
+    const responders = (currentPartyActors || []).filter(a => selectedResponders.has(a.id));
+
+    inputText = '';
+    isGenerating = true;
+    abortController = new AbortController();
+
+    const userMessage: LLMMessage = { role: 'user', content: text };
+    messages = [...messages, userMessage];
+    selectedResponders = new Set();
+
+    try {
+      const model = getSetting('chatModel');
+      const temperature = getSetting('temperature');
+      const maxTokens = getSetting('maxTokens');
+
+      for (const actor of responders) {
+        if (abortController.signal.aborted) break;
+
+        const systemPrompt = buildActorRoleplayPrompt({ actorId: actor.id, actorName: actor.name }) + PARTY_CHAT_MODE_INSTRUCTIONS;
+        const apiMessages: LLMMessage[] = [
+          { role: 'system', content: systemPrompt },
+          ...buildPartyContextMessages(messages, actor.id),
+        ];
+
+        const response = await openRouterService.chatCompletion(
+          { model, messages: apiMessages, temperature, max_tokens: maxTokens },
+          abortController.signal,
+        );
+
+        const replyText = response.choices?.[0]?.message?.content?.trim();
+        if (replyText) {
+          const assistantMsg: LLMMessage = { role: 'assistant', content: replyText, name: actor.name, speakerActorId: actor.id };
+          messages = [...messages, assistantMsg];
+        }
+      }
+
+      if (currentSessionId) {
+        await chatSessionManager.saveFullConversation(currentSessionId, messages, model);
+      }
+    } catch (error: any) {
+      if (error.name !== 'AbortError') {
+        console.error('FoundryAI | Party chat error:', error);
+        const errorMsg: LLMMessage = { role: 'assistant', content: `⚠️ Error: ${error.message || 'Unknown error occurred'}` };
+        messages = [...messages, errorMsg];
+      }
+    } finally {
+      isGenerating = false;
       abortController = null;
     }
   }
@@ -926,6 +1026,13 @@ IMPORTANT: You already have all the information you need about this character fr
   });
 
   const isActorRoleplay = $derived(!!currentActorId);
+  const isPartyMode = $derived(!!currentPartyActors);
+
+  function toggleResponder(actorId: string) {
+    const next = new Set(selectedResponders);
+    if (next.has(actorId)) next.delete(actorId); else next.add(actorId);
+    selectedResponders = next;
+  }
 </script>
 
 <div class="chat-window" class:sidebar={isSidebar}>
@@ -953,6 +1060,8 @@ IMPORTANT: You already have all the information you need about this character fr
     <span class="toolbar-title" title={currentSessionName}>
       {#if isActorRoleplay}
         <i class="fas fa-theater-masks" style="color: #f59e0b; margin-right: 4px;"></i>
+      {:else if isPartyMode}
+        <i class="fas fa-users" style="color: #f59e0b; margin-right: 4px;"></i>
       {/if}
       {currentSessionName}
     </span>
@@ -974,6 +1083,13 @@ IMPORTANT: You already have all the information you need about this character fr
         title="Roleplay as Actor"
       >
         <i class="fas fa-theater-masks"></i>
+      </button>
+      <button
+        class="toolbar-btn"
+        onclick={startPartySession}
+        title="Start Party Chat (all player characters)"
+      >
+        <i class="fas fa-users"></i>
       </button>
       <button
         class="toolbar-btn"
@@ -1140,14 +1256,16 @@ IMPORTANT: You already have all the information you need about this character fr
                   role="user"
                   content={typeof item.msg.content === 'string' ? item.msg.content : ''}
                 />
-                <div class="message-actions">
-                  <button class="action-btn" title="Edit & resend" onclick={() => startEditMessage(item.index)}>
-                    <i class="fas fa-pen"></i>
-                  </button>
-                  <button class="action-btn" title="Retry" onclick={() => retryFromMessage(item.index)}>
-                    <i class="fas fa-redo"></i>
-                  </button>
-                </div>
+                {#if !isPartyMode}
+                  <div class="message-actions">
+                    <button class="action-btn" title="Edit & resend" onclick={() => startEditMessage(item.index)}>
+                      <i class="fas fa-pen"></i>
+                    </button>
+                    <button class="action-btn" title="Retry" onclick={() => retryFromMessage(item.index)}>
+                      <i class="fas fa-redo"></i>
+                    </button>
+                  </div>
+                {/if}
               </div>
             {/if}
           {:else}
@@ -1157,8 +1275,9 @@ IMPORTANT: You already have all the information you need about this character fr
                 role={item.msg.role as 'user' | 'assistant' | 'system' | 'tool'}
                 content={typeof item.msg.content === 'string' ? item.msg.content : ''}
                 toolName={item.msg.name}
+                speakerName={item.msg.speakerActorId ? item.msg.name : undefined}
               />
-              {#if item.msg.role === 'assistant' && !isGenerating}
+              {#if item.msg.role === 'assistant' && !isGenerating && !isPartyMode}
                 <div class="message-actions">
                   <button class="action-btn" title="Regenerate response" onclick={() => regenerateAssistantMessage(item.index)}>
                     <i class="fas fa-sync-alt"></i>
@@ -1192,13 +1311,31 @@ IMPORTANT: You already have all the information you need about this character fr
       <div bind:this={messagesEndEl}></div>
     </div>
 
+    <!-- Party Responder Row -->
+    {#if isPartyMode && currentPartyActors}
+      <div class="party-responder-row">
+        <span class="party-responder-label">Call on:</span>
+        {#each currentPartyActors as actor (actor.id)}
+          <button
+            type="button"
+            class="party-responder-chip"
+            class:selected={selectedResponders.has(actor.id)}
+            onclick={() => toggleResponder(actor.id)}
+            disabled={isGenerating}
+          >
+            {actor.name}
+          </button>
+        {/each}
+      </div>
+    {/if}
+
     <!-- Input Area -->
     <div class="input-area">
       <textarea
         bind:this={inputEl}
         bind:value={inputText}
         onkeydown={handleKeydown}
-        placeholder={isGenerating ? 'Generating...' : 'Ask FoundryAI...'}
+        placeholder={isGenerating ? 'Generating...' : isPartyMode ? 'Say something to the party...' : 'Ask FoundryAI...'}
         disabled={isGenerating || !hasApiKey}
         rows="1"
       ></textarea>
@@ -1622,6 +1759,50 @@ IMPORTANT: You already have all the information you need about this character fr
   @keyframes dot-bounce {
     0%, 80%, 100% { transform: scale(0.6); opacity: 0.3; }
     40% { transform: scale(1); opacity: 1; }
+  }
+
+  /* ---- Party Responder Row ---- */
+  .party-responder-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.15);
+  }
+
+  .party-responder-label {
+    font-size: 0.75em;
+    opacity: 0.5;
+    margin-right: 2px;
+  }
+
+  .party-responder-chip {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 3px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.78em;
+    transition: all 0.15s;
+  }
+
+  .party-responder-chip:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+
+  .party-responder-chip.selected {
+    background: rgba(245, 158, 11, 0.25);
+    border-color: rgba(245, 158, 11, 0.5);
+    color: #fbbf24;
+  }
+
+  .party-responder-chip:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 
   /* ---- Input Area ---- */

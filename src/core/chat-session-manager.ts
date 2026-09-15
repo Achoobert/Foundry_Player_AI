@@ -19,6 +19,8 @@ export interface ChatSession {
 	tokenCount?: number // Approximate total tokens
 	actorId?: string // If this is an actor roleplay session
 	actorName?: string // Display name of the actor
+	actorIds?: string[] // If this is a party chat session (multiple AI-controlled actors)
+	actorNames?: string[] // Parallel array of display names, captured at session creation
 }
 
 export interface SessionSummary {
@@ -30,6 +32,8 @@ export interface SessionSummary {
 	model: string
 	actorId?: string
 	actorName?: string
+	actorIds?: string[]
+	actorNames?: string[]
 }
 
 class ChatSessionManager {
@@ -131,6 +135,49 @@ class ChatSessionManager {
 		}
 	}
 
+	/** Create a new party chat session — a shared conversation voiced by multiple AI-controlled actors */
+	async createPartySession(name: string | undefined, actorIds: string[], actorNames: string[]): Promise<ChatSession> {
+		console.log(`FoundryAI | Creating party session — name: ${name || 'auto'}, actors: ${actorNames.join(', ')}`)
+		const folder = this.getActorRoleplayFolder() || (await this.getChatHistoryFolder())
+		const now = Date.now()
+		const sessionName = name || `Party Chat — ${new Date(now).toLocaleString()}`
+
+		const journal = await JournalEntry.create({
+			name: sessionName,
+			folder: folder.id,
+			pages: [
+				{
+					name: 'Party Chat Log',
+					type: 'text',
+					text: { content: '', format: 1 },
+				},
+			],
+			flags: {
+				[MODULE_ID]: {
+					type: 'party-chat',
+					messages: [],
+					createdAt: now,
+					updatedAt: now,
+					model: '',
+					tokenCount: 0,
+					actorIds,
+					actorNames,
+				},
+			},
+		})
+
+		return {
+			id: journal.id,
+			name: sessionName,
+			messages: [],
+			createdAt: now,
+			updatedAt: now,
+			model: '',
+			actorIds,
+			actorNames,
+		}
+	}
+
 	/** Save a message to a session */
 	async saveMessage(sessionId: string, message: LLMMessage, model?: string): Promise<void> {
 		const entry = game.journal?.get(sessionId)
@@ -210,7 +257,7 @@ class ChatSessionManager {
 		if (!entry) return null
 
 		const flags = entry.flags?.[MODULE_ID] as Record<string, any>
-		if (!flags || (flags.type !== 'chat-session' && flags.type !== 'actor-roleplay')) return null
+		if (!flags || (flags.type !== 'chat-session' && flags.type !== 'actor-roleplay' && flags.type !== 'party-chat')) return null
 
 		return {
 			id: entry.id,
@@ -222,6 +269,8 @@ class ChatSessionManager {
 			tokenCount: flags.tokenCount,
 			actorId: flags.actorId,
 			actorName: flags.actorName,
+			actorIds: flags.actorIds,
+			actorNames: flags.actorNames,
 		}
 	}
 
@@ -233,7 +282,7 @@ class ChatSessionManager {
 
 		for (const entry of game.journal.values()) {
 			const flags = entry.flags?.[MODULE_ID] as Record<string, any>
-			if (!flags || (flags.type !== 'chat-session' && flags.type !== 'actor-roleplay')) continue
+			if (!flags || (flags.type !== 'chat-session' && flags.type !== 'actor-roleplay' && flags.type !== 'party-chat')) continue
 
 			sessions.push({
 				id: entry.id,
@@ -244,6 +293,8 @@ class ChatSessionManager {
 				model: flags.model || '',
 				actorId: flags.actorId,
 				actorName: flags.actorName,
+				actorIds: flags.actorIds,
+				actorNames: flags.actorNames,
 			})
 		}
 
@@ -299,7 +350,14 @@ class ChatSessionManager {
 		for (const msg of messages) {
 			if (msg.role === 'system') continue // Skip system prompts in visual display
 
-			const roleName = msg.role === 'user' ? '🧑 You' : msg.role === 'assistant' ? '🤖 FoundryAI' : `🔧 ${msg.role}`
+			const roleName =
+				msg.role === 'user'
+					? '🧑 You'
+					: msg.role === 'assistant'
+						? msg.name
+							? `🤖 ${msg.name}`
+							: '🤖 FoundryAI'
+						: `🔧 ${msg.role}`
 
 			const style =
 				msg.role === 'user'

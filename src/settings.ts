@@ -106,7 +106,7 @@ export function registerSettings(): void {
 		scope: 'world',
 		config: false,
 		type: String,
-		default: 'openai/gpt-4o-mini-tts',
+		default: 'openai/gpt-4o-mini-audio-preview',
 		onChange: () => {
 			Hooks.callAll(`${MODULE_ID}.settingsChanged`, 'ttsModel')
 		},

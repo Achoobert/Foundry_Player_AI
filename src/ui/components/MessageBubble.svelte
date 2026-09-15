@@ -9,9 +9,11 @@
     content: string;
     isStreaming?: boolean;
     toolName?: string;
+    /** Party chat only: the character's name, shown in place of "FoundryAI" */
+    speakerName?: string;
   }
 
-  let { role, content, isStreaming = false, toolName }: Props = $props();
+  let { role, content, isStreaming = false, toolName, speakerName }: Props = $props();
 
   // Check if TTS is enabled (safe fallback if settings not ready)
   function isTTSEnabled(): boolean {
@@ -135,7 +137,7 @@
 
   const roleLabel = $derived(
     role === 'user' ? 'You'
-    : role === 'assistant' ? 'FoundryAI'
+    : role === 'assistant' ? (speakerName || 'FoundryAI')
     : role === 'tool' ? `🔧 ${toolName || 'Tool'}`
     : 'System'
   );

@@ -85,6 +85,8 @@
             <span class="session-name" title={session.name}>
               {#if session.actorId}
                 <i class="fas fa-theater-masks actor-badge" title="Actor Roleplay: {session.actorName}"></i>
+              {:else if session.actorIds?.length}
+                <i class="fas fa-users actor-badge" title="Party Chat: {session.actorNames?.join(', ')}"></i>
               {/if}
               {session.name}
             </span>

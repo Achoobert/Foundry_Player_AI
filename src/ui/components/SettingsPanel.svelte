@@ -38,7 +38,7 @@
   let enableMacroTools = $state(true);
   let enableImageTools = $state(true);
   let imageModel = $state('openai/dall-e-3');
-  let ttsModel = $state('openai/tts-1');
+  let ttsModel = $state('openai/gpt-4o-mini-audio-preview');
   let systemPromptOverride = $state('');
   let selectedJournalFolders = $state<string[]>([]);
   let selectedActorFolders = $state<string[]>([]);
@@ -94,7 +94,7 @@
       enableMacroTools = getSetting('enableMacroTools') ?? true;
       enableImageTools = getSetting('enableImageTools') ?? true;
       imageModel = getSetting('imageModel') || 'openai/dall-e-3';
-      ttsModel = getSetting('ttsModel') || 'openai/tts-1';
+      ttsModel = getSetting('ttsModel') || 'openai/gpt-4o-mini-audio-preview';
       systemPromptOverride = getSetting('systemPromptOverride') || '';
       selectedJournalFolders = getSetting('journalFolders') || [];
       selectedActorFolders = getSetting('actorFolders') || [];
