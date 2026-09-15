@@ -8,6 +8,7 @@ import { openRouterService } from '@core/openrouter-service'
 import { embeddingService } from '@core/embedding-service'
 import { chatSessionManager } from '@core/chat-session-manager'
 import { sessionRecapManager } from '@core/session-recap-manager'
+import { initPlayerAgents } from '@core/player-agent'
 import { ensureFoundryAIFolders } from '@core/folder-manager'
 import { openPopoutChat } from '@ui/svelte-application'
 import { buildSystemPrompt } from '@core/system-prompt'
@@ -50,6 +51,12 @@ Hooks.once('ready', async () => {
 			ttsModel: getSetting('ttsModel'),
 		})
 	}
+
+	// AI Player agents — registers a createChatMessage hook. The handler
+	// re-checks getSetting('apiKey') and getSetting('enablePlayerAgents') on
+	// every invocation, so it's safe to register unconditionally here even
+	// if the API key is added later in the session.
+	initPlayerAgents()
 
 	// Initialize embedding service
 	try {

@@ -395,6 +395,7 @@ declare namespace ChatMessage {
 		type?: number
 		flags?: Record<string, any>
 	}): Promise<ChatMessage>
+	function getSpeaker(options?: { actor?: Actor; token?: any; alias?: string }): Record<string, any>
 }
 
 // ---- Journal Entry Creation ----

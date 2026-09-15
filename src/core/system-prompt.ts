@@ -295,24 +295,37 @@ function getWorldContext(): string | null {
 	return `# Campaign Context\n\n${parts.join('\n\n')}`
 }
 
-function getPlayerCharacters(): string[] {
+/**
+ * Resolve the actual Actor documents that count as "player characters" per settings:
+ * character-type actors in the configured Player Character Folder, or (if no folder
+ * is configured) any player-owned character actor.
+ */
+export function getPlayerCharacterActors(): Actor[] {
 	if (!game.actors) return []
 
 	const playerFolderId = getSetting('playerFolder')
-	const pcs: string[] = []
+	const allowedFolderIds = playerFolderId ? collectionReader.resolveWithChildren([playerFolderId]) : null
 
+	const result: Actor[] = []
 	for (const actor of game.actors.values()) {
 		if (actor.type !== 'character') continue
 
-		// If playerFolder is set, only include actors from that folder
-		if (playerFolderId) {
-			const allFolderIds = collectionReader.resolveWithChildren([playerFolderId])
-			if (!actor.folder || !allFolderIds.includes(actor.folder.id)) continue
+		if (allowedFolderIds) {
+			if (!actor.folder || !allowedFolderIds.includes(actor.folder.id)) continue
 		} else {
-			// Fallback: only include player-owned characters
 			if (!actor.hasPlayerOwner) continue
 		}
 
+		result.push(actor)
+	}
+
+	return result
+}
+
+function getPlayerCharacters(): string[] {
+	const pcs: string[] = []
+
+	for (const actor of getPlayerCharacterActors()) {
 		const system = actor.system as Record<string, any>
 		const details: string[] = [`- **${actor.name}** (id: ${actor.id})`]
 

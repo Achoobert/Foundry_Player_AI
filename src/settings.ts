@@ -30,6 +30,7 @@ export interface FoundryAISettings {
 	showSidebarTab: boolean
 	enableRAG: boolean
 	playerFolder: string
+	enablePlayerAgents: boolean
 	enableSceneTools: boolean
 	enableDiceTools: boolean
 	enableTokenTools: boolean
@@ -253,6 +254,15 @@ export function registerSettings(): void {
 		config: false,
 		type: String,
 		default: '',
+	})
+
+	game.settings.register(MODULE_ID, 'enablePlayerAgents', {
+		name: 'Enable AI Player Agents',
+		hint: 'When enabled, chat messages that @mention a player character in the Player Character Folder will automatically get an in-character AI reply posted to chat. Runs only on the GM client.',
+		scope: 'world',
+		config: false,
+		type: Boolean,
+		default: false,
 	})
 
 	game.settings.register(MODULE_ID, 'showSidebarTab', {

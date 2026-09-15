@@ -19,6 +19,7 @@ Thumbs.db
 # Env / secrets
 .env
 .env.*
+fvtt.config.js
 
 # Lockfiles (bun)
 # bun.lock is committed for reproducible builds

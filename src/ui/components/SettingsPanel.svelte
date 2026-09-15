@@ -22,6 +22,7 @@
   let enableTools = $state(true);
   let enableRAG = $state(false);
   let playerFolder = $state('');
+  let enablePlayerAgents = $state(false);
   let enableSceneTools = $state(true);
   let enableDiceTools = $state(true);
   let enableTokenTools = $state(true);
@@ -77,6 +78,7 @@
       enableTools = getSetting('enableTools') ?? true;
       enableRAG = getSetting('enableRAG') ?? false;
       playerFolder = getSetting('playerFolder') || '';
+      enablePlayerAgents = getSetting('enablePlayerAgents') ?? false;
       enableSceneTools = getSetting('enableSceneTools') ?? true;
       enableDiceTools = getSetting('enableDiceTools') ?? true;
       enableTokenTools = getSetting('enableTokenTools') ?? true;
@@ -178,6 +180,7 @@
       await setSetting('enableTools', enableTools);
       await setSetting('enableRAG', enableRAG);
       await setSetting('playerFolder', playerFolder);
+      await setSetting('enablePlayerAgents', enablePlayerAgents);
       await setSetting('enableSceneTools', enableSceneTools);
       await setSetting('enableDiceTools', enableDiceTools);
       await setSetting('enableTokenTools', enableTokenTools);
@@ -530,6 +533,16 @@
             <option value={folder.id}>{folder.path}</option>
           {/each}
         </select>
+      </div>
+
+      <div class="field checkbox-field">
+        <label>
+          <input type="checkbox" bind:checked={enablePlayerAgents} />
+          Enable AI Player Agents
+        </label>
+        <small style="color: var(--color-text-dark-5); margin-left: 1.5rem; display: block;">
+          Auto-reply in chat, in character, whenever a message @mentions a player character in the folder above (e.g. "@ed"). Runs only on the GM client.
+        </small>
       </div>
 
       <div class="field">
