@@ -9,6 +9,7 @@ import { getSetting } from '../settings'
 import { openRouterService, type LLMMessage } from './openrouter-service'
 import { chatSessionManager } from './chat-session-manager'
 import { buildActorRoleplayPrompt, getPlayerCharacterActors } from './system-prompt'
+import { systemPromptJournal } from './system-prompt-journal'
 
 const MODULE_ID = 'foundry-ai'
 const FLAG_AI_REPLY = 'aiPlayerReply'
@@ -118,6 +119,8 @@ async function replyAsActor(actor: Actor, plainText: string, speakerName: string
 	const userTurn: LLMMessage = { role: 'user', content: `${speakerName}: ${plainText}` }
 
 	const systemPrompt = buildActorRoleplayPrompt({ actorId: actor.id, actorName: actor.name }) + LIVE_CHAT_MODE_INSTRUCTIONS
+
+	void systemPromptJournal.logCharacterPrompt({ actorId: actor.id, actorName: actor.name, systemPrompt })
 
 	const apiMessages: LLMMessage[] = [{ role: 'system', content: systemPrompt }, ...priorMessages, userTurn]
 

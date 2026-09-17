@@ -7,6 +7,7 @@
 import { getSetting } from '../settings'
 import { collectionReader } from './collection-reader'
 import { getSubfolderId, getRootFolderId } from './folder-manager'
+import { rulesGlossary } from './rules-glossary'
 
 const MODULE_ID = 'foundry-ai'
 
@@ -88,7 +89,7 @@ export function buildActorRoleplayPrompt(actor: ActorRoleplayContext): string {
 function buildActorPersonality(ctx: ActorRoleplayContext): string {
 	const actor = game.actors?.get(ctx.actorId) as any
 	if (!actor) {
-		return `You are roleplaying as **${ctx.actorName}**. Stay in character at all times. Respond as this character would — use their voice, mannerisms, and perspective. If asked out-of-character questions, you may answer briefly but always return to character.`
+		return `You are roleplaying as **${ctx.actorName}**. Stay in character at all times. Respond as this character would — use their voice, mannerisms, and perspective. If asked out-of-character questions, you may answer briefly but always return to character.\n\n${GENERIC_BEHAVIOR_PROMPTS}`
 	}
 
 	const system = actor.system as Record<string, any>
@@ -137,7 +138,7 @@ function buildActorPersonality(ctx: ActorRoleplayContext): string {
 
 	if (details.length > 0) parts.push(details.join(' | '))
 
-	// Ability scores
+	// Ability scores (5e / pf2e-style "abilities" object)
 	try {
 		if (system?.abilities) {
 			const abs = Object.entries(system.abilities)
@@ -149,10 +150,45 @@ function buildActorPersonality(ctx: ActorRoleplayContext): string {
 		/* ignore */
 	}
 
-	// Biography / description
+	// Generic fallback stats for systems without dedicated field mapping above
+	// (e.g. The One Ring, Mothership, Delta Green, Call of Cthulhu). Only runs
+	// for systems we don't already special-case, so dnd5e output is unchanged.
+	if (game.system?.id !== 'dnd5e') {
+		try {
+			const generic = gatherGenericStats(system)
+			if (generic.length > 0) parts.push(generic.join('\n'))
+		} catch {
+			/* ignore */
+		}
+	}
+
+	// Structured backstory section (e.g. Call of Cthulhu's system.backstory,
+	// which holds several separate fields — personal description, ideology,
+	// significant people, meaningful locations, treasured possessions,
+	// traits, injuries/scars, phobias/manias, etc — rather than one blob).
 	try {
-		const bio = system?.details?.biography?.value
-		if (bio && typeof bio === 'string' && bio.trim().length > 0) {
+		const backstorySection = extractStructuredBackstory(system?.backstory)
+		if (backstorySection) parts.push(backstorySection)
+	} catch {
+		/* ignore */
+	}
+
+	// Biography / description — try the common dnd5e path first, then fall
+	// back to other conventional single-field locations used by other game
+	// systems. (Structured backstory objects are handled separately above.)
+	try {
+		const bio = findFirstString([
+			system?.details?.biography?.value,
+			system?.description?.value,
+			typeof system?.backstory === 'string' ? system.backstory : null,
+			system?.background?.value,
+			system?.background,
+			system?.notes?.value,
+			system?.notes,
+			system?.biography?.value,
+			system?.biography,
+		])
+		if (bio) {
 			// Strip HTML tags for a cleaner prompt
 			const cleanBio = bio.replace(/<[^>]+>/g, '').trim()
 			if (cleanBio.length > 0) {
@@ -207,15 +243,102 @@ function buildActorPersonality(ctx: ActorRoleplayContext): string {
 	parts.push(`- If asked about things your character wouldn't know, respond in character (confused, curious, etc.)`)
 	parts.push(`- Whoever is narrating (the GM or another player) may set scenes or describe situations — react in character`)
 	parts.push(`- You may use tools to look up your own stats, spells, or items when relevant`)
+	parts.push(GENERIC_BEHAVIOR_PROMPTS)
 
 	return parts.join('\n')
 }
+
+/** Behavior rules applied to every character, regardless of game system or how the actor was resolved. */
+const GENERIC_BEHAVIOR_PROMPTS = `- Act proactively — you are a simulated TTRPG character: you want to interact with the world in creative ways that play to your strengths
+- Keep all responses under 3 sentences so they can be spoken aloud easily. Only narrate your desires and NOT outcomes`
 
 /**
  * Get a simplified system prompt (no game context, for recap generation etc.)
  */
 export function buildLightSystemPrompt(): string {
 	return BASE_PROMPT
+}
+
+/**
+ * Best-effort, system-agnostic stat extraction for game systems that don't
+ * have dedicated field mapping (anything other than dnd5e — e.g. The One
+ * Ring, Mothership, Delta Green, Call of Cthulhu). Walks the common
+ * top-level containers game-system authors conventionally use for character
+ * stats/skills and pulls out `{value}` / `{value, max}` pairs, plus a few
+ * stats systems sometimes store directly on `system` (e.g. Mothership's
+ * `system.stress`).
+ */
+function gatherGenericStats(system: Record<string, any>): string[] {
+	const CONTAINER_KEYS = ['attributes', 'stats', 'statistics', 'attribs', 'characteristics', 'resources', 'skills', 'saves']
+	const DIRECT_KEYS = ['stress', 'sanity', 'san', 'wounds', 'hp', 'health', 'endurance', 'hope', 'shadow']
+
+	const label = (key: string) => key.charAt(0).toUpperCase() + key.slice(1)
+
+	const formatEntry = (key: string, val: any): string | null => {
+		if (typeof val === 'number') return `${label(key)}: ${val}`
+		if (!val || typeof val !== 'object') return null
+		if (typeof val.value === 'number' && typeof val.max === 'number') return `${label(key)}: ${val.value}/${val.max}`
+		if (typeof val.value === 'number') return `${label(key)}: ${val.value}`
+		if (typeof val.value === 'string' && val.value.trim().length > 0 && val.value.length < 40) {
+			return `${label(key)}: ${val.value}`
+		}
+		return null
+	}
+
+	const lines: string[] = []
+
+	for (const containerKey of CONTAINER_KEYS) {
+		const container = system?.[containerKey]
+		if (!container || typeof container !== 'object') continue
+
+		const entries = Object.entries(container)
+			.map(([key, val]) => formatEntry(key, val))
+			.filter((s): s is string => !!s)
+
+		if (entries.length > 0) lines.push(`**${label(containerKey)}:** ${entries.join(', ')}`)
+	}
+
+	const directEntries = DIRECT_KEYS.map((key) => formatEntry(key, system?.[key])).filter((s): s is string => !!s)
+	if (directEntries.length > 0) lines.push(`**Other:** ${directEntries.join(', ')}`)
+
+	return lines
+}
+
+/** Return the first non-empty string among the given candidates. */
+function findFirstString(candidates: unknown[]): string | null {
+	for (const candidate of candidates) {
+		if (typeof candidate === 'string' && candidate.trim().length > 0) return candidate
+	}
+	return null
+}
+
+/**
+ * Extract a structured "backstory" object into a labeled section. Several
+ * systems (e.g. Call of Cthulhu 7e) store backstory as multiple named text
+ * fields — personal description, ideology, significant people, meaningful
+ * locations, treasured possessions, traits, injuries/scars, phobias/manias,
+ * arcane tomes, encounters with strange entities — rather than one blob.
+ * Returns null if `backstory` isn't such an object, or has no content.
+ */
+function extractStructuredBackstory(backstory: unknown): string | null {
+	if (!backstory || typeof backstory !== 'object') return null
+
+	const lines: string[] = []
+	for (const [key, val] of Object.entries(backstory as Record<string, any>)) {
+		const text = typeof val === 'string' ? val : typeof val?.value === 'string' ? val.value : null
+		if (!text) continue
+
+		const cleanText = text.replace(/<[^>]+>/g, '').trim()
+		if (cleanText.length === 0) continue
+
+		const label = key
+			.replace(/([a-z])([A-Z])/g, '$1 $2')
+			.replace(/^./, (c) => c.toUpperCase())
+		lines.push(`**${label}:** ${cleanText.slice(0, 1000)}`)
+	}
+
+	if (lines.length === 0) return null
+	return `\n## Backstory\n${lines.join('\n')}`
 }
 
 // ---- Context Gathering ----
@@ -228,6 +351,18 @@ function getWorldContext(): string | null {
 		parts.push(
 			`## Current World\n- **Name:** ${game.world.title || game.world.id}\n- **System:** ${game.system?.title || game.system?.id || 'Unknown'}`,
 		)
+	}
+
+	// Rules glossary — what stat abbreviations and numeric thresholds mean
+	// for this game system (e.g. Call of Cthulhu's APP < 15 = disfigured,
+	// Credit Rating 75+ = wealthy). Generated once per world, user-editable.
+	try {
+		const glossary = rulesGlossary.getText()
+		if (glossary) {
+			parts.push(`## Rules Reference — What The Numbers Mean\n${glossary}`)
+		}
+	} catch {
+		/* ignore */
 	}
 
 	// Active scene
@@ -592,6 +727,7 @@ You have access to tools that let you interact with the Foundry VTT world. **You
 9. **Combat management:** When running combat, use next_turn to advance turns and announce whose turn it is. Use apply_damage and apply_condition to track effects.
 10. **Audio:** Set the mood proactively when activating scenes or during dramatic moments if playlists are available.
 11. **Compendium lookups:** When asked about spells, items, or monsters not in the world journals, search the compendium first.
+12. **Creating characters:** When creating a new player character or NPC (create_actor) or writing their backstory, consult the "## Rules Reference — What The Numbers Mean" section in the campaign context to pick stat/skill values and to write a backstory consistent with them for this game system — e.g. a Call of Cthulhu Credit Rating of 75 implies a wealthy background, an Appearance below 15 implies a startling disfigurement worth mentioning.
 
 ### When tools are NOT needed
 - General D&D rules questions (use training knowledge)

@@ -10,6 +10,7 @@ import { chatSessionManager } from '@core/chat-session-manager'
 import { sessionRecapManager } from '@core/session-recap-manager'
 import { initPlayerAgents } from '@core/player-agent'
 import { ensureFoundryAIFolders } from '@core/folder-manager'
+import { rulesGlossary } from '@core/rules-glossary'
 import { openPopoutChat } from '@ui/svelte-application'
 import { buildSystemPrompt } from '@core/system-prompt'
 import ChatWindow from '@ui/components/ChatWindow.svelte'
@@ -114,6 +115,15 @@ Hooks.once('ready', async () => {
 
 	// Ensure standard journal folders exist
 	await ensureFoundryAIFolders()
+
+	// Generate the Rules Glossary in the background if it doesn't exist yet
+	// for this world/system — non-blocking, and a no-op once it's created
+	// (the GM's edits are left untouched on subsequent loads).
+	if (apiKey) {
+		rulesGlossary.ensure(getSetting('chatModel')).catch((err) => {
+			console.error('FoundryAI | Rules Glossary generation failed:', err)
+		})
+	}
 
 	// Create/update the hotbar macro for easy access
 	await ensureChatMacro()

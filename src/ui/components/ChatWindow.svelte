@@ -1,20 +1,41 @@
 <script lang="ts">
-  import MessageBubble from './MessageBubble.svelte';
-  import SessionList from './SessionList.svelte';
-  import { openRouterService, type LLMMessage, type StreamCallback, type ModelInfo } from '@core/openrouter-service';
-  import { chatSessionManager } from '@core/chat-session-manager';
-  import { sessionRecapManager, type RecapProgress } from '@core/session-recap-manager';
-  import { embeddingService } from '@core/embedding-service';
-  import { getEnabledTools, executeTool } from '@core/tool-system';
-  import { buildSystemPrompt, buildActorRoleplayPrompt, getPlayerCharacterActors, type ActorRoleplayContext } from '@core/system-prompt';
-  import { buildPartyContextMessages, PARTY_CHAT_MODE_INSTRUCTIONS } from '@core/party-chat';
-  import { autoSpeakText, stopTTS, stripMarkdownForSpeech } from '@core/tts-service';
-  import { estimateTokens, getModelContextLimit } from '@core/token-estimator';
-  import { summarizeConversation } from '@core/context-summarizer';
-  import { getSetting } from '../../settings';
-  import { openSettingsDialog } from '../svelte-application';
-  import SettingsPanel from './SettingsPanel.svelte';
-  import ContextIndicator from './ContextIndicator.svelte';
+  import MessageBubble from "./MessageBubble.svelte";
+  import SessionList from "./SessionList.svelte";
+  import {
+    openRouterService,
+    type LLMMessage,
+    type StreamCallback,
+    type ModelInfo,
+  } from "@core/openrouter-service";
+  import { chatSessionManager } from "@core/chat-session-manager";
+  import {
+    sessionRecapManager,
+    type RecapProgress,
+  } from "@core/session-recap-manager";
+  import { embeddingService } from "@core/embedding-service";
+  import { getEnabledTools, executeTool } from "@core/tool-system";
+  import {
+    buildSystemPrompt,
+    buildActorRoleplayPrompt,
+    getPlayerCharacterActors,
+    type ActorRoleplayContext,
+  } from "@core/system-prompt";
+  import { systemPromptJournal } from "@core/system-prompt-journal";
+  import {
+    buildPartyContextMessages,
+    PARTY_CHAT_MODE_INSTRUCTIONS,
+  } from "@core/party-chat";
+  import {
+    autoSpeakText,
+    stopTTS,
+    stripMarkdownForSpeech,
+  } from "@core/tts-service";
+  import { estimateTokens, getModelContextLimit } from "@core/token-estimator";
+  import { summarizeConversation } from "@core/context-summarizer";
+  import { getSetting } from "../../settings";
+  import { openSettingsDialog } from "../svelte-application";
+  import SettingsPanel from "./SettingsPanel.svelte";
+  import ContextIndicator from "./ContextIndicator.svelte";
 
   interface Props {
     isSidebar?: boolean;
@@ -24,21 +45,21 @@
   let { isSidebar = false, application }: Props = $props();
 
   // ---- State ----
-  type ViewMode = 'chat' | 'sessions' | 'recap';
+  type ViewMode = "chat" | "sessions" | "recap";
 
-  let viewMode = $state<ViewMode>('chat');
+  let viewMode = $state<ViewMode>("chat");
   let messages = $state<LLMMessage[]>([]);
-  let inputText = $state('');
+  let inputText = $state("");
   let isGenerating = $state(false);
-  let streamingContent = $state('');
+  let streamingContent = $state("");
   let abortController: AbortController | null = $state(null);
   let currentSessionId = $state<string | null>(null);
-  let currentSessionName = $state('New Chat');
+  let currentSessionName = $state("New Chat");
   let messagesEndEl: HTMLDivElement | undefined = $state();
   let inputEl: HTMLTextAreaElement | undefined = $state();
   let recapProgress = $state<RecapProgress | null>(null);
   let isIndexing = $state(false);
-  let indexProgress = $state('');
+  let indexProgress = $state("");
 
   // Actor roleplay state
   let currentActorId = $state<string | null>(null);
@@ -46,7 +67,9 @@
   let showActorPicker = $state(false);
 
   // Party chat state — multiple AI-controlled actors sharing one conversation
-  let currentPartyActors = $state<Array<{ id: string; name: string }> | null>(null);
+  let currentPartyActors = $state<Array<{ id: string; name: string }> | null>(
+    null,
+  );
   let selectedResponders = $state<Set<string>>(new Set());
 
   // Context tracking state
@@ -60,11 +83,15 @@
 
   // Group messages: merge consecutive tool-call assistant + tool results into compact groups
   type CompactMessage =
-    | { type: 'message'; msg: LLMMessage; index: number }
-    | { type: 'tool-group'; toolCalls: Array<{ name: string; args: string }>; results: Array<{ name: string; content: string }> };
+    | { type: "message"; msg: LLMMessage; index: number }
+    | {
+        type: "tool-group";
+        toolCalls: Array<{ name: string; args: string }>;
+        results: Array<{ name: string; content: string }>;
+      };
 
   const compactMessages = $derived.by((): CompactMessage[] => {
-    const filtered = messages.filter(m => m.role !== 'system');
+    const filtered = messages.filter((m) => m.role !== "system");
     const result: CompactMessage[] = [];
     let i = 0;
 
@@ -72,37 +99,40 @@
       const msg = filtered[i];
 
       // If this is an assistant message with tool_calls, group it with following tool results
-      if (msg.role === 'assistant' && msg.tool_calls?.length) {
+      if (msg.role === "assistant" && msg.tool_calls?.length) {
         const toolCalls = msg.tool_calls.map((tc: any) => ({
-          name: tc.function?.name || 'unknown',
-          args: tc.function?.arguments || '{}',
+          name: tc.function?.name || "unknown",
+          args: tc.function?.arguments || "{}",
         }));
         const results: Array<{ name: string; content: string }> = [];
 
         // Consume all following tool result messages
         let j = i + 1;
-        while (j < filtered.length && filtered[j].role === 'tool') {
+        while (j < filtered.length && filtered[j].role === "tool") {
           results.push({
-            name: filtered[j].name || 'unknown',
-            content: typeof filtered[j].content === 'string' ? filtered[j].content : '',
+            name: filtered[j].name || "unknown",
+            content:
+              typeof filtered[j].content === "string"
+                ? filtered[j].content
+                : "",
           });
           j++;
         }
 
-        result.push({ type: 'tool-group', toolCalls, results });
+        result.push({ type: "tool-group", toolCalls, results });
         i = j;
         continue;
       }
 
       // Skip standalone tool messages (shouldn't happen but safety)
-      if (msg.role === 'tool') {
+      if (msg.role === "tool") {
         i++;
         continue;
       }
 
       // Track original index for edit/retry
       const originalIndex = messages.indexOf(msg);
-      result.push({ type: 'message', msg, index: originalIndex });
+      result.push({ type: "message", msg, index: originalIndex });
       i++;
     }
 
@@ -111,7 +141,7 @@
 
   const hasApiKey = $derived.by(() => {
     try {
-      return !!getSetting('apiKey');
+      return !!getSetting("apiKey");
     } catch {
       return false;
     }
@@ -129,13 +159,15 @@
   $effect(() => {
     if (summarizeBannerDismissed || isSummarizing || isGenerating) return;
     try {
-      const threshold = getSetting('contextSummarizeThreshold');
+      const threshold = getSetting("contextSummarizeThreshold");
       if (threshold <= 0 || modelContextLength <= 0) return;
       const pct = (contextUsed / modelContextLength) * 100;
       if (pct >= threshold && messages.length > 10) {
         showSummarizeBanner = true;
       }
-    } catch { /* settings not ready */ }
+    } catch {
+      /* settings not ready */
+    }
   });
 
   // ---- Lifecycle ----
@@ -148,7 +180,7 @@
     if (messagesEndEl) {
       // Use tick to wait for DOM to render, then scroll
       requestAnimationFrame(() => {
-        messagesEndEl?.scrollIntoView({ behavior: 'smooth' });
+        messagesEndEl?.scrollIntoView({ behavior: "smooth" });
       });
     }
   });
@@ -156,24 +188,31 @@
   // Fetch model context length on mount and when model changes
   $effect(() => {
     try {
-      const model = getSetting('chatModel');
+      const model = getSetting("chatModel");
       // Try fallback map first (instant)
       const fallback = getModelContextLimit(model);
       if (fallback) modelContextLength = fallback;
 
       // Then try fetching from API for exact value
-      openRouterService.listChatModels().then((models: ModelInfo[]) => {
-        const match = models.find((m: ModelInfo) => m.id === model);
-        if (match?.context_length) {
-          modelContextLength = match.context_length;
-        }
-      }).catch(() => { /* use fallback */ });
-    } catch { /* settings not ready */ }
+      openRouterService
+        .listChatModels()
+        .then((models: ModelInfo[]) => {
+          const match = models.find((m: ModelInfo) => m.id === model);
+          if (match?.context_length) {
+            modelContextLength = match.context_length;
+          }
+        })
+        .catch(() => {
+          /* use fallback */
+        });
+    } catch {
+      /* settings not ready */
+    }
   });
 
   // ---- Session Management ----
   let editingIndex = $state<number | null>(null);
-  let editText = $state('');
+  let editText = $state("");
 
   async function startNewSession() {
     const session = await chatSessionManager.createSession();
@@ -183,24 +222,28 @@
     currentActorName = null;
     currentPartyActors = null;
     messages = [];
-    streamingContent = '';
+    streamingContent = "";
     lastPromptTokens = null;
     showSummarizeBanner = false;
     summarizeBannerDismissed = false;
-    viewMode = 'chat';
+    viewMode = "chat";
     inputEl?.focus();
   }
 
   async function startActorRoleplaySession(actorId: string, actorName: string) {
-    const session = await chatSessionManager.createSession(undefined, actorId, actorName);
+    const session = await chatSessionManager.createSession(
+      undefined,
+      actorId,
+      actorName,
+    );
     currentSessionId = session.id;
     currentSessionName = session.name;
     currentActorId = actorId;
     currentActorName = actorName;
     currentPartyActors = null;
     messages = [];
-    streamingContent = '';
-    viewMode = 'chat';
+    streamingContent = "";
+    viewMode = "chat";
     showActorPicker = false;
 
     // Auto-generate character introduction
@@ -210,13 +253,22 @@
 
   /** Start a shared party chat, rostered from the configured Player Character Folder */
   async function startPartySession() {
-    const roster = getPlayerCharacterActors().map(a => ({ id: a.id, name: a.name }));
+    const roster = getPlayerCharacterActors().map((a) => ({
+      id: a.id,
+      name: a.name,
+    }));
     if (roster.length === 0) {
-      ui.notifications.warn('No player-character actors found. Configure the Player Character Folder in FoundryAI settings.');
+      ui.notifications.warn(
+        "No player-character actors found. Configure the Player Character Folder in FoundryAI settings.",
+      );
       return;
     }
 
-    const session = await chatSessionManager.createPartySession(undefined, roster.map(a => a.id), roster.map(a => a.name));
+    const session = await chatSessionManager.createPartySession(
+      undefined,
+      roster.map((a) => a.id),
+      roster.map((a) => a.name),
+    );
     currentSessionId = session.id;
     currentSessionName = session.name;
     currentActorId = null;
@@ -224,11 +276,11 @@
     currentPartyActors = roster;
     selectedResponders = new Set();
     messages = [];
-    streamingContent = '';
+    streamingContent = "";
     lastPromptTokens = null;
     showSummarizeBanner = false;
     summarizeBannerDismissed = false;
-    viewMode = 'chat';
+    viewMode = "chat";
     inputEl?.focus();
   }
 
@@ -240,19 +292,19 @@
     if (!hasApiKey) return;
 
     isGenerating = true;
-    streamingContent = '';
+    streamingContent = "";
 
     try {
       const systemPrompt = buildActorRoleplayPrompt({ actorId, actorName });
       const introPrompt: LLMMessage = {
-        role: 'user',
+        role: "user",
         content: `You are now entering a roleplay session as ${actorName}. Introduce yourself in character. Include:
 
 1. **Who you are** — your name, role, and a brief description of yourself
-2. **Your current goals** — what you're trying to accomplish, what motivates you
+2. **Your current goals** — what you're trying to accomplish, what motivates you. List 3 things. Ensure they are things that would help this character engage with the campaign! 
 3. **Common knowledge** — things most people would know about you or could learn by talking to you
 4. **Dialogue hooks** — topics players might bring up and how you'd respond (e.g. "If asked about the war...", "If asked about the artifact...")
-5. **Persuasion & social checks** — list 3-5 things players might try to convince you of, and for each one state the type of check (Persuasion, Intimidation, Deception, etc.) and the DC (difficulty class) required. Format as a table.
+5. **Persuasion & social checks** — list 3-5 things the other characters might try to convince you of, and for each one state the type of check (Persuasion, Intimidation, Deception, etc.) and the DC (difficulty class) required. Format as a table.
 
 Stay fully in character for the introduction, but present the dialogue hooks and check DCs in a helpful OOC (out-of-character) section at the end marked with --- so it's easy to reference later.
 
@@ -260,19 +312,19 @@ IMPORTANT: You already have all the information you need about this character fr
       };
 
       const apiMessages: LLMMessage[] = [
-        { role: 'system', content: systemPrompt },
+        { role: "system", content: systemPrompt },
         introPrompt,
       ];
 
-      const model = getSetting('chatModel');
-      const temperature = getSetting('temperature');
-      const maxTokens = getSetting('maxTokens');
-      const stream = getSetting('streamResponses');
+      const model = getSetting("chatModel");
+      const temperature = getSetting("temperature");
+      const maxTokens = getSetting("maxTokens");
+      const stream = getSetting("streamResponses");
 
       console.log(`FoundryAI | Generating character intro for ${actorName}`);
 
       if (stream) {
-        let fullContent = '';
+        let fullContent = "";
         const onChunk: StreamCallback = (chunk) => {
           if (chunk.content) {
             fullContent += chunk.content;
@@ -286,9 +338,20 @@ IMPORTANT: You already have all the information you need about this character fr
         );
 
         if (fullContent) {
-          const assistantMsg: LLMMessage = { role: 'assistant', content: fullContent, name: actorName, speakerActorId: actorId };
+          const assistantMsg: LLMMessage = {
+            role: "assistant",
+            content: fullContent,
+            name: actorName,
+            speakerActorId: actorId,
+          };
           messages = [assistantMsg];
           await maybeAutoSpeak(fullContent, actorId);
+          void systemPromptJournal.logCharacterPrompt({
+            actorId,
+            actorName,
+            systemPrompt,
+            characterIntro: fullContent,
+          });
         }
       } else {
         const response = await openRouterService.chatCompletion({
@@ -300,34 +363,51 @@ IMPORTANT: You already have all the information you need about this character fr
 
         const content = response.choices?.[0]?.message?.content;
         if (content) {
-          const assistantMsg: LLMMessage = { role: 'assistant', content, name: actorName, speakerActorId: actorId };
+          const assistantMsg: LLMMessage = {
+            role: "assistant",
+            content,
+            name: actorName,
+            speakerActorId: actorId,
+          };
           messages = [assistantMsg];
           await maybeAutoSpeak(content, actorId);
+          void systemPromptJournal.logCharacterPrompt({
+            actorId,
+            actorName,
+            systemPrompt,
+            characterIntro: content,
+          });
         }
       }
 
       // Save to session
       if (currentSessionId && messages.length > 0) {
-        await chatSessionManager.saveFullConversation(currentSessionId, messages, model);
-        console.log(`FoundryAI | Saved character intro to session ${currentSessionId}`);
+        await chatSessionManager.saveFullConversation(
+          currentSessionId,
+          messages,
+          model,
+        );
+        console.log(
+          `FoundryAI | Saved character intro to session ${currentSessionId}`,
+        );
       }
     } catch (error: any) {
-      console.error('FoundryAI | Character intro generation failed:', error);
+      console.error("FoundryAI | Character intro generation failed:", error);
       const fallback: LLMMessage = {
-        role: 'assistant',
+        role: "assistant",
         content: `*${actorName} stands before you, ready to speak.*\n\n(Character introduction could not be generated: ${error.message})`,
       };
       messages = [fallback];
     } finally {
       isGenerating = false;
-      streamingContent = '';
+      streamingContent = "";
     }
   }
 
   function loadSession(sessionId: string) {
     const session = chatSessionManager.loadSession(sessionId);
     if (!session) {
-      ui.notifications.error('Session not found.');
+      ui.notifications.error("Session not found.");
       return;
     }
     currentSessionId = session.id;
@@ -335,15 +415,18 @@ IMPORTANT: You already have all the information you need about this character fr
     currentActorId = session.actorId || null;
     currentActorName = session.actorName || null;
     currentPartyActors = session.actorIds?.length
-      ? session.actorIds.map((id, i) => ({ id, name: session.actorNames?.[i] || 'Unknown' }))
+      ? session.actorIds.map((id, i) => ({
+          id,
+          name: session.actorNames?.[i] || "Unknown",
+        }))
       : null;
     selectedResponders = new Set();
     messages = session.messages;
-    streamingContent = '';
+    streamingContent = "";
     lastPromptTokens = null;
     showSummarizeBanner = false;
     summarizeBannerDismissed = false;
-    viewMode = 'chat';
+    viewMode = "chat";
   }
 
   // ---- Chat Control ----
@@ -352,9 +435,9 @@ IMPORTANT: You already have all the information you need about this character fr
       abortController.abort();
       abortController = null;
       isGenerating = false;
-      streamingContent = '';
+      streamingContent = "";
       stopTTS();
-      console.log('FoundryAI | Chat generation stopped by user');
+      console.log("FoundryAI | Chat generation stopped by user");
     }
   }
 
@@ -364,7 +447,9 @@ IMPORTANT: You already have all the information you need about this character fr
     if (!text || isGenerating) return;
 
     if (!hasApiKey) {
-      ui.notifications.warn('Please configure your OpenRouter API key in FoundryAI settings.');
+      ui.notifications.warn(
+        "Please configure your OpenRouter API key in FoundryAI settings.",
+      );
       return;
     }
 
@@ -378,42 +463,68 @@ IMPORTANT: You already have all the information you need about this character fr
       await startNewSession();
     }
 
-    inputText = '';
+    inputText = "";
     isGenerating = true;
-    streamingContent = '';
+    streamingContent = "";
     abortController = new AbortController();
 
     // Add user message
-    const userMessage: LLMMessage = { role: 'user', content: text };
+    const userMessage: LLMMessage = { role: "user", content: text };
     messages = [...messages, userMessage];
 
     try {
       // Build context
       const systemPrompt = currentActorId
-        ? buildActorRoleplayPrompt({ actorId: currentActorId, actorName: currentActorName || 'Unknown' })
+        ? buildActorRoleplayPrompt({
+            actorId: currentActorId,
+            actorName: currentActorName || "Unknown",
+          })
         : buildSystemPrompt();
 
       // RAG context — only injected when enabled in settings
-      const ragContext = getSetting('enableRAG') ? await getRelevantContext(text) : null;
+      const ragContext = getSetting("enableRAG")
+        ? await getRelevantContext(text)
+        : null;
 
       // Build message array for API — condense old tool results to save tokens
       const apiMessages: LLMMessage[] = [
-        { role: 'system', content: systemPrompt + (ragContext ? `\n\n# Relevant Context\n${ragContext}` : '') },
+        {
+          role: "system",
+          content:
+            systemPrompt +
+            (ragContext ? `\n\n# Relevant Context\n${ragContext}` : ""),
+        },
         ...condenseOldToolResults(messages),
       ];
 
-      const model = getSetting('chatModel');
-      const temperature = getSetting('temperature');
-      const maxTokens = getSetting('maxTokens');
-      const stream = getSetting('streamResponses');
-      const useTools = getSetting('enableTools');
+      const model = getSetting("chatModel");
+      const temperature = getSetting("temperature");
+      const maxTokens = getSetting("maxTokens");
+      const stream = getSetting("streamResponses");
+      const useTools = getSetting("enableTools");
 
-      console.log(`FoundryAI | Sending message — model: ${model}, stream: ${stream}, tools: ${useTools}, messages: ${apiMessages.length}, actor: ${currentActorId || 'none'}`);
+      console.log(
+        `FoundryAI | Sending message — model: ${model}, stream: ${stream}, tools: ${useTools}, messages: ${apiMessages.length}, actor: ${currentActorId || "none"}`,
+      );
 
       if (stream) {
-        await handleStreamingResponse(apiMessages, model, temperature, maxTokens, useTools, abortController.signal);
+        await handleStreamingResponse(
+          apiMessages,
+          model,
+          temperature,
+          maxTokens,
+          useTools,
+          abortController.signal,
+        );
       } else {
-        await handleNonStreamingResponse(apiMessages, model, temperature, maxTokens, useTools, abortController.signal);
+        await handleNonStreamingResponse(
+          apiMessages,
+          model,
+          temperature,
+          maxTokens,
+          useTools,
+          abortController.signal,
+        );
       }
 
       // Save full conversation to session
@@ -423,22 +534,24 @@ IMPORTANT: You already have all the information you need about this character fr
           messages,
           model,
         );
-        console.log(`FoundryAI | Saved conversation to session ${currentSessionId} (${messages.length} messages)`);
+        console.log(
+          `FoundryAI | Saved conversation to session ${currentSessionId} (${messages.length} messages)`,
+        );
       }
     } catch (error: any) {
-      if (error.name === 'AbortError') {
-        console.log('FoundryAI | Chat generation was stopped');
+      if (error.name === "AbortError") {
+        console.log("FoundryAI | Chat generation was stopped");
       } else {
-        console.error('FoundryAI | Chat error:', error);
+        console.error("FoundryAI | Chat error:", error);
         const errorMsg: LLMMessage = {
-          role: 'assistant',
-          content: `⚠️ Error: ${error.message || 'Unknown error occurred'}`,
+          role: "assistant",
+          content: `⚠️ Error: ${error.message || "Unknown error occurred"}`,
         };
         messages = [...messages, errorMsg];
       }
     } finally {
       isGenerating = false;
-      streamingContent = '';
+      streamingContent = "";
       abortController = null;
     }
   }
@@ -452,27 +565,33 @@ IMPORTANT: You already have all the information you need about this character fr
    * ones' lines in the same turn.
    */
   async function sendPartyMessage(text: string) {
-    const responders = (currentPartyActors || []).filter(a => selectedResponders.has(a.id));
+    const responders = (currentPartyActors || []).filter((a) =>
+      selectedResponders.has(a.id),
+    );
 
-    inputText = '';
+    inputText = "";
     isGenerating = true;
     abortController = new AbortController();
 
-    const userMessage: LLMMessage = { role: 'user', content: text };
+    const userMessage: LLMMessage = { role: "user", content: text };
     messages = [...messages, userMessage];
     selectedResponders = new Set();
 
     try {
-      const model = getSetting('chatModel');
-      const temperature = getSetting('temperature');
-      const maxTokens = getSetting('maxTokens');
+      const model = getSetting("chatModel");
+      const temperature = getSetting("temperature");
+      const maxTokens = getSetting("maxTokens");
 
       for (const actor of responders) {
         if (abortController.signal.aborted) break;
 
-        const systemPrompt = buildActorRoleplayPrompt({ actorId: actor.id, actorName: actor.name }) + PARTY_CHAT_MODE_INSTRUCTIONS;
+        const systemPrompt =
+          buildActorRoleplayPrompt({
+            actorId: actor.id,
+            actorName: actor.name,
+          }) + PARTY_CHAT_MODE_INSTRUCTIONS;
         const apiMessages: LLMMessage[] = [
-          { role: 'system', content: systemPrompt },
+          { role: "system", content: systemPrompt },
           ...buildPartyContextMessages(messages, actor.id),
         ];
 
@@ -483,7 +602,12 @@ IMPORTANT: You already have all the information you need about this character fr
 
         const replyText = response.choices?.[0]?.message?.content?.trim();
         if (replyText) {
-          const assistantMsg: LLMMessage = { role: 'assistant', content: replyText, name: actor.name, speakerActorId: actor.id };
+          const assistantMsg: LLMMessage = {
+            role: "assistant",
+            content: replyText,
+            name: actor.name,
+            speakerActorId: actor.id,
+          };
           messages = [...messages, assistantMsg];
           // Awaited so overlapping party members don't talk over each other.
           await maybeAutoSpeak(replyText, actor.id);
@@ -491,12 +615,19 @@ IMPORTANT: You already have all the information you need about this character fr
       }
 
       if (currentSessionId) {
-        await chatSessionManager.saveFullConversation(currentSessionId, messages, model);
+        await chatSessionManager.saveFullConversation(
+          currentSessionId,
+          messages,
+          model,
+        );
       }
     } catch (error: any) {
-      if (error.name !== 'AbortError') {
-        console.error('FoundryAI | Party chat error:', error);
-        const errorMsg: LLMMessage = { role: 'assistant', content: `⚠️ Error: ${error.message || 'Unknown error occurred'}` };
+      if (error.name !== "AbortError") {
+        console.error("FoundryAI | Party chat error:", error);
+        const errorMsg: LLMMessage = {
+          role: "assistant",
+          content: `⚠️ Error: ${error.message || "Unknown error occurred"}`,
+        };
         messages = [...messages, errorMsg];
       }
     } finally {
@@ -508,14 +639,14 @@ IMPORTANT: You already have all the information you need about this character fr
   // ---- Edit & Retry ----
   function startEditMessage(index: number) {
     const msg = messages[index];
-    if (!msg || msg.role !== 'user') return;
+    if (!msg || msg.role !== "user") return;
     editingIndex = index;
-    editText = typeof msg.content === 'string' ? msg.content : '';
+    editText = typeof msg.content === "string" ? msg.content : "";
   }
 
   function cancelEdit() {
     editingIndex = null;
-    editText = '';
+    editText = "";
   }
 
   async function submitEdit() {
@@ -527,19 +658,22 @@ IMPORTANT: You already have all the information you need about this character fr
 
     // Re-send with edited text
     inputText = editText;
-    editText = '';
+    editText = "";
     await sendMessage();
   }
 
   async function retryFromMessage(index: number) {
     // Find the user message at or before this index
     let userIndex = index;
-    while (userIndex >= 0 && messages[userIndex].role !== 'user') {
+    while (userIndex >= 0 && messages[userIndex].role !== "user") {
       userIndex--;
     }
     if (userIndex < 0) return;
 
-    const userText = typeof messages[userIndex].content === 'string' ? messages[userIndex].content : '';
+    const userText =
+      typeof messages[userIndex].content === "string"
+        ? messages[userIndex].content
+        : "";
     if (!userText) return;
 
     // Truncate everything from this user message onward and resend
@@ -549,7 +683,7 @@ IMPORTANT: You already have all the information you need about this character fr
   }
 
   /**
-   * Regenerate an assistant response. 
+   * Regenerate an assistant response.
    * If index is provided, removes everything from that message onward.
    * If no prior user message exists (e.g. actor intro), regenerates the intro.
    */
@@ -557,7 +691,7 @@ IMPORTANT: You already have all the information you need about this character fr
     // Find if there's a user message before this assistant message
     let userIndex = -1;
     for (let i = index - 1; i >= 0; i--) {
-      if (messages[i].role === 'user') {
+      if (messages[i].role === "user") {
         userIndex = i;
         break;
       }
@@ -577,7 +711,10 @@ IMPORTANT: You already have all the information you need about this character fr
     }
 
     // There was a user message — truncate to that message and resend
-    const userText = typeof messages[userIndex].content === 'string' ? messages[userIndex].content : '';
+    const userText =
+      typeof messages[userIndex].content === "string"
+        ? messages[userIndex].content
+        : "";
     messages = messages.slice(0, userIndex);
     inputText = userText;
     await sendMessage();
@@ -591,15 +728,28 @@ IMPORTANT: You already have all the information you need about this character fr
     useTools: boolean,
     signal?: AbortSignal,
   ) {
-    let fullContent = '';
-    let streamUsage: { prompt_tokens: number; completion_tokens: number; total_tokens: number } | undefined;
+    let fullContent = "";
+    let streamUsage:
+      | {
+          prompt_tokens: number;
+          completion_tokens: number;
+          total_tokens: number;
+        }
+      | undefined;
 
     // Accumulated tool calls — streaming sends deltas by index
-    const accumulatedToolCalls: Map<number, { id: string; type: 'function'; function: { name: string; arguments: string } }> = new Map();
+    const accumulatedToolCalls: Map<
+      number,
+      {
+        id: string;
+        type: "function";
+        function: { name: string; arguments: string };
+      }
+    > = new Map();
 
     const onChunk: StreamCallback = (chunk) => {
       if (chunk.error) {
-        console.error('FoundryAI | Stream chunk error:', chunk.error);
+        console.error("FoundryAI | Stream chunk error:", chunk.error);
       }
       if (chunk.content) {
         fullContent += chunk.content;
@@ -621,20 +771,24 @@ IMPORTANT: You already have all the information you need about this character fr
             }
             // Update name/id if provided (shouldn't change, but be safe)
             if (delta.id) existing.id = delta.id;
-            if (delta.function?.name) existing.function.name = delta.function.name;
+            if (delta.function?.name)
+              existing.function.name = delta.function.name;
           } else {
             // First chunk for this index — initialize
             accumulatedToolCalls.set(idx, {
               id: delta.id || `pending-${idx}`,
-              type: 'function',
+              type: "function",
               function: {
-                name: delta.function?.name || '',
-                arguments: delta.function?.arguments || '',
+                name: delta.function?.name || "",
+                arguments: delta.function?.arguments || "",
               },
             });
           }
         }
-        console.debug('FoundryAI | Streaming tool call delta, accumulated:', [...accumulatedToolCalls.values()].map(tc => tc.function.name));
+        console.debug(
+          "FoundryAI | Streaming tool call delta, accumulated:",
+          [...accumulatedToolCalls.values()].map((tc) => tc.function.name),
+        );
       }
     };
 
@@ -645,7 +799,7 @@ IMPORTANT: You already have all the information you need about this character fr
         temperature,
         max_tokens: maxTokens,
         tools: useTools ? getEnabledTools() : undefined,
-        tool_choice: useTools ? 'auto' : undefined,
+        tool_choice: useTools ? "auto" : undefined,
       },
       onChunk,
       signal,
@@ -654,25 +808,57 @@ IMPORTANT: You already have all the information you need about this character fr
     if (accumulatedToolCalls.size > 0) {
       const toolCalls = [...accumulatedToolCalls.values()];
       // Validate all tool calls have names
-      const valid = toolCalls.filter(tc => tc.function.name);
-      const invalid = toolCalls.filter(tc => !tc.function.name);
+      const valid = toolCalls.filter((tc) => tc.function.name);
+      const invalid = toolCalls.filter((tc) => !tc.function.name);
       if (invalid.length > 0) {
-        console.warn('FoundryAI | Dropping tool calls with missing function name:', invalid);
+        console.warn(
+          "FoundryAI | Dropping tool calls with missing function name:",
+          invalid,
+        );
       }
       if (valid.length > 0) {
-        console.log('FoundryAI | Executing streamed tool calls:', valid.map(tc => `${tc.function.name}(${tc.function.arguments.slice(0, 100)}...)`));
-        const assistantMessage = { content: fullContent || null, tool_calls: valid };
-        await handleToolCalls(assistantMessage, apiMessages, model, temperature, maxTokens, 0, signal);
+        console.log(
+          "FoundryAI | Executing streamed tool calls:",
+          valid.map(
+            (tc) =>
+              `${tc.function.name}(${tc.function.arguments.slice(0, 100)}...)`,
+          ),
+        );
+        const assistantMessage = {
+          content: fullContent || null,
+          tool_calls: valid,
+        };
+        await handleToolCalls(
+          assistantMessage,
+          apiMessages,
+          model,
+          temperature,
+          maxTokens,
+          0,
+          signal,
+        );
       } else {
-        console.warn('FoundryAI | All streamed tool calls had missing names, treating as text response');
-        const msg: LLMMessage = { role: 'assistant', content: fullContent || '⚠️ Tool call failed — the model returned an invalid response.' };
+        console.warn(
+          "FoundryAI | All streamed tool calls had missing names, treating as text response",
+        );
+        const msg: LLMMessage = {
+          role: "assistant",
+          content:
+            fullContent ||
+            "⚠️ Tool call failed — the model returned an invalid response.",
+        };
         messages = [...messages, msg];
       }
     } else {
       // Normal text response
       const msg: LLMMessage = currentActorId
-        ? { role: 'assistant', content: fullContent, name: currentActorName || undefined, speakerActorId: currentActorId }
-        : { role: 'assistant', content: fullContent };
+        ? {
+            role: "assistant",
+            content: fullContent,
+            name: currentActorName || undefined,
+            speakerActorId: currentActorId,
+          }
+        : { role: "assistant", content: fullContent };
       messages = [...messages, msg];
       await maybeAutoSpeak(fullContent, currentActorId);
     }
@@ -698,26 +884,40 @@ IMPORTANT: You already have all the information you need about this character fr
         temperature,
         max_tokens: maxTokens,
         tools: useTools ? getEnabledTools() : undefined,
-        tool_choice: useTools ? 'auto' : undefined,
+        tool_choice: useTools ? "auto" : undefined,
       },
       signal,
     );
 
     const assistantMessage = response.choices?.[0]?.message;
-    console.log('FoundryAI | Non-streaming response:', {
+    console.log("FoundryAI | Non-streaming response:", {
       hasContent: !!assistantMessage?.content,
-      toolCalls: assistantMessage?.tool_calls?.map((tc: any) => tc.function?.name) || [],
+      toolCalls:
+        assistantMessage?.tool_calls?.map((tc: any) => tc.function?.name) || [],
       finishReason: response.choices?.[0]?.finish_reason,
       usage: response.usage,
     });
 
     if (assistantMessage?.tool_calls?.length) {
-      await handleToolCalls(assistantMessage, apiMessages, model, temperature, maxTokens, 0, signal);
+      await handleToolCalls(
+        assistantMessage,
+        apiMessages,
+        model,
+        temperature,
+        maxTokens,
+        0,
+        signal,
+      );
     } else {
-      const content = assistantMessage?.content || '';
+      const content = assistantMessage?.content || "";
       const msg: LLMMessage = currentActorId
-        ? { role: 'assistant', content, name: currentActorName || undefined, speakerActorId: currentActorId }
-        : { role: 'assistant', content };
+        ? {
+            role: "assistant",
+            content,
+            name: currentActorName || undefined,
+            speakerActorId: currentActorId,
+          }
+        : { role: "assistant", content };
       messages = [...messages, msg];
       await maybeAutoSpeak(content, currentActorId);
     }
@@ -739,22 +939,29 @@ IMPORTANT: You already have all the information you need about this character fr
   ) {
     // Check if abort was requested
     if (signal?.aborted) {
-      console.log('FoundryAI | Tool execution stopped by user');
+      console.log("FoundryAI | Tool execution stopped by user");
       return;
     }
 
-    const maxDepth = getSetting('maxToolDepth');
-    console.log(`FoundryAI | handleToolCalls depth=${depth}/${maxDepth}, tools: [${assistantMessage.tool_calls?.map((tc: any) => tc.function?.name || 'UNNAMED').join(', ')}]`);
+    const maxDepth = getSetting("maxToolDepth");
+    console.log(
+      `FoundryAI | handleToolCalls depth=${depth}/${maxDepth}, tools: [${assistantMessage.tool_calls?.map((tc: any) => tc.function?.name || "UNNAMED").join(", ")}]`,
+    );
 
     if (maxDepth > 0 && depth >= maxDepth) {
-      console.warn(`FoundryAI | Tool call depth limit reached (${depth}/${maxDepth})`);
-      messages = [...messages, { role: 'assistant', content: '⚠️ Tool call depth limit reached.' }];
+      console.warn(
+        `FoundryAI | Tool call depth limit reached (${depth}/${maxDepth})`,
+      );
+      messages = [
+        ...messages,
+        { role: "assistant", content: "⚠️ Tool call depth limit reached." },
+      ];
       return;
     }
 
     // Add assistant message with tool_calls to the conversation
     const assistantMsg: LLMMessage = {
-      role: 'assistant',
+      role: "assistant",
       content: assistantMessage.content || null,
       tool_calls: assistantMessage.tool_calls,
     };
@@ -766,29 +973,37 @@ IMPORTANT: You already have all the information you need about this character fr
         // Check abort before each tool execution
         if (signal?.aborted) {
           return {
-            role: 'tool' as const,
-            content: JSON.stringify({ error: 'Execution stopped by user' }),
+            role: "tool" as const,
+            content: JSON.stringify({ error: "Execution stopped by user" }),
             tool_call_id: toolCall.id,
             name: toolCall.function.name,
           };
         }
-        console.log(`FoundryAI | Executing tool: ${toolCall.function?.name || 'UNDEFINED'} (id: ${toolCall.id || 'NO_ID'})`, toolCall.function?.arguments?.slice(0, 200));
+        console.log(
+          `FoundryAI | Executing tool: ${toolCall.function?.name || "UNDEFINED"} (id: ${toolCall.id || "NO_ID"})`,
+          toolCall.function?.arguments?.slice(0, 200),
+        );
         const result = await executeTool(toolCall);
-        console.log(`FoundryAI | Tool result [${toolCall.function?.name}]:`, result.slice(0, 300));
+        console.log(
+          `FoundryAI | Tool result [${toolCall.function?.name}]:`,
+          result.slice(0, 300),
+        );
         return {
-          role: 'tool' as const,
+          role: "tool" as const,
           content: result,
           tool_call_id: toolCall.id,
           name: toolCall.function.name,
         };
-      })
+      }),
     );
 
     messages = [...messages, ...toolResults];
 
     // Check again before continuing
     if (signal?.aborted) {
-      console.log('FoundryAI | Tool execution stopped by user (after execution)');
+      console.log(
+        "FoundryAI | Tool execution stopped by user (after execution)",
+      );
       return;
     }
 
@@ -802,14 +1017,16 @@ IMPORTANT: You already have all the information you need about this character fr
         temperature,
         max_tokens: maxTokens,
         tools: getEnabledTools(),
-        tool_choice: 'auto',
+        tool_choice: "auto",
       },
       signal,
     );
 
     // Check abort after API call returns
     if (signal?.aborted) {
-      console.log('FoundryAI | Tool chain stopped by user (after API response)');
+      console.log(
+        "FoundryAI | Tool chain stopped by user (after API response)",
+      );
       return;
     }
 
@@ -817,12 +1034,25 @@ IMPORTANT: You already have all the information you need about this character fr
 
     if (nextMessage?.tool_calls?.length) {
       // Recursive tool calls
-      await handleToolCalls(nextMessage, continuedMessages, model, temperature, maxTokens, depth + 1, signal);
+      await handleToolCalls(
+        nextMessage,
+        continuedMessages,
+        model,
+        temperature,
+        maxTokens,
+        depth + 1,
+        signal,
+      );
     } else {
-      const content = nextMessage?.content || '';
+      const content = nextMessage?.content || "";
       const msg: LLMMessage = currentActorId
-        ? { role: 'assistant', content, name: currentActorName || undefined, speakerActorId: currentActorId }
-        : { role: 'assistant', content };
+        ? {
+            role: "assistant",
+            content,
+            name: currentActorName || undefined,
+            speakerActorId: currentActorId,
+          }
+        : { role: "assistant", content };
       messages = [...messages, msg];
       await maybeAutoSpeak(content, currentActorId);
     }
@@ -855,7 +1085,7 @@ IMPORTANT: You already have all the information you need about this character fr
     let lastAssistantContentIdx = -1;
     for (let i = msgs.length - 1; i >= 0; i--) {
       const m = msgs[i];
-      if (m.role === 'assistant' && m.content && !m.tool_calls) {
+      if (m.role === "assistant" && m.content && !m.tool_calls) {
         lastAssistantContentIdx = i;
         break;
       }
@@ -869,7 +1099,7 @@ IMPORTANT: You already have all the information you need about this character fr
     let recentCycleStart = lastAssistantContentIdx;
     for (let i = lastAssistantContentIdx - 1; i >= 0; i--) {
       const m = msgs[i];
-      if (m.role === 'tool' || (m.role === 'assistant' && m.tool_calls)) {
+      if (m.role === "tool" || (m.role === "assistant" && m.tool_calls)) {
         recentCycleStart = i;
       } else {
         break;
@@ -883,14 +1113,18 @@ IMPORTANT: You already have all the information you need about this character fr
       if (idx >= recentCycleStart) return msg;
 
       // Condense old tool results
-      if (msg.role === 'tool' && typeof msg.content === 'string' && msg.content.length > MAX_OLD_TOOL_CONTENT) {
+      if (
+        msg.role === "tool" &&
+        typeof msg.content === "string" &&
+        msg.content.length > MAX_OLD_TOOL_CONTENT
+      ) {
         try {
           const parsed = JSON.parse(msg.content);
           // Build a compact summary preserving document names and IDs for reference
           if (parsed.results && Array.isArray(parsed.results)) {
             const summary = {
               _condensed: true,
-              note: 'Full content was provided earlier and used in the response above.',
+              note: "Full content was provided earlier and used in the response above.",
               results: parsed.results.map((r: any) => ({
                 documentId: r.documentId || r.id,
                 documentName: r.documentName || r.name,
@@ -901,9 +1135,17 @@ IMPORTANT: You already have all the information you need about this character fr
             return { ...msg, content: JSON.stringify(summary) };
           }
           // For other tool results, just truncate
-          return { ...msg, content: msg.content.slice(0, MAX_OLD_TOOL_CONTENT) + '... [condensed]' };
+          return {
+            ...msg,
+            content:
+              msg.content.slice(0, MAX_OLD_TOOL_CONTENT) + "... [condensed]",
+          };
         } catch {
-          return { ...msg, content: msg.content.slice(0, MAX_OLD_TOOL_CONTENT) + '... [condensed]' };
+          return {
+            ...msg,
+            content:
+              msg.content.slice(0, MAX_OLD_TOOL_CONTENT) + "... [condensed]",
+          };
         }
       }
 
@@ -915,11 +1157,11 @@ IMPORTANT: You already have all the information you need about this character fr
   async function handleReindex() {
     if (isIndexing) return;
     isIndexing = true;
-    indexProgress = 'Starting...';
+    indexProgress = "Starting...";
 
     try {
-      const journalFolders = getSetting('journalFolders') || [];
-      const actorFolders = getSetting('actorFolders') || [];
+      const journalFolders = getSetting("journalFolders") || [];
+      const actorFolders = getSetting("actorFolders") || [];
 
       await embeddingService.reindexAll(
         journalFolders,
@@ -929,12 +1171,12 @@ IMPORTANT: You already have all the information you need about this character fr
         },
       );
 
-      ui.notifications.info('FoundryAI: Indexing complete!');
+      ui.notifications.info("FoundryAI: Indexing complete!");
     } catch (error: any) {
       ui.notifications.error(`Indexing failed: ${error.message}`);
     } finally {
       isIndexing = false;
-      indexProgress = '';
+      indexProgress = "";
     }
   }
 
@@ -942,29 +1184,30 @@ IMPORTANT: You already have all the information you need about this character fr
   async function handleGenerateRecap() {
     const sessions = chatSessionManager.listSessions();
     if (sessions.length === 0) {
-      ui.notifications.warn('No chat sessions to recap.');
+      ui.notifications.warn("No chat sessions to recap.");
       return;
     }
 
     // Use today's sessions
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const todaySessions = sessions.filter(s => s.updatedAt >= today.getTime());
+    const todaySessions = sessions.filter(
+      (s) => s.updatedAt >= today.getTime(),
+    );
 
-    const sessionIds = todaySessions.length > 0
-      ? todaySessions.map(s => s.id)
-      : [sessions[0].id]; // Fallback to most recent
+    const sessionIds =
+      todaySessions.length > 0
+        ? todaySessions.map((s) => s.id)
+        : [sessions[0].id]; // Fallback to most recent
 
-    recapProgress = { phase: 'preparing', message: 'Starting...' };
+    recapProgress = { phase: "preparing", message: "Starting..." };
 
     try {
-      const model = getSetting('chatModel');
-      await sessionRecapManager.generateRecap(
-        sessionIds,
-        model,
-        (progress) => { recapProgress = progress; },
-      );
-      ui.notifications.info('Session recap saved!');
+      const model = getSetting("chatModel");
+      await sessionRecapManager.generateRecap(sessionIds, model, (progress) => {
+        recapProgress = progress;
+      });
+      ui.notifications.info("Session recap saved!");
     } catch (error: any) {
       ui.notifications.error(`Recap failed: ${error.message}`);
     } finally {
@@ -980,12 +1223,12 @@ IMPORTANT: You already have all the information you need about this character fr
     showSummarizeBanner = false;
 
     try {
-      const model = getSetting('chatModel');
-      const keepCount = getSetting('summarizeKeepMessages');
+      const model = getSetting("chatModel");
+      const keepCount = getSetting("summarizeKeepMessages");
 
       const result = await summarizeConversation(messages, model, keepCount);
       if (!result) {
-        ui.notifications.warn('Not enough messages to summarize.');
+        ui.notifications.warn("Not enough messages to summarize.");
         return;
       }
 
@@ -995,12 +1238,18 @@ IMPORTANT: You already have all the information you need about this character fr
 
       // Save updated conversation
       if (currentSessionId) {
-        await chatSessionManager.saveFullConversation(currentSessionId, messages, model);
+        await chatSessionManager.saveFullConversation(
+          currentSessionId,
+          messages,
+          model,
+        );
       }
 
-      ui.notifications.info(`Context summarized — saved ~${result.tokensSaved.toLocaleString()} tokens.`);
+      ui.notifications.info(
+        `Context summarized — saved ~${result.tokensSaved.toLocaleString()} tokens.`,
+      );
     } catch (error: any) {
-      console.error('FoundryAI | Summarization failed:', error);
+      console.error("FoundryAI | Summarization failed:", error);
       ui.notifications.error(`Summarization failed: ${error.message}`);
     } finally {
       isSummarizing = false;
@@ -1009,7 +1258,7 @@ IMPORTANT: You already have all the information you need about this character fr
 
   // ---- Input Handling ----
   function handleKeydown(e: KeyboardEvent) {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
@@ -1020,27 +1269,37 @@ IMPORTANT: You already have all the information you need about this character fr
   }
 
   /** Get available actors for the roleplay picker */
-  function getAvailableActors(): Array<{ id: string; name: string; type: string; img: string }> {
+  function getAvailableActors(): Array<{
+    id: string;
+    name: string;
+    type: string;
+    img: string;
+  }> {
     if (!game.actors) return [];
-    const actors: Array<{ id: string; name: string; type: string; img: string }> = [];
+    const actors: Array<{
+      id: string;
+      name: string;
+      type: string;
+      img: string;
+    }> = [];
     for (const actor of game.actors.values()) {
       actors.push({
         id: actor.id,
         name: actor.name,
         type: actor.type,
-        img: (actor as any).img || 'icons/svg/mystery-man.svg',
+        img: (actor as any).img || "icons/svg/mystery-man.svg",
       });
     }
     return actors.sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  let actorPickerSearch = $state('');
+  let actorPickerSearch = $state("");
 
   const filteredActors = $derived.by(() => {
     const all = getAvailableActors();
     if (!actorPickerSearch.trim()) return all;
     const q = actorPickerSearch.toLowerCase();
-    return all.filter(a => a.name.toLowerCase().includes(q));
+    return all.filter((a) => a.name.toLowerCase().includes(q));
   });
 
   const isActorRoleplay = $derived(!!currentActorId);
@@ -1048,7 +1307,8 @@ IMPORTANT: You already have all the information you need about this character fr
 
   function toggleResponder(actorId: string) {
     const next = new Set(selectedResponders);
-    if (next.has(actorId)) next.delete(actorId); else next.add(actorId);
+    if (next.has(actorId)) next.delete(actorId);
+    else next.add(actorId);
     selectedResponders = next;
   }
 
@@ -1056,7 +1316,7 @@ IMPORTANT: You already have all the information you need about this character fr
   function resolveVoiceForActor(actorId?: string | null): string | undefined {
     if (!actorId) return undefined;
     try {
-      return getSetting('characterVoices')?.[actorId] || undefined;
+      return getSetting("characterVoices")?.[actorId] || undefined;
     } catch {
       return undefined;
     }
@@ -1067,14 +1327,20 @@ IMPORTANT: You already have all the information you need about this character fr
    * on. Resolves once playback finishes so callers that generate multiple
    * replies in a row (party mode) can await it and avoid overlapping voices.
    */
-  async function maybeAutoSpeak(content: string | null | undefined, actorId?: string | null): Promise<void> {
+  async function maybeAutoSpeak(
+    content: string | null | undefined,
+    actorId?: string | null,
+  ): Promise<void> {
     if (!content) return;
     try {
-      if (!getSetting('enableTTS') || !getSetting('autoSpeakResponses')) return;
+      if (!getSetting("enableTTS") || !getSetting("autoSpeakResponses")) return;
     } catch {
       return;
     }
-    await autoSpeakText(stripMarkdownForSpeech(content), resolveVoiceForActor(actorId));
+    await autoSpeakText(
+      stripMarkdownForSpeech(content),
+      resolveVoiceForActor(actorId),
+    );
   }
 </script>
 
@@ -1084,16 +1350,20 @@ IMPORTANT: You already have all the information you need about this character fr
     <div class="toolbar-left">
       <button
         class="toolbar-btn"
-        class:active={viewMode === 'chat'}
-        onclick={() => { viewMode = 'chat'; }}
+        class:active={viewMode === "chat"}
+        onclick={() => {
+          viewMode = "chat";
+        }}
         title="Chat"
       >
         <i class="fas fa-comments"></i>
       </button>
       <button
         class="toolbar-btn"
-        class:active={viewMode === 'sessions'}
-        onclick={() => { viewMode = 'sessions'; }}
+        class:active={viewMode === "sessions"}
+        onclick={() => {
+          viewMode = "sessions";
+        }}
         title="Sessions"
       >
         <i class="fas fa-list"></i>
@@ -1102,7 +1372,10 @@ IMPORTANT: You already have all the information you need about this character fr
 
     <span class="toolbar-title" title={currentSessionName}>
       {#if isActorRoleplay}
-        <i class="fas fa-theater-masks" style="color: #f59e0b; margin-right: 4px;"></i>
+        <i
+          class="fas fa-theater-masks"
+          style="color: #f59e0b; margin-right: 4px;"
+        ></i>
       {:else if isPartyMode}
         <i class="fas fa-users" style="color: #f59e0b; margin-right: 4px;"></i>
       {/if}
@@ -1110,7 +1383,11 @@ IMPORTANT: You already have all the information you need about this character fr
     </span>
 
     <div class="toolbar-right">
-      <ContextIndicator used={contextUsed} total={modelContextLength} isEstimate={contextIsEstimate} />
+      <ContextIndicator
+        used={contextUsed}
+        total={modelContextLength}
+        isEstimate={contextIsEstimate}
+      />
       <button
         class="toolbar-btn"
         onclick={handleSummarize}
@@ -1122,7 +1399,10 @@ IMPORTANT: You already have all the information you need about this character fr
       <button
         class="toolbar-btn"
         class:active={showActorPicker}
-        onclick={() => { showActorPicker = !showActorPicker; actorPickerSearch = ''; }}
+        onclick={() => {
+          showActorPicker = !showActorPicker;
+          actorPickerSearch = "";
+        }}
         title="Roleplay as Actor"
       >
         <i class="fas fa-theater-masks"></i>
@@ -1138,7 +1418,7 @@ IMPORTANT: You already have all the information you need about this character fr
         class="toolbar-btn"
         onclick={handleReindex}
         disabled={isIndexing}
-        title={isIndexing ? indexProgress : 'Reindex RAG'}
+        title={isIndexing ? indexProgress : "Reindex RAG"}
       >
         <i class="fas fa-sync-alt" class:fa-spin={isIndexing}></i>
       </button>
@@ -1176,9 +1456,18 @@ IMPORTANT: You already have all the information you need about this character fr
   {#if showSummarizeBanner && !isSummarizing}
     <div class="progress-banner summarize-banner">
       <i class="fas fa-exclamation-triangle"></i>
-      <span>Context is {((contextUsed / modelContextLength) * 100).toFixed(0)}% full. Summarize older messages?</span>
+      <span
+        >Context is {((contextUsed / modelContextLength) * 100).toFixed(0)}%
+        full. Summarize older messages?</span
+      >
       <button class="banner-btn" onclick={handleSummarize}>Summarize</button>
-      <button class="banner-btn dismiss" onclick={() => { showSummarizeBanner = false; summarizeBannerDismissed = true; }}>Dismiss</button>
+      <button
+        class="banner-btn dismiss"
+        onclick={() => {
+          showSummarizeBanner = false;
+          summarizeBannerDismissed = true;
+        }}>Dismiss</button
+      >
     </div>
   {/if}
 
@@ -1222,13 +1511,13 @@ IMPORTANT: You already have all the information you need about this character fr
   {/if}
 
   <!-- Content Area -->
-  {#if viewMode === 'sessions'}
+  {#if viewMode === "sessions"}
     <SessionList
       onSelectSession={loadSession}
       onNewSession={startNewSession}
       activeSessionId={currentSessionId ?? undefined}
     />
-  {:else if viewMode === 'chat'}
+  {:else if viewMode === "chat"}
     <!-- Messages Area -->
     <div class="messages-area">
       {#if !hasApiKey}
@@ -1246,65 +1535,126 @@ IMPORTANT: You already have all the information you need about this character fr
           <h3>FoundryAI</h3>
           <p>Your AI Player Character</p>
           <div class="suggestions">
-            <button onclick={() => { inputText = 'What does my character notice entering this room?'; sendMessage(); }}>
+            <button
+              onclick={() => {
+                inputText = "What does my character notice entering this room?";
+                sendMessage();
+              }}
+            >
               🎭 React to a scene
             </button>
-            <button onclick={() => { inputText = 'Would my character know anything useful here, and why?'; sendMessage(); }}>
+            <button
+              onclick={() => {
+                inputText =
+                  "Would my character know anything useful here, and why?";
+                sendMessage();
+              }}
+            >
               🎲 Ability check help
             </button>
-            <button onclick={() => { inputText = 'Give me an in-character line reacting to the tavern keeper greeting the party'; sendMessage(); }}>
+            <button
+              onclick={() => {
+                inputText =
+                  "Give me an in-character line reacting to the tavern keeper greeting the party";
+                sendMessage();
+              }}
+            >
               🗣️ In-character line
             </button>
-            <button onclick={() => { inputText = 'Search my journals for information about the villain'; sendMessage(); }}>
+            <button
+              onclick={() => {
+                inputText =
+                  "Search my journals for information about the villain";
+                sendMessage();
+              }}
+            >
               📖 Search lore
             </button>
           </div>
         </div>
       {:else}
         {#each compactMessages as item, i (i)}
-          {#if item.type === 'tool-group'}
+          {#if item.type === "tool-group"}
             <!-- Single compact box for all tool calls in this round -->
             <details class="tool-activity-group">
               <summary>
                 <i class="fas fa-wrench"></i>
-                <span>Tool calls: {item.toolCalls.map(tc => tc.name).join(', ')}</span>
-                <span class="tool-count">({item.results.length} result{item.results.length !== 1 ? 's' : ''})</span>
+                <span
+                  >Tool calls: {item.toolCalls
+                    .map((tc) => tc.name)
+                    .join(", ")}</span
+                >
+                <span class="tool-count"
+                  >({item.results.length} result{item.results.length !== 1
+                    ? "s"
+                    : ""})</span
+                >
               </summary>
               <div class="tool-results-list">
                 {#each item.results as result}
                   <div class="tool-result-item">
                     <span class="tool-result-name">{result.name}</span>
-                    <pre class="tool-result-data">{(() => { try { return JSON.stringify(JSON.parse(result.content), null, 2); } catch { return result.content; } })()}</pre>
+                    <pre class="tool-result-data">{(() => {
+                        try {
+                          return JSON.stringify(
+                            JSON.parse(result.content),
+                            null,
+                            2,
+                          );
+                        } catch {
+                          return result.content;
+                        }
+                      })()}</pre>
                   </div>
                 {/each}
               </div>
             </details>
-          {:else if item.msg.role === 'user'}
+          {:else if item.msg.role === "user"}
             <!-- User message with edit/retry actions -->
             {#if editingIndex === item.index}
               <div class="message-edit-form">
                 <textarea
                   class="edit-textarea"
                   bind:value={editText}
-                  onkeydown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitEdit(); } if (e.key === 'Escape') cancelEdit(); }}
+                  onkeydown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      submitEdit();
+                    }
+                    if (e.key === "Escape") cancelEdit();
+                  }}
                 ></textarea>
                 <div class="edit-actions">
-                  <button class="edit-btn save" onclick={submitEdit}><i class="fas fa-check"></i> Send</button>
-                  <button class="edit-btn cancel" onclick={cancelEdit}><i class="fas fa-times"></i> Cancel</button>
+                  <button class="edit-btn save" onclick={submitEdit}
+                    ><i class="fas fa-check"></i> Send</button
+                  >
+                  <button class="edit-btn cancel" onclick={cancelEdit}
+                    ><i class="fas fa-times"></i> Cancel</button
+                  >
                 </div>
               </div>
             {:else}
               <div class="user-message-wrapper">
                 <MessageBubble
                   role="user"
-                  content={typeof item.msg.content === 'string' ? item.msg.content : ''}
+                  content={typeof item.msg.content === "string"
+                    ? item.msg.content
+                    : ""}
                 />
                 {#if !isPartyMode}
                   <div class="message-actions">
-                    <button class="action-btn" title="Edit & resend" onclick={() => startEditMessage(item.index)}>
+                    <button
+                      class="action-btn"
+                      title="Edit & resend"
+                      onclick={() => startEditMessage(item.index)}
+                    >
                       <i class="fas fa-pen"></i>
                     </button>
-                    <button class="action-btn" title="Retry" onclick={() => retryFromMessage(item.index)}>
+                    <button
+                      class="action-btn"
+                      title="Retry"
+                      onclick={() => retryFromMessage(item.index)}
+                    >
                       <i class="fas fa-redo"></i>
                     </button>
                   </div>
@@ -1315,15 +1665,23 @@ IMPORTANT: You already have all the information you need about this character fr
             <!-- Assistant/system messages with regenerate action -->
             <div class="assistant-message-wrapper">
               <MessageBubble
-                role={item.msg.role as 'user' | 'assistant' | 'system' | 'tool'}
-                content={typeof item.msg.content === 'string' ? item.msg.content : ''}
+                role={item.msg.role as "user" | "assistant" | "system" | "tool"}
+                content={typeof item.msg.content === "string"
+                  ? item.msg.content
+                  : ""}
                 toolName={item.msg.name}
-                speakerName={item.msg.speakerActorId ? item.msg.name : undefined}
+                speakerName={item.msg.speakerActorId
+                  ? item.msg.name
+                  : undefined}
                 voice={resolveVoiceForActor(item.msg.speakerActorId)}
               />
-              {#if item.msg.role === 'assistant' && !isGenerating && !isPartyMode}
+              {#if item.msg.role === "assistant" && !isGenerating && !isPartyMode}
                 <div class="message-actions">
-                  <button class="action-btn" title="Regenerate response" onclick={() => regenerateAssistantMessage(item.index)}>
+                  <button
+                    class="action-btn"
+                    title="Regenerate response"
+                    onclick={() => regenerateAssistantMessage(item.index)}
+                  >
                     <i class="fas fa-sync-alt"></i>
                   </button>
                 </div>
@@ -1379,7 +1737,11 @@ IMPORTANT: You already have all the information you need about this character fr
         bind:this={inputEl}
         bind:value={inputText}
         onkeydown={handleKeydown}
-        placeholder={isGenerating ? 'Generating...' : isPartyMode ? 'Say something to the party...' : 'Ask FoundryAI...'}
+        placeholder={isGenerating
+          ? "Generating..."
+          : isPartyMode
+            ? "Say something to the party..."
+            : "Ask FoundryAI..."}
         disabled={isGenerating || !hasApiKey}
         rows="1"
       ></textarea>
@@ -1415,7 +1777,7 @@ IMPORTANT: You already have all the information you need about this character fr
     height: 100%;
     background: var(--foundry-ai-bg, #1a1a2e);
     color: var(--foundry-ai-text, #e0e0e0);
-    font-family: 'Signika', sans-serif;
+    font-family: "Signika", sans-serif;
     overflow: hidden;
   }
 
@@ -1543,7 +1905,7 @@ IMPORTANT: You already have all the information you need about this character fr
   }
 
   .tool-activity-group summary::before {
-    content: '▶';
+    content: "▶";
     font-size: 0.7em;
     transition: transform 0.15s;
   }
@@ -1797,12 +2159,24 @@ IMPORTANT: You already have all the information you need about this character fr
     animation: dot-bounce 1.4s infinite both;
   }
 
-  .dot-loader span:nth-child(2) { animation-delay: 0.2s; }
-  .dot-loader span:nth-child(3) { animation-delay: 0.4s; }
+  .dot-loader span:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .dot-loader span:nth-child(3) {
+    animation-delay: 0.4s;
+  }
 
   @keyframes dot-bounce {
-    0%, 80%, 100% { transform: scale(0.6); opacity: 0.3; }
-    40% { transform: scale(1); opacity: 1; }
+    0%,
+    80%,
+    100% {
+      transform: scale(0.6);
+      opacity: 0.3;
+    }
+    40% {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 
   /* ---- Party Responder Row ---- */
