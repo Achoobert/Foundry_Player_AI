@@ -74,7 +74,7 @@
   $effect(() => {
     try {
       apiKey = getSetting('apiKey') || '';
-      chatModel = getSetting('chatModel') || 'anthropic/claude-sonnet-4';
+      chatModel = getSetting('chatModel') || 'google/gemini-2.5-flash';
       embeddingModel = getSetting('embeddingModel') || 'openai/text-embedding-3-small';
       temperature = getSetting('temperature') ?? 0.8;
       maxTokens = getSetting('maxTokens') ?? 4096;

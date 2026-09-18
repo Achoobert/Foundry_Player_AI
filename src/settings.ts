@@ -72,7 +72,7 @@ export function registerSettings(): void {
 		scope: 'world',
 		config: false,
 		type: String,
-		default: 'anthropic/claude-sonnet-4',
+		default: 'google/gemini-2.5-flash',
 		onChange: () => {
 			Hooks.callAll(`${MODULE_ID}.settingsChanged`, 'chatModel')
 		},
