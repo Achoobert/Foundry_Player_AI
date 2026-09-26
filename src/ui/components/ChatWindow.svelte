@@ -13,7 +13,7 @@
     type RecapProgress,
   } from "@core/session-recap-manager";
   import { embeddingService } from "@core/embedding-service";
-  import { getEnabledTools, executeTool, getActorSkills } from "@core/tool-system";
+  import { getEnabledTools, executeTool } from "@core/tool-system";
   import {
     buildSystemPrompt,
     buildActorRoleplayPrompt,
@@ -25,7 +25,7 @@
     buildPartyContextMessages,
     PARTY_CHAT_MODE_INSTRUCTIONS,
   } from "@core/party-chat";
-  import { pickPartyResponder, rankSkillsForMessage } from "@core/jev";
+  import { pickPartyResponder } from "@core/jev";
   import {
     autoSpeakText,
     stopTTS,
@@ -305,7 +305,7 @@
     streamingContent = "";
 
     try {
-      const systemPrompt = buildActorRoleplayPrompt({ actorId, actorName });
+      const systemPrompt = await buildActorRoleplayPrompt({ actorId, actorName });
       const introPrompt: LLMMessage = {
         role: "user",
         content: `You are now entering a roleplay session as ${actorName}. Introduce yourself in character. Include:
@@ -485,9 +485,10 @@ IMPORTANT: You already have all the information you need about this character fr
     try {
       // Build context
       const systemPrompt = currentActorId
-        ? buildActorRoleplayPrompt({
+        ? await buildActorRoleplayPrompt({
             actorId: currentActorId,
             actorName: currentActorName || "Unknown",
+            latestMessage: text,
           })
         : buildSystemPrompt();
 
@@ -496,21 +497,13 @@ IMPORTANT: You already have all the information you need about this character fr
         ? await getRelevantContext(text)
         : null;
 
-      // Jev-ranked skills — only for the currently active character, only
-      // skills jev scores >= 60% relevant to the GM's latest message.
-      const skillsContext =
-        currentActorId && currentActorName
-          ? await getRelevantSkillsContext(currentActorId, currentActorName, text)
-          : null;
-
       // Build message array for API — condense old tool results to save tokens
       const apiMessages: LLMMessage[] = [
         {
           role: "system",
           content:
             systemPrompt +
-            (ragContext ? `\n\n# Relevant Context\n${ragContext}` : "") +
-            (skillsContext ? `\n\n# Potentially Useful Skills\n${skillsContext}` : ""),
+            (ragContext ? `\n\n# Relevant Context\n${ragContext}` : ""),
         },
         ...condenseOldToolResults(messages),
       ];
@@ -634,10 +627,11 @@ IMPORTANT: You already have all the information you need about this character fr
         if (abortController.signal.aborted) break;
 
         const systemPrompt =
-          buildActorRoleplayPrompt({
+          (await buildActorRoleplayPrompt({
             actorId: actor.id,
             actorName: actor.name,
-          }) + PARTY_CHAT_MODE_INSTRUCTIONS;
+            latestMessage: text,
+          })) + PARTY_CHAT_MODE_INSTRUCTIONS;
         const apiMessages: LLMMessage[] = [
           { role: "system", content: systemPrompt },
           ...buildPartyContextMessages(messages, actor.id),
@@ -1117,44 +1111,6 @@ IMPORTANT: You already have all the information you need about this character fr
 
       return embeddingService.buildContext(results);
     } catch {
-      return null;
-    }
-  }
-
-  // ---- Jev Skill Relevance ----
-  const SKILL_RELEVANCE_THRESHOLD = 0.6;
-
-  /**
-   * Ask jev which of the active character's skills are relevant to the GM's
-   * latest message, then format the ones scoring >= 60% as a short block for
-   * the system prompt. Returns null on any failure (unsupported game system,
-   * no skills, jev call error) so the chat flow never blocks on this.
-   */
-  async function getRelevantSkillsContext(
-    actorId: string,
-    actorName: string,
-    latestMessage: string,
-  ): Promise<string | null> {
-    try {
-      const skills = getActorSkills(actorId);
-      if (!skills || skills.length === 0) return null;
-
-      const jevModel = getSetting("jevModel");
-      const ranked = await rankSkillsForMessage({
-        model: jevModel,
-        actorName,
-        skills,
-        latestMessage,
-      });
-
-      const relevant = ranked.filter((s) => s.relevance >= SKILL_RELEVANCE_THRESHOLD);
-      if (relevant.length === 0) return null;
-
-      return relevant
-        .map((s) => `- ${s.name} (${s.value}) — ${Math.round(s.relevance * 100)}% likely relevant`)
-        .join("\n");
-    } catch (error) {
-      console.warn("FoundryAI | Jev skill ranking failed, skipping:", error);
       return null;
     }
   }

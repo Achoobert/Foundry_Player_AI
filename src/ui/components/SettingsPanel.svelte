@@ -50,6 +50,7 @@
   let selectedMacroFolders = $state<string[]>([]);
   let contextSummarizeThreshold = $state(75);
   let summarizeKeepMessages = $state(10);
+  let logFullPrompts = $state(false);
 
   let chatModels = $state<ModelInfo[]>([]);
   let embeddingModels = $state<ModelInfo[]>([]);
@@ -112,6 +113,7 @@
       selectedMacroFolders = getSetting('macroFolders') || [];
       contextSummarizeThreshold = getSetting('contextSummarizeThreshold') ?? 75;
       summarizeKeepMessages = getSetting('summarizeKeepMessages') ?? 10;
+      logFullPrompts = getSetting('logFullPrompts') ?? false;
     } catch { /* settings not registered yet */ }
 
     // Load available folders
@@ -247,6 +249,7 @@
       await setSetting('macroFolders', selectedMacroFolders);
       await setSetting('contextSummarizeThreshold', contextSummarizeThreshold);
       await setSetting('summarizeKeepMessages', summarizeKeepMessages);
+      await setSetting('logFullPrompts', logFullPrompts);
 
       // Reconfigure the service with all model settings
       openRouterService.configure({ apiKey, defaultModel: chatModel, embeddingModel, imageModel, ttsModel });
@@ -489,6 +492,16 @@
           <input type="checkbox" bind:checked={autoIndex} />
           Auto-index on startup
         </label>
+      </div>
+
+      <div class="field checkbox-field">
+        <label>
+          <input type="checkbox" bind:checked={logFullPrompts} />
+          Log full prompts to console (debug)
+        </label>
+        <small style="color: var(--color-text-dark-5); margin-left: 1.5rem; display: block;">
+          Prints the complete payload sent to the LLM (messages, system prompt, tools) to the browser console.
+        </small>
       </div>
 
       <div class="field checkbox-field">

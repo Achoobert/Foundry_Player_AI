@@ -4,17 +4,21 @@
    and player-character personality.
    ========================================================================== */
 
-import { getSetting } from '../settings'
-import { collectionReader } from './collection-reader'
-import { getSubfolderId, getRootFolderId } from './folder-manager'
-import { rulesGlossary } from './rules-glossary'
+import { getSetting } from "../settings";
+import { collectionReader } from "./collection-reader";
+import { getSubfolderId, getRootFolderId } from "./folder-manager";
+import { rulesGlossary } from "./rules-glossary";
+import { getActorSkills } from "./tool-system";
+import { rankSkillsForMessage } from "./jev";
 
-const MODULE_ID = 'foundry-ai'
+const MODULE_ID = "foundry-ai";
 
 /** Actor data used for roleplay sessions */
 export interface ActorRoleplayContext {
-	actorId: string
-	actorName: string
+  actorId: string;
+  actorName: string;
+  /** The GM/player message jev should rank the actor's skills against, if any is available yet. */
+  latestMessage?: string;
 }
 
 /**
@@ -22,241 +26,288 @@ export interface ActorRoleplayContext {
  * Foundry world state.
  */
 export function buildSystemPrompt(): string {
-	// Check for user override
-	const override = getSetting('systemPromptOverride')
-	if (override && override.trim().length > 0) {
-		console.log('FoundryAI | Using custom system prompt override')
-		return override
-	}
+  // Check for user override
+  const override = getSetting("systemPromptOverride");
+  if (override && override.trim().length > 0) {
+    console.log("FoundryAI | Using custom system prompt override");
+    return override;
+  }
 
-	const sections: string[] = [BASE_PROMPT]
+  const sections: string[] = [BASE_PROMPT];
 
-	// Inject world context
-	const worldContext = getWorldContext()
-	if (worldContext) {
-		sections.push(worldContext)
-	}
+  // Inject world context
+  const worldContext = getWorldContext();
+  if (worldContext) {
+    sections.push(worldContext);
+  }
 
-	// Add tool usage instructions if tools are enabled
-	if (getSetting('enableTools')) {
-		sections.push(TOOL_INSTRUCTIONS)
-	}
+  // Add tool usage instructions if tools are enabled
+  if (getSetting("enableTools")) {
+    sections.push(TOOL_INSTRUCTIONS);
+  }
 
-	// Add formatting instructions
-	sections.push(FORMATTING_INSTRUCTIONS)
+  // Add formatting instructions
+  sections.push(FORMATTING_INSTRUCTIONS);
 
-	const prompt = sections.join('\n\n')
-	console.log(
-		`FoundryAI | Built system prompt — ${prompt.length} chars, ${sections.length} sections, tools: ${getSetting('enableTools')}`,
-	)
-	return prompt
+  const prompt = sections.join("\n\n");
+  console.log(
+    `FoundryAI | Built system prompt — ${prompt.length} chars, ${sections.length} sections, tools: ${getSetting("enableTools")}`,
+  );
+  return prompt;
 }
 
 /**
  * Build a system prompt for an actor roleplay session.
  * The AI will stay in character as the specified actor.
  */
-export function buildActorRoleplayPrompt(actor: ActorRoleplayContext): string {
-	console.log(`FoundryAI | Building actor roleplay prompt for: ${actor.actorName} (${actor.actorId})`)
-	const sections: string[] = []
+export async function buildActorRoleplayPrompt(
+  actor: ActorRoleplayContext,
+): Promise<string> {
+  console.log(
+    `FoundryAI | Building actor roleplay prompt for: ${actor.actorName} (${actor.actorId})`,
+  );
+  const sections: string[] = [];
 
-	// Build actor-specific personality prompt
-	const actorPrompt = buildActorPersonality(actor)
-	sections.push(actorPrompt)
+  // Build actor-specific personality prompt
+  const actorPrompt = await buildActorPersonality(actor);
+  sections.push(actorPrompt);
 
-	// Inject world context so the actor knows the campaign
-	const worldContext = getWorldContext()
-	if (worldContext) {
-		sections.push(worldContext)
-	}
+  // Inject world context so the actor knows the campaign
+  const worldContext = getWorldContext();
+  if (worldContext) {
+    sections.push(worldContext);
+  }
 
-	// Add tool usage instructions if tools are enabled
-	if (getSetting('enableTools')) {
-		sections.push(TOOL_INSTRUCTIONS)
-	}
+  // Add tool usage instructions if tools are enabled
+  if (getSetting("enableTools")) {
+    sections.push(TOOL_INSTRUCTIONS);
+  }
 
-	// Add formatting instructions
-	sections.push(FORMATTING_INSTRUCTIONS)
+  // Add formatting instructions
+  sections.push(FORMATTING_INSTRUCTIONS);
 
-	const prompt = sections.join('\n\n')
-	console.log(`FoundryAI | Built actor RP prompt — ${prompt.length} chars, actor: ${actor.actorName}`)
-	return prompt
+  const prompt = sections.join("\n\n");
+  console.log(
+    `FoundryAI | Built actor RP prompt — ${prompt.length} chars, actor: ${actor.actorName}`,
+  );
+  return prompt;
 }
 
 /**
  * Build the actor personality block from their Foundry actor data.
  */
-function buildActorPersonality(ctx: ActorRoleplayContext): string {
-	const actor = game.actors?.get(ctx.actorId) as any
-	if (!actor) {
-		return `You are roleplaying as **${ctx.actorName}**. Stay in character at all times. Respond as this character would — use their voice, mannerisms, and perspective. If asked out-of-character questions, you may answer briefly but always return to character.\n\n${GENERIC_BEHAVIOR_PROMPTS}`
-	}
+async function buildActorPersonality(
+  ctx: ActorRoleplayContext,
+): Promise<string> {
+  const actor = game.actors?.get(ctx.actorId) as any;
+  if (!actor) {
+    return `You are roleplaying as **${ctx.actorName}**. Stay in character at all times. Respond as this character would — use their voice, mannerisms, and perspective. Use your skills and items to your advantage! Do things you are good at! If asked out-of-character questions, you may answer briefly but always return to character.\n\n${GENERIC_BEHAVIOR_PROMPTS}`;
+  }
 
-	const system = actor.system as Record<string, any>
-	const parts: string[] = []
+  const system = actor.system as Record<string, any>;
+  const parts: string[] = [];
 
-	// Core identity
-	parts.push(`You are roleplaying as **${actor.name}**, a character in this campaign.`)
-	parts.push(
-		`Stay in character at all times. Respond as ${actor.name} would — use their voice, mannerisms, knowledge, and perspective.`,
-	)
-	parts.push(
-		`You do NOT know things ${actor.name} wouldn't know. You have ${actor.name}'s memories, personality, and worldview.`,
-	)
+  // Core identity
+  parts.push(
+    `You are roleplaying as **${actor.name}**, a character in this campaign.`,
+  );
+  parts.push(
+    `Stay in character at all times. Respond as ${actor.name} would — use their voice, mannerisms, knowledge, and perspective. Try to use your skills and items to suceed!`,
+  );
+  parts.push(
+    `You do NOT know things ${actor.name} wouldn't know. You have ${actor.name}'s memories, personality, and worldview.`,
+  );
 
-	// Type and basic stats
-	if (actor.type) parts.push(`\n**Type:** ${actor.type}`)
+  // Type and basic stats
+  if (actor.type) parts.push(`\n**Type:** ${actor.type}`);
 
-	// Race, class, level (D&D 5e)
-	const details: string[] = []
-	if (system?.details?.race?.name || system?.details?.race) {
-		const raceName =
-			typeof system.details.race === 'string' ? system.details.race : system.details.race?.name || 'Unknown'
-		details.push(`**Race:** ${raceName}`)
-	}
-	if (system?.details?.background?.name || system?.details?.background) {
-		const bg =
-			typeof system.details.background === 'string' ? system.details.background : system.details.background?.name || ''
-		if (bg) details.push(`**Background:** ${bg}`)
-	}
-	if (system?.attributes?.hp) {
-		details.push(`**HP:** ${system.attributes.hp.value}/${system.attributes.hp.max}`)
-	}
+  // Race, class, level (D&D 5e)
+  const details: string[] = [];
+  if (system?.details?.race?.name || system?.details?.race) {
+    const raceName =
+      typeof system.details.race === "string"
+        ? system.details.race
+        : system.details.race?.name || "Unknown";
+    details.push(`**Race:** ${raceName}`);
+  }
+  if (system?.details?.background?.name || system?.details?.background) {
+    const bg =
+      typeof system.details.background === "string"
+        ? system.details.background
+        : system.details.background?.name || "";
+    if (bg) details.push(`**Background:** ${bg}`);
+  }
+  if (system?.attributes?.hp) {
+    details.push(
+      `**HP:** ${system.attributes.hp.value}/${system.attributes.hp.max}`,
+    );
+  }
 
-	// Classes (5e)
-	try {
-		if (actor.classes && typeof actor.classes === 'object') {
-			const classEntries = Object.values(actor.classes) as any[]
-			if (classEntries.length > 0) {
-				const classStr = classEntries.map((c: any) => `${c.name || c.identifier} ${c.system?.levels || ''}`).join(' / ')
-				details.push(`**Class:** ${classStr}`)
-			}
-		}
-	} catch {
-		/* ignore */
-	}
+  // Classes (5e)
+  try {
+    if (actor.classes && typeof actor.classes === "object") {
+      const classEntries = Object.values(actor.classes) as any[];
+      if (classEntries.length > 0) {
+        const classStr = classEntries
+          .map(
+            (c: any) => `${c.name || c.identifier} ${c.system?.levels || ""}`,
+          )
+          .join(" / ");
+        details.push(`**Class:** ${classStr}`);
+      }
+    }
+  } catch {
+    /* ignore */
+  }
 
-	if (details.length > 0) parts.push(details.join(' | '))
+  if (details.length > 0) parts.push(details.join(" | "));
 
-	// Ability scores (5e / pf2e-style "abilities" object)
-	try {
-		if (system?.abilities) {
-			const abs = Object.entries(system.abilities)
-				.map(([key, val]: [string, any]) => `${key.toUpperCase()}: ${val.value}`)
-				.join(', ')
-			if (abs) parts.push(`**Abilities:** ${abs}`)
-		}
-	} catch {
-		/* ignore */
-	}
+  // Ability scores (5e / pf2e-style "abilities" object)
+  try {
+    if (system?.abilities) {
+      const abs = Object.entries(system.abilities)
+        .map(
+          ([key, val]: [string, any]) => `${key.toUpperCase()}: ${val.value}`,
+        )
+        .join(", ");
+      if (abs) parts.push(`**Abilities:** ${abs}`);
+    }
+  } catch {
+    /* ignore */
+  }
 
-	// Generic fallback stats for systems without dedicated field mapping above
-	// (e.g. The One Ring, Mothership, Delta Green, Call of Cthulhu). Only runs
-	// for systems we don't already special-case, so dnd5e output is unchanged.
-	if (game.system?.id !== 'dnd5e') {
-		try {
-			const generic = gatherGenericStats(system)
-			if (generic.length > 0) parts.push(generic.join('\n'))
-		} catch {
-			/* ignore */
-		}
-	}
+  // Generic fallback stats for systems without dedicated field mapping above
+  // (e.g. The One Ring, Mothership, Delta Green, Call of Cthulhu). Only runs
+  // for systems we don't already special-case, so dnd5e output is unchanged.
+  if (game.system?.id !== "dnd5e") {
+    try {
+      const generic = gatherGenericStats(system);
+      if (generic.length > 0) parts.push(generic.join("\n"));
+    } catch {
+      /* ignore */
+    }
+  }
 
-	// Structured backstory section (e.g. Call of Cthulhu's system.backstory,
-	// which holds several separate fields — personal description, ideology,
-	// significant people, meaningful locations, treasured possessions,
-	// traits, injuries/scars, phobias/manias, etc — rather than one blob).
-	try {
-		const backstorySection = extractStructuredBackstory(system?.backstory)
-		if (backstorySection) parts.push(backstorySection)
-	} catch {
-		/* ignore */
-	}
+  // Top 5 skills jev judges most relevant to the latest message, rather than
+  // dumping the actor's entire skill list into the prompt. Skipped when no
+  // message is available yet (e.g. the initial character-intro generation)
+  // or on any failure (unsupported game system, no skills, jev error).
+  if (ctx.latestMessage) {
+    try {
+      const skillsLine = await gatherTopSkills(
+        ctx.actorId,
+        actor.name,
+        ctx.latestMessage,
+      );
+      if (skillsLine) parts.push(skillsLine);
+    } catch {
+      /* ignore */
+    }
+  }
 
-	// Biography / description — try the common dnd5e path first, then fall
-	// back to other conventional single-field locations used by other game
-	// systems. (Structured backstory objects are handled separately above.)
-	try {
-		const bio = findFirstString([
-			system?.details?.biography?.value,
-			system?.description?.value,
-			typeof system?.backstory === 'string' ? system.backstory : null,
-			system?.background?.value,
-			system?.background,
-			system?.notes?.value,
-			system?.notes,
-			system?.biography?.value,
-			system?.biography,
-		])
-		if (bio) {
-			// Strip HTML tags for a cleaner prompt
-			const cleanBio = bio.replace(/<[^>]+>/g, '').trim()
-			if (cleanBio.length > 0) {
-				parts.push(`\n## Biography & Personality\n${cleanBio.slice(0, 3000)}`)
-			}
-		}
-	} catch {
-		/* ignore */
-	}
+  // Structured backstory section (e.g. Call of Cthulhu's system.backstory,
+  // which holds several separate fields — personal description, ideology,
+  // significant people, meaningful locations, treasured possessions,
+  // traits, injuries/scars, phobias/manias, etc — rather than one blob).
+  try {
+    const backstorySection = extractStructuredBackstory(system?.backstory);
+    if (backstorySection) parts.push(backstorySection);
+  } catch {
+    /* ignore */
+  }
 
-	// Traits (D&D 5e)
-	try {
-		const traits = system?.details?.trait?.value
-		const ideals = system?.details?.ideal?.value
-		const bonds = system?.details?.bond?.value
-		const flaws = system?.details?.flaw?.value
+  // Biography / description — try the common dnd5e path first, then fall
+  // back to other conventional single-field locations used by other game
+  // systems. (Structured backstory objects are handled separately above.)
+  try {
+    const bio = findFirstString([
+      system?.details?.biography?.value,
+      system?.description?.value,
+      typeof system?.backstory === "string" ? system.backstory : null,
+      system?.background?.value,
+      system?.background,
+      system?.notes?.value,
+      system?.notes,
+      system?.biography?.value,
+      system?.biography,
+    ]);
+    if (bio) {
+      // Strip HTML tags for a cleaner prompt
+      const cleanBio = bio.replace(/<[^>]+>/g, "").trim();
+      if (cleanBio.length > 0) {
+        parts.push(`\n## Biography & Personality\n${cleanBio.slice(0, 3000)}`);
+      }
+    }
+  } catch {
+    /* ignore */
+  }
 
-		const traitParts: string[] = []
-		if (traits) traitParts.push(`**Personality Traits:** ${traits}`)
-		if (ideals) traitParts.push(`**Ideals:** ${ideals}`)
-		if (bonds) traitParts.push(`**Bonds:** ${bonds}`)
-		if (flaws) traitParts.push(`**Flaws:** ${flaws}`)
+  // Traits (D&D 5e)
+  try {
+    const traits = system?.details?.trait?.value;
+    const ideals = system?.details?.ideal?.value;
+    const bonds = system?.details?.bond?.value;
+    const flaws = system?.details?.flaw?.value;
 
-		if (traitParts.length > 0) {
-			parts.push(`\n## Character Traits\n${traitParts.join('\n')}`)
-		}
-	} catch {
-		/* ignore */
-	}
+    const traitParts: string[] = [];
+    if (traits) traitParts.push(`**Personality Traits:** ${traits}`);
+    if (ideals) traitParts.push(`**Ideals:** ${ideals}`);
+    if (bonds) traitParts.push(`**Bonds:** ${bonds}`);
+    if (flaws) traitParts.push(`**Flaws:** ${flaws}`);
 
-	// Items/equipment summary
-	try {
-		if (actor.items && actor.items.size > 0) {
-			const equipped = (Array.from(actor.items.values()) as any[])
-				.filter((i: any) => i.system?.equipped || i.type === 'spell')
-				.slice(0, 20)
-				.map((i: any) => `${i.name} (${i.type})`)
-			if (equipped.length > 0) {
-				parts.push(`\n## Notable Equipment & Abilities\n${equipped.join(', ')}`)
-			}
-		}
-	} catch {
-		/* ignore */
-	}
+    if (traitParts.length > 0) {
+      parts.push(`\n## Character Traits\n${traitParts.join("\n")}`);
+    }
+  } catch {
+    /* ignore */
+  }
 
-	// Roleplay instructions
-	parts.push(`\n## Roleplay Guidelines`)
-	parts.push(`- Speak in first person as ${actor.name}`)
-	parts.push(`- Use dialogue in quotation marks: "Like this"`)
-	parts.push(`- Express emotions, reactions, and body language in *italics*`)
-	parts.push(`- Reference your abilities, equipment, and backstory naturally`)
-	parts.push(`- If asked about things your character wouldn't know, respond in character (confused, curious, etc.)`)
-	parts.push(`- Whoever is narrating (the GM or another player) may set scenes or describe situations — react in character`)
-	parts.push(`- You may use tools to look up your own stats, spells, or items when relevant`)
-	parts.push(GENERIC_BEHAVIOR_PROMPTS)
+  // Items/equipment summary
+  try {
+    if (actor.items && actor.items.size > 0) {
+      const equipped = (Array.from(actor.items.values()) as any[])
+        .filter((i: any) => i.system?.equipped || i.type === "spell")
+        .slice(0, 20)
+        .map((i: any) => `${i.name} (${i.type})`);
+      if (equipped.length > 0) {
+        parts.push(
+          `\n## Notable Equipment & Abilities\n${equipped.join(", ")}`,
+        );
+      }
+    }
+  } catch {
+    /* ignore */
+  }
 
-	return parts.join('\n')
+  // Roleplay instructions
+  parts.push(`\n## Roleplay Guidelines`);
+  parts.push(`- Speak in first person as ${actor.name}`);
+  parts.push(`- Use dialogue in quotation marks: "Like this"`);
+  parts.push(`- Express emotions, reactions, and body language in *italics*`);
+  parts.push(`- Reference your abilities, equipment, and backstory naturally`);
+  parts.push(
+    `- If asked about things your character wouldn't know, respond in character (confused, curious, etc.)`,
+  );
+  parts.push(
+    `- Whoever is narrating (the GM or another player) may set scenes or describe situations — react in character`,
+  );
+  parts.push(
+    `- You may use tools to look up your own stats, spells, or items when relevant`,
+  );
+  parts.push(GENERIC_BEHAVIOR_PROMPTS);
+
+  return parts.join("\n");
 }
 
 /** Behavior rules applied to every character, regardless of game system or how the actor was resolved. */
 const GENERIC_BEHAVIOR_PROMPTS = `- Act proactively — you are a simulated TTRPG character: you want to interact with the world in creative ways that play to your strengths
-- Keep all responses under 3 sentences so they can be spoken aloud easily. Only narrate your desires and NOT outcomes`
+- Keep all responses under 3 sentences so they can be spoken aloud easily. Only narrate your desires and NOT outcomes`;
 
 /**
  * Get a simplified system prompt (no game context, for recap generation etc.)
  */
 export function buildLightSystemPrompt(): string {
-	return BASE_PROMPT
+  return BASE_PROMPT;
 }
 
 /**
@@ -269,47 +320,113 @@ export function buildLightSystemPrompt(): string {
  * `system.stress`).
  */
 function gatherGenericStats(system: Record<string, any>): string[] {
-	const CONTAINER_KEYS = ['attributes', 'stats', 'statistics', 'attribs', 'characteristics', 'resources', 'skills', 'saves']
-	const DIRECT_KEYS = ['stress', 'sanity', 'san', 'wounds', 'hp', 'health', 'endurance', 'hope', 'shadow']
+  // Note: 'skills' is deliberately excluded — some systems (e.g. CoC7) expose
+  // a derived `system.skills` getter that lists each skill Item under both an
+  // internal id key and its display-name key, which would double every entry
+  // here. Skills are already surfaced correctly via gatherTopSkills() below.
+  const CONTAINER_KEYS = [
+    "attributes",
+    "stats",
+    "statistics",
+    "attribs",
+    "characteristics",
+    "resources",
+    "saves",
+  ];
+  const DIRECT_KEYS = [
+    "stress",
+    "sanity",
+    "san",
+    "wounds",
+    "hp",
+    "health",
+    "endurance",
+    "hope",
+    "shadow",
+  ];
 
-	const label = (key: string) => key.charAt(0).toUpperCase() + key.slice(1)
+  const label = (key: string) => key.charAt(0).toUpperCase() + key.slice(1);
 
-	const formatEntry = (key: string, val: any): string | null => {
-		if (typeof val === 'number') return `${label(key)}: ${val}`
-		if (!val || typeof val !== 'object') return null
-		if (typeof val.value === 'number' && typeof val.max === 'number') return `${label(key)}: ${val.value}/${val.max}`
-		if (typeof val.value === 'number') return `${label(key)}: ${val.value}`
-		if (typeof val.value === 'string' && val.value.trim().length > 0 && val.value.length < 40) {
-			return `${label(key)}: ${val.value}`
-		}
-		return null
-	}
+  const formatEntry = (key: string, val: any): string | null => {
+    if (typeof val === "number") return `${label(key)}: ${val}`;
+    if (!val || typeof val !== "object") return null;
+    if (typeof val.value === "number" && typeof val.max === "number")
+      return `${label(key)}: ${val.value}/${val.max}`;
+    if (typeof val.value === "number") return `${label(key)}: ${val.value}`;
+    if (
+      typeof val.value === "string" &&
+      val.value.trim().length > 0 &&
+      val.value.length < 40
+    ) {
+      return `${label(key)}: ${val.value}`;
+    }
+    return null;
+  };
 
-	const lines: string[] = []
+  const lines: string[] = [];
 
-	for (const containerKey of CONTAINER_KEYS) {
-		const container = system?.[containerKey]
-		if (!container || typeof container !== 'object') continue
+  for (const containerKey of CONTAINER_KEYS) {
+    const container = system?.[containerKey];
+    if (!container || typeof container !== "object") continue;
 
-		const entries = Object.entries(container)
-			.map(([key, val]) => formatEntry(key, val))
-			.filter((s): s is string => !!s)
+    const entries = Object.entries(container)
+      .map(([key, val]) => formatEntry(key, val))
+      .filter((s): s is string => !!s);
 
-		if (entries.length > 0) lines.push(`**${label(containerKey)}:** ${entries.join(', ')}`)
-	}
+    if (entries.length > 0)
+      lines.push(`**${label(containerKey)}:** ${entries.join(", ")}`);
+  }
 
-	const directEntries = DIRECT_KEYS.map((key) => formatEntry(key, system?.[key])).filter((s): s is string => !!s)
-	if (directEntries.length > 0) lines.push(`**Other:** ${directEntries.join(', ')}`)
+  const directEntries = DIRECT_KEYS.map((key) =>
+    formatEntry(key, system?.[key]),
+  ).filter((s): s is string => !!s);
+  if (directEntries.length > 0)
+    lines.push(`**Other:** ${directEntries.join(", ")}`);
 
-	return lines
+  return lines;
+}
+
+const TOP_SKILLS_COUNT = 5;
+const TOP_SKILLS_RELEVANCE_THRESHOLD = 0.5;
+
+/**
+ * Ask jev which of the actor's skills are most relevant to the latest
+ * message, and format up to the top 5 skills jev scores >= 50% relevant as a
+ * single `**Skills:**` line for the character-sheet block. Returns null if
+ * the actor's game system has no extractable skills, nothing clears the
+ * relevance threshold, or the jev call fails.
+ */
+async function gatherTopSkills(
+  actorId: string,
+  actorName: string,
+  latestMessage: string,
+): Promise<string | null> {
+  const skills = getActorSkills(actorId);
+  if (!skills || skills.length === 0) return null;
+
+  const ranked = await rankSkillsForMessage({
+    model: getSetting("jevModel"),
+    actorName,
+    skills,
+    latestMessage,
+  });
+
+  const top = ranked
+    .filter((s) => s.relevance >= TOP_SKILLS_RELEVANCE_THRESHOLD)
+    .slice(0, TOP_SKILLS_COUNT)
+    .map((s) => `${s.name}: ${s.value}`);
+  if (top.length === 0) return null;
+
+  return `**Skills:** ${top.join(", ")}`;
 }
 
 /** Return the first non-empty string among the given candidates. */
 function findFirstString(candidates: unknown[]): string | null {
-	for (const candidate of candidates) {
-		if (typeof candidate === 'string' && candidate.trim().length > 0) return candidate
-	}
-	return null
+  for (const candidate of candidates) {
+    if (typeof candidate === "string" && candidate.trim().length > 0)
+      return candidate;
+  }
+  return null;
 }
 
 /**
@@ -321,113 +438,118 @@ function findFirstString(candidates: unknown[]): string | null {
  * Returns null if `backstory` isn't such an object, or has no content.
  */
 function extractStructuredBackstory(backstory: unknown): string | null {
-	if (!backstory || typeof backstory !== 'object') return null
+  if (!backstory || typeof backstory !== "object") return null;
 
-	const lines: string[] = []
-	for (const [key, val] of Object.entries(backstory as Record<string, any>)) {
-		const text = typeof val === 'string' ? val : typeof val?.value === 'string' ? val.value : null
-		if (!text) continue
+  const lines: string[] = [];
+  for (const [key, val] of Object.entries(backstory as Record<string, any>)) {
+    const text =
+      typeof val === "string"
+        ? val
+        : typeof val?.value === "string"
+          ? val.value
+          : null;
+    if (!text) continue;
 
-		const cleanText = text.replace(/<[^>]+>/g, '').trim()
-		if (cleanText.length === 0) continue
+    const cleanText = text.replace(/<[^>]+>/g, "").trim();
+    if (cleanText.length === 0) continue;
 
-		const label = key
-			.replace(/([a-z])([A-Z])/g, '$1 $2')
-			.replace(/^./, (c) => c.toUpperCase())
-		lines.push(`**${label}:** ${cleanText.slice(0, 1000)}`)
-	}
+    const label = key
+      .replace(/([a-z])([A-Z])/g, "$1 $2")
+      .replace(/^./, (c) => c.toUpperCase());
+    lines.push(`**${label}:** ${cleanText.slice(0, 1000)}`);
+  }
 
-	if (lines.length === 0) return null
-	return `\n## Backstory\n${lines.join('\n')}`
+  if (lines.length === 0) return null;
+  return `\n## Backstory\n${lines.join("\n")}`;
 }
 
 // ---- Context Gathering ----
 
 function getWorldContext(): string | null {
-	const parts: string[] = []
+  const parts: string[] = [];
 
-	// World info
-	if (game.world) {
-		parts.push(
-			`## Current World\n- **Name:** ${game.world.title || game.world.id}\n- **System:** ${game.system?.title || game.system?.id || 'Unknown'}`,
-		)
-	}
+  // World info
+  if (game.world) {
+    parts.push(
+      `## Current World\n- **Name:** ${game.world.title || game.world.id}\n- **System:** ${game.system?.title || game.system?.id || "Unknown"}`,
+    );
+  }
 
-	// Rules glossary — what stat abbreviations and numeric thresholds mean
-	// for this game system (e.g. Call of Cthulhu's APP < 15 = disfigured,
-	// Credit Rating 75+ = wealthy). Generated once per world, user-editable.
-	try {
-		const glossary = rulesGlossary.getText()
-		if (glossary) {
-			parts.push(`## Rules Reference — What The Numbers Mean\n${glossary}`)
-		}
-	} catch {
-		/* ignore */
-	}
+  // Rules glossary — what stat abbreviations and numeric thresholds mean
+  // for this game system (e.g. Call of Cthulhu's APP < 15 = disfigured,
+  // Credit Rating 75+ = wealthy). Generated once per world, user-editable.
+  try {
+    const glossary = rulesGlossary.getText();
+    if (glossary) {
+      parts.push(`## Rules Reference — What The Numbers Mean\n${glossary}`);
+    }
+  } catch {
+    /* ignore */
+  }
 
-	// Active scene
-	try {
-		const sceneInfo = collectionReader.getCurrentSceneInfo()
-		if (sceneInfo && sceneInfo !== '{}') {
-			parts.push(`## Active Scene\n${sceneInfo}`)
-		}
-	} catch {
-		/* no scene */
-	}
+  // Active scene
+  try {
+    const sceneInfo = collectionReader.getCurrentSceneInfo();
+    if (sceneInfo && sceneInfo !== "{}") {
+      parts.push(`## Active Scene\n${sceneInfo}`);
+    }
+  } catch {
+    /* no scene */
+  }
 
-	// Combat state
-	try {
-		const combatInfo = collectionReader.getCombatContext()
-		if (combatInfo) {
-			parts.push(`## Combat State\n${combatInfo}`)
-		}
-	} catch {
-		/* no combat */
-	}
+  // Combat state
+  try {
+    const combatInfo = collectionReader.getCombatContext();
+    if (combatInfo) {
+      parts.push(`## Combat State\n${combatInfo}`);
+    }
+  } catch {
+    /* no combat */
+  }
 
-	// Now playing
-	try {
-		const playlistInfo = collectionReader.getPlaylistContext()
-		if (playlistInfo) {
-			parts.push(`## Now Playing\n${playlistInfo}`)
-		}
-	} catch {
-		/* ignore */
-	}
+  // Now playing
+  try {
+    const playlistInfo = collectionReader.getPlaylistContext();
+    if (playlistInfo) {
+      parts.push(`## Now Playing\n${playlistInfo}`);
+    }
+  } catch {
+    /* ignore */
+  }
 
-	// Player characters
-	try {
-		const pcs = getPlayerCharacters()
-		if (pcs.length > 0) {
-			parts.push(`## Player Characters\n${pcs.join('\n')}`)
-		}
-	} catch {
-		/* ignore */
-	}
+  // Player characters
+  try {
+    const pcs = getPlayerCharacters();
+    if (pcs.length > 0) {
+      parts.push(`## Player Characters\n${pcs.join("\n")}`);
+    }
+  } catch {
+    /* ignore */
+  }
 
-	// Available journals inventory
-	try {
-		const journalIndex = getJournalInventory()
-		if (journalIndex) {
-			parts.push(journalIndex)
-		}
-	} catch {
-		/* ignore */
-	}
+  // Available journals inventory
+  try {
+    const journalIndex = getJournalInventory();
+    if (journalIndex) {
+      parts.push(journalIndex);
+    }
+  } catch {
+    /* ignore */
+  }
 
-	// AI-created notes (full content from FoundryAI/Notes folder)
-	try {
-		const notesContent = getNotesContent()
-		if (notesContent) {
-			parts.push(notesContent)
-		}
-	} catch {
-		/* ignore */
-	}
+  // AI-created notes (full content from FoundryAI/Notes folder)
+  try {
+    const notesContent = getNotesContent();
+    if (notesContent) {
+      parts.push(notesContent);
+    }
+  } catch {
+    /* ignore */
+  }
 
-	if (parts.length === 0) return null
+  if (parts.length === 0) return null;
 
-	return `# Campaign Context\n\n${parts.join('\n\n')}`
+  return `# Campaign Context\n\n${parts.join("\n\n")}`;
 }
 
 /**
@@ -436,66 +558,81 @@ function getWorldContext(): string | null {
  * is configured) any player-owned character actor.
  */
 export function getPlayerCharacterActors(): Actor[] {
-	if (!game.actors) return []
+  if (!game.actors) return [];
 
-	const playerFolderId = getSetting('playerFolder')
-	const allowedFolderIds = playerFolderId ? collectionReader.resolveWithChildren([playerFolderId]) : null
+  const playerFolderId = getSetting("playerFolder");
+  const allowedFolderIds = playerFolderId
+    ? collectionReader.resolveWithChildren([playerFolderId])
+    : null;
 
-	const result: Actor[] = []
-	for (const actor of game.actors.values()) {
-		if (actor.type !== 'character') continue
+  const result: Actor[] = [];
+  for (const actor of game.actors.values()) {
+    if (actor.type !== "character") continue;
 
-		if (allowedFolderIds) {
-			if (!actor.folder || !allowedFolderIds.includes(actor.folder.id)) continue
-		} else {
-			if (!actor.hasPlayerOwner) continue
-		}
+    if (allowedFolderIds) {
+      if (!actor.folder || !allowedFolderIds.includes(actor.folder.id))
+        continue;
+    } else {
+      if (!actor.hasPlayerOwner) continue;
+    }
 
-		result.push(actor)
-	}
+    result.push(actor);
+  }
 
-	return result
+  return result;
 }
 
 function getPlayerCharacters(): string[] {
-	const pcs: string[] = []
+  const pcs: string[] = [];
 
-	for (const actor of getPlayerCharacterActors()) {
-		const system = actor.system as Record<string, any>
-		const details: string[] = [`- **${actor.name}** (id: ${actor.id})`]
+  for (const actor of getPlayerCharacterActors()) {
+    const system = actor.system as Record<string, any>;
+    const details: string[] = [`- **${actor.name}** (id: ${actor.id})`];
 
-		// Try to get class/race/level info (system-agnostic)
-		if (system?.details?.race) {
-			const raceName = typeof system.details.race === 'string' ? system.details.race : system.details.race?.name || ''
-			if (raceName) details.push(`Race: ${raceName}`)
-		}
+    // Try to get class/race/level info (system-agnostic)
+    if (system?.details?.race) {
+      const raceName =
+        typeof system.details.race === "string"
+          ? system.details.race
+          : system.details.race?.name || "";
+      if (raceName) details.push(`Race: ${raceName}`);
+    }
 
-		// Classes (5e)
-		try {
-			if ((actor as any).classes && typeof (actor as any).classes === 'object') {
-				const classEntries = Object.values((actor as any).classes) as any[]
-				if (classEntries.length > 0) {
-					const classStr = classEntries
-						.map((c: any) => `${c.name || c.identifier} ${c.system?.levels || ''}`)
-						.join(' / ')
-					details.push(`Class: ${classStr}`)
-				}
-			}
-		} catch {
-			/* ignore */
-		}
+    // Classes (5e)
+    try {
+      if (
+        (actor as any).classes &&
+        typeof (actor as any).classes === "object"
+      ) {
+        const classEntries = Object.values((actor as any).classes) as any[];
+        if (classEntries.length > 0) {
+          const classStr = classEntries
+            .map(
+              (c: any) => `${c.name || c.identifier} ${c.system?.levels || ""}`,
+            )
+            .join(" / ");
+          details.push(`Class: ${classStr}`);
+        }
+      }
+    } catch {
+      /* ignore */
+    }
 
-		if (system?.attributes?.hp) {
-			details.push(`HP: ${system.attributes.hp.value}/${system.attributes.hp.max}`)
-		}
-		if (system?.attributes?.ac) {
-			details.push(`AC: ${system.attributes.ac.value ?? system.attributes.ac.flat ?? '?'}`)
-		}
+    if (system?.attributes?.hp) {
+      details.push(
+        `HP: ${system.attributes.hp.value}/${system.attributes.hp.max}`,
+      );
+    }
+    if (system?.attributes?.ac) {
+      details.push(
+        `AC: ${system.attributes.ac.value ?? system.attributes.ac.flat ?? "?"}`,
+      );
+    }
 
-		pcs.push(details.join(' | '))
-	}
+    pcs.push(details.join(" | "));
+  }
 
-	return pcs
+  return pcs;
 }
 
 /**
@@ -504,40 +641,43 @@ function getPlayerCharacters(): string[] {
  * plus journals in FoundryAI-managed folders (Notes, Sessions, Chat History, Actors).
  */
 function getJournalInventory(): string | null {
-	if (!game.journal || game.journal.size === 0) return null
+  if (!game.journal || game.journal.size === 0) return null;
 
-	const allowedFolders = getSetting('journalFolders') || []
-	const allAllowedFolderIds = allowedFolders.length > 0 ? collectionReader.resolveWithChildren(allowedFolders) : null // null = no restriction
+  const allowedFolders = getSetting("journalFolders") || [];
+  const allAllowedFolderIds =
+    allowedFolders.length > 0
+      ? collectionReader.resolveWithChildren(allowedFolders)
+      : null; // null = no restriction
 
-	// Always include FoundryAI-managed folders
-	const foundryAIFolderIds: string[] = []
-	const rootId = getRootFolderId()
-	if (rootId) foundryAIFolderIds.push(rootId)
-	for (const key of ['notes', 'chatHistory', 'sessions', 'actors'] as const) {
-		const id = getSubfolderId(key)
-		if (id) foundryAIFolderIds.push(id)
-	}
+  // Always include FoundryAI-managed folders
+  const foundryAIFolderIds: string[] = [];
+  const rootId = getRootFolderId();
+  if (rootId) foundryAIFolderIds.push(rootId);
+  for (const key of ["notes", "chatHistory", "sessions", "actors"] as const) {
+    const id = getSubfolderId(key);
+    if (id) foundryAIFolderIds.push(id);
+  }
 
-	const lines: string[] = ['## Available Journals']
-	lines.push(
-		'Call get_journal with the ID to read any of these. ALWAYS read the relevant journal before answering campaign questions.\n',
-	)
+  const lines: string[] = ["## Available Journals"];
+  lines.push(
+    "Call get_journal with the ID to read any of these. ALWAYS read the relevant journal before answering campaign questions.\n",
+  );
 
-	let count = 0
-	for (const entry of game.journal.values()) {
-		// Filter to allowed folders if restrictions are set
-		if (allAllowedFolderIds !== null) {
-			const folderId = entry.folder?.id
-			const isAllowed = folderId && allAllowedFolderIds.includes(folderId)
-			const isFoundryAI = folderId && foundryAIFolderIds.includes(folderId)
-			if (!isAllowed && !isFoundryAI) continue
-		}
-		lines.push(`- ${entry.name} (id: ${entry.id})`)
-		count++
-	}
+  let count = 0;
+  for (const entry of game.journal.values()) {
+    // Filter to allowed folders if restrictions are set
+    if (allAllowedFolderIds !== null) {
+      const folderId = entry.folder?.id;
+      const isAllowed = folderId && allAllowedFolderIds.includes(folderId);
+      const isFoundryAI = folderId && foundryAIFolderIds.includes(folderId);
+      if (!isAllowed && !isFoundryAI) continue;
+    }
+    lines.push(`- ${entry.name} (id: ${entry.id})`);
+    count++;
+  }
 
-	if (count === 0) return null
-	return lines.join('\n')
+  if (count === 0) return null;
+  return lines.join("\n");
 }
 
 /**
@@ -545,60 +685,67 @@ function getJournalInventory(): string | null {
  * These are notes the AI itself created — it should always have this context.
  */
 function getNotesContent(): string | null {
-	const notesFolderId = getSubfolderId('notes')
-	if (!notesFolderId) return null
-	if (!game.journal || game.journal.size === 0) return null
+  const notesFolderId = getSubfolderId("notes");
+  if (!notesFolderId) return null;
+  if (!game.journal || game.journal.size === 0) return null;
 
-	const parts: string[] = ['## Your Notes (FoundryAI/Notes)']
-	parts.push('These are notes you previously created. Reference them when relevant.\n')
+  const parts: string[] = ["## Your Notes (FoundryAI/Notes)"];
+  parts.push(
+    "These are notes you previously created. Reference them when relevant.\n",
+  );
 
-	let count = 0
-	for (const entry of game.journal.values()) {
-		if (!entry.folder || entry.folder.id !== notesFolderId) continue
+  let count = 0;
+  for (const entry of game.journal.values()) {
+    if (!entry.folder || entry.folder.id !== notesFolderId) continue;
 
-		const content = collectionReader.getJournalContent(entry.id)
-		if (!content) continue
+    const content = collectionReader.getJournalContent(entry.id);
+    if (!content) continue;
 
-		parts.push(`### ${entry.name} (id: ${entry.id})`)
-		parts.push(content)
-		parts.push('')
-		count++
-	}
+    parts.push(`### ${entry.name} (id: ${entry.id})`);
+    parts.push(content);
+    parts.push("");
+    count++;
+  }
 
-	if (count === 0) return null
-	return parts.join('\n')
+  if (count === 0) return null;
+  return parts.join("\n");
 }
 
 /**
  * Build a compact inventory of all actors grouped by folder.
  */
 function getActorInventory(): string | null {
-	if (!game.actors || game.actors.size === 0) return null
+  if (!game.actors || game.actors.size === 0) return null;
 
-	const byFolder = new Map<string, Array<{ id: string; name: string; type: string }>>()
+  const byFolder = new Map<
+    string,
+    Array<{ id: string; name: string; type: string }>
+  >();
 
-	for (const actor of game.actors.values()) {
-		const folderName = actor.folder?.name || 'Uncategorized'
-		if (!byFolder.has(folderName)) byFolder.set(folderName, [])
-		byFolder.get(folderName)!.push({
-			id: actor.id,
-			name: actor.name,
-			type: actor.type,
-		})
-	}
+  for (const actor of game.actors.values()) {
+    const folderName = actor.folder?.name || "Uncategorized";
+    if (!byFolder.has(folderName)) byFolder.set(folderName, []);
+    byFolder.get(folderName)!.push({
+      id: actor.id,
+      name: actor.name,
+      type: actor.type,
+    });
+  }
 
-	const lines: string[] = ['## Available Actors']
-	lines.push('Use search_actors or get_actor (with the ID) to look up any of these:\n')
+  const lines: string[] = ["## Available Actors"];
+  lines.push(
+    "Use search_actors or get_actor (with the ID) to look up any of these:\n",
+  );
 
-	for (const [folder, actors] of byFolder) {
-		lines.push(`### 📁 ${folder}`)
-		for (const a of actors) {
-			lines.push(`- ${a.name} (id: ${a.id}, type: ${a.type})`)
-		}
-		lines.push('')
-	}
+  for (const [folder, actors] of byFolder) {
+    lines.push(`### 📁 ${folder}`);
+    for (const a of actors) {
+      lines.push(`- ${a.name} (id: ${a.id}, type: ${a.type})`);
+    }
+    lines.push("");
+  }
 
-	return lines.join('\n')
+  return lines.join("\n");
 }
 
 // ---- Prompt Templates ----
@@ -626,7 +773,7 @@ const BASE_PROMPT = `You are **FoundryAI**, an AI companion that plays a player 
 - When generating DCs or resolving rules, use standard 5e guidelines unless the system differs
 - When voicing other characters (NPCs, fellow party members), use quotation marks and note their name
 - Reference specific source material when available (journal names, page numbers)
-- If asked about rules, cite the relevant rule and provide your interpretation`
+- If asked about rules, cite the relevant rule and provide your interpretation`;
 
 const TOOL_INSTRUCTIONS = `## Using Tools — MANDATORY
 You have access to tools that let you interact with the Foundry VTT world. **You MUST use these tools before generating any response about campaign-specific content.** Do NOT rely on your training data or the "Relevant Context" section alone — always verify and enrich your answer by calling the appropriate tools first.
@@ -732,7 +879,7 @@ You have access to tools that let you interact with the Foundry VTT world. **You
 ### When tools are NOT needed
 - General D&D rules questions (use training knowledge)
 - Simple conversation, brainstorming, or creative prompts with no campaign-specific references
-- When the user explicitly provides all the information in their message`
+- When the user explicitly provides all the information in their message`;
 
 const FORMATTING_INSTRUCTIONS = `## Response Formatting
 - Use **markdown** for formatting (bold, italic, headers, lists)
@@ -753,4 +900,4 @@ When you reference a journal entry or actor in your response, you MUST include a
 - "According to @UUID[JournalEntry.abc123]{Chapter 3: The Amber Temple}, the temple contains..."
 - "@UUID[Actor.def456]{Strahd von Zarovich} is a powerful vampire lord..."
 
-You get the document ID from tool results (search_journals, get_journal, search_actors, get_actor all return an id field). ALWAYS use these links when citing sources — this is critical for verifying and exploring the source material quickly.`
+You get the document ID from tool results (search_journals, get_journal, search_actors, get_actor all return an id field). ALWAYS use these links when citing sources — this is critical for verifying and exploring the source material quickly.`;

@@ -50,6 +50,7 @@ export interface FoundryAISettings {
 	characterVoices: Record<string, string>
 	contextSummarizeThreshold: number
 	summarizeKeepMessages: number
+	logFullPrompts: boolean
 }
 
 export function registerSettings(): void {
@@ -459,6 +460,15 @@ export function registerSettings(): void {
 		type: Number,
 		default: 10,
 		range: { min: 4, max: 30, step: 1 },
+	})
+
+	game.settings.register(MODULE_ID, 'logFullPrompts', {
+		name: 'Log Full Prompts to Console',
+		hint: 'Print the complete prompt payload (messages, system prompt, tools) sent to the LLM to the browser console. Useful for debugging, noisy otherwise.',
+		scope: 'world',
+		config: false,
+		type: Boolean,
+		default: false,
 	})
 
 	// ---- Settings Menu ----

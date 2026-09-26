@@ -118,7 +118,9 @@ async function replyAsActor(actor: Actor, plainText: string, speakerName: string
 	const priorMessages = chatSessionManager.getMessages(sessionId)
 	const userTurn: LLMMessage = { role: 'user', content: `${speakerName}: ${plainText}` }
 
-	const systemPrompt = buildActorRoleplayPrompt({ actorId: actor.id, actorName: actor.name }) + LIVE_CHAT_MODE_INSTRUCTIONS
+	const systemPrompt =
+		(await buildActorRoleplayPrompt({ actorId: actor.id, actorName: actor.name, latestMessage: plainText })) +
+		LIVE_CHAT_MODE_INSTRUCTIONS
 
 	void systemPromptJournal.logCharacterPrompt({ actorId: actor.id, actorName: actor.name, systemPrompt })
 
