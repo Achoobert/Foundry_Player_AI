@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - '*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to (re)create the release for'
+        required: true
+        default: 'latest'
 
 permissions:
   contents: write
@@ -25,6 +31,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
           files: |
             foundry-ai.zip
             dist/module.json

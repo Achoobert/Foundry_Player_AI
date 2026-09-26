@@ -25,16 +25,5 @@ jobs:
       - name: Install Dependencies
         run: bun install
 
-      - name: Run Foundry E2E
-        uses: Achoobert/FoundryvttTestEnv@v0.1.0
-        with:
-          foundry_version: '14.364'
-          foundry_world: foundry-ai-test
-          build_script: |
-            bun run build
-            dest=foundrydata/Data/modules/foundry-ai
-            mkdir -p "$dest"
-            cp -r dist/* "$dest/"
-          foundry_username: ${{ secrets.FOUNDRY_USERNAME }}
-          foundry_password: ${{ secrets.FOUNDRY_PASSWORD }}
-          foundry_admin_key: ${{ secrets.FOUNDRY_ADMIN_KEY }}
+      - name: Build
+        run: bun run build

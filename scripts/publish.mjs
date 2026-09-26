@@ -78,8 +78,8 @@ const body = {
 	id: moduleJson.id,
 	release: {
 		version: version,
-		manifest: `https://github.com/derekhearst/FoundryAI/releases/download/${version}/module.json`,
-		notes: `https://github.com/derekhearst/FoundryAI/releases/tag/${version}`,
+		manifest: `https://github.com/Achoobert/Foundry_Player_AI/releases/download/${version}/module.json`,
+		notes: `https://github.com/Achoobert/Foundry_Player_AI/releases/tag/${version}`,
 		compatibility: moduleJson.compatibility,
 	},
 }

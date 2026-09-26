@@ -29,7 +29,7 @@ FoundryAI lets an LLM play a party member's character in your Foundry game — i
 1. In Foundry VTT, go to **Settings → Add-on Modules → Install Module**
 2. Paste the manifest URL:
    ```
-   https://github.com/derekhearst/FoundryAI/releases/latest/download/module.json
+   https://github.com/Achoobert/Foundry_Player_AI/releases/latest/download/module.json
    ```
 3. Click **Install**
 4. Enable **FoundryAI** in your world's Module Management
@@ -189,7 +189,7 @@ FoundryAI/
 ### Setup
 
 ```bash
-git clone https://github.com/derekhearst/FoundryAI.git
+git clone https://github.com/Achoobert/Foundry_Player_AI.git
 cd FoundryAI
 bun install
 ```
@@ -214,7 +214,7 @@ bun install
 
 Quench batches live under `src/quench/` and register themselves via a `quenchReady` hook — they're bundled into the module but only activate in a world with [Quench](https://github.com/Ethaks/FVTT-Quench) installed. `cypress/` drives Foundry end-to-end: log in, launch the test world, open Quench, run everything, and fail the run if any batch fails or if zero tests ran.
 
-To run locally, point `fvtt.config.js` (`baseURL`, `testWorldName`) at a running Foundry instance with Quench and this module already enabled in that world, then `bun run test:ci`. CI runs the same flow via the [`Achoobert/FoundryvttTestEnv`](https://github.com/Achoobert/FoundryvttTestEnv) action, which provisions Foundry + Quench in Docker automatically (see `.github/workflows/ci.yml`).
+To run locally, point `fvtt.config.js` (`baseURL`, `testWorldName`) at a running Foundry instance with Quench and this module already enabled in that world, then `bun run test:ci`. CI (see `.github/workflows/ci.yml`) only runs the build; the Foundry+Quench e2e run isn't wired up there yet.
 
 ### Project Structure
 

@@ -93,4 +93,4 @@ run('git push --tags')
 
 console.log(`\n✅ Released ${version}!`)
 console.log(`GitHub Actions will create the release at:`)
-console.log(`  https://github.com/derekhearst/FoundryAI/releases/tag/${version}`)
+console.log(`  https://github.com/Achoobert/Foundry_Player_AI/releases/tag/${version}`)

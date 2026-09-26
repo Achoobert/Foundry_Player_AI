@@ -16,7 +16,7 @@ import fs from 'fs'
 import path from 'path'
 import { execSync } from 'child_process'
 
-const GITHUB_REPO = 'derekhearst/FoundryAI'
+const GITHUB_REPO = 'Achoobert/Foundry_Player_AI'
 const MODULE_ID = 'foundry-ai'
 const rootDir = path.resolve(import.meta.dirname, '..')
 const distDir = path.resolve(rootDir, 'dist')
@@ -32,7 +32,7 @@ const moduleJson = JSON.parse(fs.readFileSync(moduleJsonPath, 'utf-8'))
 const version = moduleJson.version
 
 moduleJson.manifest = `https://github.com/${GITHUB_REPO}/releases/latest/download/module.json`
-moduleJson.download = `https://github.com/${GITHUB_REPO}/releases/download/${version}/${MODULE_ID}.zip`
+moduleJson.download = `https://github.com/${GITHUB_REPO}/releases/latest/download/${MODULE_ID}.zip`
 
 fs.writeFileSync(moduleJsonPath, JSON.stringify(moduleJson, null, '\t') + '\n')
 console.log(`✔ Patched dist/module.json — version ${version}`)
