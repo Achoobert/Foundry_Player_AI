@@ -13,7 +13,7 @@
     type RecapProgress,
   } from "@core/session-recap-manager";
   import { embeddingService } from "@core/embedding-service";
-  import { getEnabledTools, executeTool } from "@core/tool-system";
+  import { getEnabledTools, executeTool, getActorSkills } from "@core/tool-system";
   import {
     buildSystemPrompt,
     buildActorRoleplayPrompt,
@@ -25,6 +25,7 @@
     buildPartyContextMessages,
     PARTY_CHAT_MODE_INSTRUCTIONS,
   } from "@core/party-chat";
+  import { pickPartyResponder, rankSkillsForMessage } from "@core/jev";
   import {
     autoSpeakText,
     stopTTS,
@@ -207,6 +208,15 @@
         });
     } catch {
       /* settings not ready */
+    }
+  });
+
+  // Auto-open party chat as default view on load
+  let hasAutoStartedParty = false;
+  $effect(() => {
+    if (!hasAutoStartedParty && currentSessionId === null) {
+      hasAutoStartedParty = true;
+      startPartySession();
     }
   });
 
@@ -486,13 +496,21 @@ IMPORTANT: You already have all the information you need about this character fr
         ? await getRelevantContext(text)
         : null;
 
+      // Jev-ranked skills — only for the currently active character, only
+      // skills jev scores >= 60% relevant to the GM's latest message.
+      const skillsContext =
+        currentActorId && currentActorName
+          ? await getRelevantSkillsContext(currentActorId, currentActorName, text)
+          : null;
+
       // Build message array for API — condense old tool results to save tokens
       const apiMessages: LLMMessage[] = [
         {
           role: "system",
           content:
             systemPrompt +
-            (ragContext ? `\n\n# Relevant Context\n${ragContext}` : ""),
+            (ragContext ? `\n\n# Relevant Context\n${ragContext}` : "") +
+            (skillsContext ? `\n\n# Potentially Useful Skills\n${skillsContext}` : ""),
         },
         ...condenseOldToolResults(messages),
       ];
@@ -558,15 +576,20 @@ IMPORTANT: You already have all the information you need about this character fr
 
   /**
    * Send a message in a shared party chat. The GM's line is added to the
-   * transcript unconditionally; only the actors checked in the responder
-   * row actually generate a reply ("only speak when called"). Each
-   * responder replies in sequence, using only their own actor sheet plus
-   * the shared transcript so far — later responders can react to earlier
-   * ones' lines in the same turn.
+   * transcript unconditionally. Jev runs once per turn (a single TypeSafe
+   * decision call, not a chat completion) and returns a probability per
+   * roster member that they're the one to respond. A character responds if
+   * the GM checked their chip ("called on") or if jev's probability for them
+   * is 40% or higher — so several characters can react to one GM message.
+   * Responders reply in sequence, using only their own actor sheet plus the
+   * shared transcript so far — later responders can react to earlier ones'
+   * lines in the same turn.
    */
   async function sendPartyMessage(text: string) {
-    const responders = (currentPartyActors || []).filter((a) =>
-      selectedResponders.has(a.id),
+    const manualResponderIds = new Set(
+      (currentPartyActors || [])
+        .filter((a) => selectedResponders.has(a.id))
+        .map((a) => a.id),
     );
 
     inputText = "";
@@ -579,8 +602,33 @@ IMPORTANT: You already have all the information you need about this character fr
 
     try {
       const model = getSetting("chatModel");
+      const jevModel = getSetting("jevModel");
       const temperature = getSetting("temperature");
       const maxTokens = getSetting("maxTokens");
+      const roster = currentPartyActors || [];
+
+      let jevProbabilities: Record<string, number> = {};
+      try {
+        const jevResult = await pickPartyResponder({
+          model: jevModel,
+          roster,
+          latestMessage: text,
+          signal: abortController.signal,
+        });
+        jevProbabilities = jevResult.probabilities;
+        console.log(
+          `FoundryAI | Jev picked "${jevResult.topChoice}" (confidence ${jevResult.confidence})`,
+          jevResult.probabilities,
+        );
+      } catch (jevError: any) {
+        console.warn("FoundryAI | Jev call failed, falling back to manual responders only:", jevError);
+      }
+
+      const responders = roster.filter(
+        (a) =>
+          manualResponderIds.has(a.id) ||
+          (jevProbabilities[a.name] ?? 0) >= 0.4,
+      );
 
       for (const actor of responders) {
         if (abortController.signal.aborted) break;
@@ -1069,6 +1117,44 @@ IMPORTANT: You already have all the information you need about this character fr
 
       return embeddingService.buildContext(results);
     } catch {
+      return null;
+    }
+  }
+
+  // ---- Jev Skill Relevance ----
+  const SKILL_RELEVANCE_THRESHOLD = 0.6;
+
+  /**
+   * Ask jev which of the active character's skills are relevant to the GM's
+   * latest message, then format the ones scoring >= 60% as a short block for
+   * the system prompt. Returns null on any failure (unsupported game system,
+   * no skills, jev call error) so the chat flow never blocks on this.
+   */
+  async function getRelevantSkillsContext(
+    actorId: string,
+    actorName: string,
+    latestMessage: string,
+  ): Promise<string | null> {
+    try {
+      const skills = getActorSkills(actorId);
+      if (!skills || skills.length === 0) return null;
+
+      const jevModel = getSetting("jevModel");
+      const ranked = await rankSkillsForMessage({
+        model: jevModel,
+        actorName,
+        skills,
+        latestMessage,
+      });
+
+      const relevant = ranked.filter((s) => s.relevance >= SKILL_RELEVANCE_THRESHOLD);
+      if (relevant.length === 0) return null;
+
+      return relevant
+        .map((s) => `- ${s.name} (${s.value}) — ${Math.round(s.relevance * 100)}% likely relevant`)
+        .join("\n");
+    } catch (error) {
+      console.warn("FoundryAI | Jev skill ranking failed, skipping:", error);
       return null;
     }
   }
@@ -1741,7 +1827,7 @@ IMPORTANT: You already have all the information you need about this character fr
           ? "Generating..."
           : isPartyMode
             ? "Say something to the party..."
-            : "Ask FoundryAI..."}
+            : "Prompt your PCs..."}
         disabled={isGenerating || !hasApiKey}
         rows="1"
       ></textarea>

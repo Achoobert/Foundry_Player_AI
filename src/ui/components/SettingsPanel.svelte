@@ -42,6 +42,7 @@
   let enableImageTools = $state(true);
   let imageModel = $state('openai/dall-e-3');
   let ttsModel = $state('openai/gpt-4o-mini-audio-preview');
+  let jevModel = $state('~typesafe/jev-latest');
   let systemPromptOverride = $state('');
   let selectedJournalFolders = $state<string[]>([]);
   let selectedActorFolders = $state<string[]>([]);
@@ -103,6 +104,7 @@
       enableImageTools = getSetting('enableImageTools') ?? true;
       imageModel = getSetting('imageModel') || 'openai/dall-e-3';
       ttsModel = getSetting('ttsModel') || 'openai/gpt-4o-mini-audio-preview';
+      jevModel = getSetting('jevModel') || '~typesafe/jev-latest';
       systemPromptOverride = getSetting('systemPromptOverride') || '';
       selectedJournalFolders = getSetting('journalFolders') || [];
       selectedActorFolders = getSetting('actorFolders') || [];
@@ -237,6 +239,7 @@
       await setSetting('enableImageTools', enableImageTools);
       await setSetting('imageModel', imageModel);
       await setSetting('ttsModel', ttsModel);
+      await setSetting('jevModel', jevModel);
       await setSetting('systemPromptOverride', systemPromptOverride);
       await setSetting('journalFolders', selectedJournalFolders);
       await setSetting('actorFolders', selectedActorFolders);
@@ -369,6 +372,14 @@
         {:else}
           <input id="chat-model" type="text" bind:value={chatModel} placeholder="e.g. anthropic/claude-sonnet-4" />
         {/if}
+      </div>
+
+      <div class="field">
+        <label for="jev-model">Jev Model (party chat auto-responder)</label>
+        <input id="jev-model" type="text" bind:value={jevModel} placeholder="~typesafe/jev-latest" />
+        <p class="field-hint">
+          Uses your OpenRouter API key above, via OpenRouter's Decisions endpoint (not chat/completions).
+        </p>
       </div>
 
       <div class="field">

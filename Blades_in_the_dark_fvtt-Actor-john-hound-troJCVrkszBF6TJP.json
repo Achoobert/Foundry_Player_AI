@@ -1,0 +1,1943 @@
+{
+  "name": "John Hound",
+  "type": "character",
+  "img": "icons/svg/mystery-man.svg",
+  "system": {
+    "alias": "Hound",
+    "pronouns": "",
+    "look": "",
+    "heritage": "",
+    "background": "",
+    "background-details": "",
+    "vice": "",
+    "vice-purveyor": "",
+    "playbook": "Hound",
+    "crew": [
+      {
+        "id": "dllDOvbB3Rt7Hpc8",
+        "name": "Crew",
+        "description": "",
+        "img": "icons/magic/perception/shadow-stealth-eyes-purple.webp"
+      }
+    ],
+    "edge": {
+      "value": 0,
+      "max": 1
+    },
+    "acquaintances": [
+      {
+        "id": "lANB9jmHDNM6OViG",
+        "name": "Vanden",
+        "description_short": "a lazy Bluecoat",
+        "standing": "neutral"
+      },
+      {
+        "id": "XzXG2Q9J8J9FOxjk",
+        "name": "Chatterley",
+        "description_short": "a secret agent",
+        "standing": "neutral"
+      },
+      {
+        "id": "z0jK2gGYs09CtXX6",
+        "name": "Mira",
+        "description_short": "a nightclub owner",
+        "standing": "neutral"
+      },
+      {
+        "id": "MNzHwjoMii3rjw8h",
+        "name": "Zam",
+        "description_short": "a street kid",
+        "standing": "neutral"
+      },
+      {
+        "id": "uMr0rZoOHsgpGTHP",
+        "name": "Hendrik",
+        "description_short": "a veterinarian",
+        "standing": "neutral"
+      }
+    ],
+    "acquaintances_label": "BITD.Acquaintances",
+    "stress": {
+      "value": [
+        4
+      ],
+      "max": 9,
+      "max_default": 9,
+      "name_default": "BITD.Stress",
+      "name": "BITD.Stress"
+    },
+    "trauma": {
+      "max": 4,
+      "max_default": 4,
+      "value": [
+        0
+      ],
+      "name": "BITD.Trauma",
+      "name_default": "BITD.Trauma",
+      "options": [
+        "BITD.TraumaCold",
+        "BITD.TraumaHaunted",
+        "BITD.TraumaObsessed",
+        "BITD.TraumaParanoid",
+        "BITD.TraumaReckless",
+        "BITD.TraumaSoft",
+        "BITD.TraumaUnstable",
+        "BITD.TraumaVicious"
+      ],
+      "list": []
+    },
+    "keys": {
+      "max": 4,
+      "list": [
+        {
+          "key": "Bitter",
+          "experience": 2,
+          "deadlocked": false,
+          "deadlocked_to": ""
+        },
+        {
+          "key": "Brooding",
+          "experience": 0,
+          "deadlocked": false,
+          "deadlocked_to": ""
+        },
+        {
+          "key": "Comical",
+          "experience": 0,
+          "deadlocked": true,
+          "deadlocked_to": "unhinged"
+        },
+        {
+          "key": "Curious",
+          "experience": 2,
+          "deadlocked": true,
+          "deadlocked_to": "disinterested"
+        }
+      ]
+    },
+    "healing-clock": [
+      0
+    ],
+    "healing_clock": {
+      "value": [
+        3
+      ],
+      "max": 4,
+      "min": 0
+    },
+    "experience": [
+      0
+    ],
+    "experience_max": 8,
+    "experience_clues": [
+      "BITD.ClassExpClue3",
+      "BITD.ClassExpClue2"
+    ],
+    "exp_clock": {
+      "value": 0,
+      "number": 0,
+      "size": 6,
+      "color": "black"
+    },
+    "coins": [
+      2
+    ],
+    "coins_stashed": [
+      16
+    ],
+    "coins_max": {
+      "hand": 4,
+      "stash": 40
+    },
+    "special_abilities": [],
+    "loadout": 0,
+    "load_level": "",
+    "selected_load_level": "BITD.Light",
+    "base_max_load": 0,
+    "harm": {
+      "light": {
+        "one": "Stubbed Toe",
+        "two": ""
+      },
+      "medium": {
+        "one": "",
+        "two": ""
+      },
+      "heavy": {
+        "one": ""
+      },
+      "deadly": {
+        "one": ""
+      }
+    },
+    "armor-uses": {
+      "armor": false,
+      "heavy": false,
+      "special": false,
+      "special_2": false
+    },
+    "attributes": {
+      "insight": {
+        "exp": 0,
+        "exp_max": 6,
+        "bonus": 0,
+        "label": "BITD.SkillsInsight",
+        "skills": {
+          "hunt": {
+            "label": "BITD.SkillsHunt",
+            "value": 0,
+            "max": 3,
+            "min": 0
+          },
+          "study": {
+            "label": "BITD.SkillsStudy",
+            "value": 0,
+            "max": 3,
+            "min": 0
+          },
+          "survey": {
+            "label": "BITD.SkillsSurvey",
+            "value": 1,
+            "max": 3,
+            "min": 0
+          },
+          "tinker": {
+            "label": "BITD.SkillsTinker",
+            "value": 3,
+            "max": 3,
+            "min": 0
+          }
+        }
+      },
+      "prowess": {
+        "exp": 0,
+        "exp_max": 6,
+        "bonus": 0,
+        "label": "BITD.SkillsProwess",
+        "skills": {
+          "finesse": {
+            "label": "BITD.SkillsFinesse",
+            "value": 0,
+            "max": 3,
+            "min": 0
+          },
+          "prowl": {
+            "label": "BITD.SkillsProwl",
+            "value": 0,
+            "max": 3,
+            "min": 0
+          },
+          "skirmish": {
+            "label": "BITD.SkillsSkirmish",
+            "value": 3,
+            "max": 3,
+            "min": 0
+          },
+          "wreck": {
+            "label": "BITD.SkillsWreck",
+            "value": 0,
+            "max": 3,
+            "min": 0
+          }
+        }
+      },
+      "resolve": {
+        "exp": 0,
+        "exp_max": 6,
+        "bonus": 0,
+        "label": "BITD.SkillsResolve",
+        "skills": {
+          "attune": {
+            "label": "BITD.SkillsAttune",
+            "value": 0,
+            "max": 3,
+            "min": 0
+          },
+          "command": {
+            "label": "BITD.SkillsCommand",
+            "value": 1,
+            "max": 3,
+            "min": 0
+          },
+          "consort": {
+            "label": "BITD.SkillsConsort",
+            "value": 2,
+            "max": 3,
+            "min": 0
+          },
+          "sway": {
+            "label": "BITD.SkillsSway",
+            "value": 0,
+            "max": 3,
+            "min": 0
+          }
+        }
+      }
+    },
+    "unique-data": {
+      "hound": {
+        "name": "John Pet",
+        "edges": "Swears",
+        "flaws": "Chubby",
+        "type": "Parrot",
+        "abilities": "Fly, talk",
+        "weak": false,
+        "impaired": false,
+        "broken": false,
+        "armor": 0
+      },
+      "hull": {
+        "memories": {
+          "name_heritage": {
+            "text": "",
+            "clock": 0
+          },
+          "unfinished": {
+            "text": "",
+            "clock": 0
+          },
+          "background_love": {
+            "text": "",
+            "clock": 0
+          },
+          "crime": {
+            "text": "",
+            "clock": 0
+          }
+        }
+      },
+      "intellectual": {
+        "sparkmind": {
+          "name": "",
+          "edges": "",
+          "flaws": "",
+          "abilities": "",
+          "function": "",
+          "housing": "",
+          "weak": false,
+          "impaired": false,
+          "broken": false
+        }
+      },
+      "operative": {
+        "backing_faction": {
+          "faction": "",
+          "personal_mission": "",
+          "prestige_ability": "",
+          "failure": 0
+        }
+      },
+      "paranormalist": {
+        "resonance": {
+          "name": "",
+          "edges": "",
+          "flaws": "",
+          "type": "Paranormal assistant",
+          "abilities": "",
+          "weak": false,
+          "impaired": false,
+          "broken": false,
+          "armor": 0
+        }
+      },
+      "radical": {
+        "explosives": {
+          "bandolier1": {
+            "slot1": false,
+            "slot2": false,
+            "slot3": false
+          },
+          "bandolier2": {
+            "slot1": false,
+            "slot2": false,
+            "slot3": false
+          }
+        }
+      },
+      "swinger": {
+        "autopod": {
+          "name": "",
+          "style": "",
+          "type": "",
+          "weak": false,
+          "impaired": false,
+          "broken": false
+        }
+      },
+      "veteran": {
+        "damage": "",
+        "helps": ""
+      },
+      "vampire": {
+        "strictures": {
+          "dayfire": true,
+          "slumber": false,
+          "forbidden": false,
+          "repelled": false,
+          "bestial": false,
+          "bound": false
+        }
+      },
+      "time_traveler": {
+        "mission": "",
+        "prevent": {
+          "detail1": {
+            "done": false,
+            "text": ""
+          },
+          "detail2": {
+            "done": false,
+            "text": ""
+          },
+          "detail3": {
+            "done": false,
+            "text": ""
+          },
+          "detail4": {
+            "done": false,
+            "text": ""
+          }
+        },
+        "chase": {
+          "detail1": {
+            "done": false,
+            "text": ""
+          },
+          "detail2": {
+            "done": false,
+            "text": ""
+          },
+          "detail3": {
+            "done": false,
+            "text": ""
+          },
+          "detail4": {
+            "done": false,
+            "text": ""
+          }
+        }
+      }
+    },
+    "description": "John Hound is an expert tracker"
+  },
+  "prototypeToken": {
+    "actorLink": true,
+    "name": "Hound",
+    "displayName": 0,
+    "width": 1,
+    "height": 1,
+    "depth": 1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": -1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": null
+    },
+    "bar2": {
+      "attribute": null
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": {},
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 0,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null,
+    "flags": {},
+    "randomImg": false,
+    "appendNumber": false,
+    "prependAdjective": false
+  },
+  "effects": [],
+  "folder": "XRXSoDV72sAY0tGP",
+  "flags": {},
+  "items": [
+    {
+      "_id": "720c25eece33a6ad",
+      "name": "Binoculars",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "See distant objects with greater clarity and detail. Amazing.",
+        "logic": "",
+        "class": "Hound",
+        "load": 1,
+        "uses": 1,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 200000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.7d41ee54da7cc873",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "c6865c2c0a09a100",
+      "name": "Hound's Instincts",
+      "type": "ability",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "When you push yourself, you can also do one of the following: figure out where to go next, even with zero leads—make someone stop and listen to you for a few moments, no matter how unlikely it is.",
+        "class": "Hound",
+        "price": 1,
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "per": null
+        },
+        "uses_text": "",
+        "uses_used": 0,
+        "purchased": false,
+        "class_default": false,
+        "unlocked": 0,
+        "logic": "",
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 300000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_abilities.Item.c49553d0854f76a8",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "e0d68e32a98c9141",
+      "name": "RF radio handset",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "A resonance field radio. A small handheld unit tuned to a secure frequency.",
+        "logic": "",
+        "class": "Hound",
+        "load": 0,
+        "uses": 1,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 400000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.4ed958c40e177788",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "b11b30cf0e1f3c8a",
+      "name": "Binoculars",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "See distant objects with greater clarity and detail. Amazing.",
+        "logic": "",
+        "class": "Hound",
+        "load": 1,
+        "uses": 1,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 600000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.7d41ee54da7cc873",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "e95792de3ad9203d",
+      "name": "Hipflask of the good stuff",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "Numb pain, clean wounds, or bond with new friends. What's engraved on the outside?",
+        "logic": "",
+        "class": "Hound",
+        "load": 0,
+        "uses": 1,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 700000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.98d35451f4fbfb34",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "8b21fe07a3d4b200",
+      "name": "Fine snub-nosed handcannon",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "Maybe you're no great shot, but this thing packs a hell of a punch and can be concealed in a pocket.",
+        "logic": "",
+        "class": "Hound",
+        "load": 1,
+        "uses": 1,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 800000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.b6feab5bf4e41c53",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "c6f24fbbacda1fe0",
+      "name": "Pocketful of focus pills",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "For when you need steady hands, an alert mind, and laser-like concentration. Highly addictive; tick a 4-segment addiction clock when used (this can be resisted). If the clock fills, you no longer get any benefit from the pills but have to take them every score anyway or suffer the moderate harm 'withdrawal symptoms'. Once this harm is taken, reset the addiction clock.",
+        "logic": "",
+        "class": "Hound",
+        "load": 0,
+        "uses": 1,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 900000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.c74f1b4efee919e1",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "57ac42b8a3629aa4",
+      "name": "Silenced Shooter",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "A semi-automatic handgun with a modest calibre. Quiet as a whisper.",
+        "logic": "",
+        "class": "",
+        "load": 1,
+        "uses": 1,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 1000000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.18aeda91c579ba4b",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "14546270a151ac33",
+      "name": "Pump-Action Scattergun",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "A simple but very effective firearm that delivers blasts of shot over short distances. Developed for use in the narrow streets and cramped alleyways of modern cities.",
+        "logic": "",
+        "class": "",
+        "load": 2,
+        "uses": 0,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 1100000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.1b4e823f2841bd22",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "824bd340e9697ea1",
+      "name": "Burglary Gear",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "A set of lockpicks. A small pry-bar. Cannister of lubricant to silence squeaky hinges. A spool of high-tensile wire and a set of powerful magnets. A small pouch of fine sand. A glasscutter.",
+        "logic": "",
+        "class": "",
+        "load": 1,
+        "uses": 1,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 1200000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.2d06921261838112",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "8a880fb760eef998",
+      "name": "Documents",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "A folder of paperwork on a variety of topics, including a registry of the nobility, bluecoat commanders, and other notable citizens. Blank pages, a pen. A number of interesting maps. Some relevant print-outs of archival information, prepared before the score.",
+        "logic": "",
+        "class": "",
+        "load": 1,
+        "uses": 1,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 1300000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.4b267b669530f139",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "1e26e20280d3a761",
+      "name": "Tinkering Tools",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "Tools and spare parts for messing with electronics and mechanisms. A wrench, drill, and spanner. Tweezers, pliers, precision screwdrivers. A soldering iron. A second wrench. Oscilloscope, circuit tester, and heat sink. Jumper wires. Magnifying loupe.",
+        "logic": "",
+        "class": "",
+        "load": 1,
+        "uses": 1,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": true,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 1400000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.67aecf6e05fca1ee",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268894242,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "b40338547e7f3a6e",
+      "name": "Subterfuge Supplies",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "A disguise kit. A selection of blank documents, ready for the forger's hand. Invisible ink. A forged ID card. Microfilm camera.",
+        "logic": "",
+        "class": "",
+        "load": 1,
+        "uses": 1,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 1500000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.8374b9e53bf7a1e1",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "7bdd11600088965b",
+      "name": "Electro-Blade",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "A broad, heavy blade with a plasmoleum-powered device built into the hilt. If the sharpened edge doesn’t finish them, the explosive release of electricity will.",
+        "logic": "",
+        "class": "",
+        "load": 2,
+        "uses": 0,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 1600000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.ce86608fb115059a",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "d3f4c6b63f276684",
+      "name": "Armor",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "Layers of impact-resistant fabric combined with areas of rigid plate. Bulky and uncomfortable, but offers unparalleled protection.",
+        "logic": "",
+        "class": "",
+        "load": 3,
+        "uses": 0,
+        "uses_used": 2,
+        "additional_info": "",
+        "equipped": true,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 1700000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.aab565d3522c2bd4",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "faf5cb92217c0dd8",
+      "name": "Arclighter",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "A handheld tool that carries a small reserve of plasmoleum. A flick of the thumb produces a small arc of crackling energy, and with a twist of the dial it turns into a steady beam of light. Used as a flashlight, cigarette lighter, welding torch, or for anything from supercharging firearm rounds, overloading electronic systems, or even jamming into a knife’s hilt to jury-rig a quick electro-blade.",
+        "logic": "",
+        "class": "",
+        "load": 1,
+        "uses": 1,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 1800000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.d3fdf6ddbed40fab",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "1141ea852835c631",
+      "name": "Demolition Tools",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "A heavy drill. Crowbar. Explosive putty and blasting caps. Thermite charges. Vials of acid. A sledgehammer. A blowtorch.",
+        "logic": "",
+        "class": "",
+        "load": 2,
+        "uses": 0,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 1900000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.da135801844b5cf9",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "39dbe3661f59ec0b",
+      "name": "Paranormal Implements",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "A resonance gauge for monitoring resonance field activity. Infrared thermometer. Echo frequency scanner. A small mirror. A vial of ultraplasm. A portable echo containment unit. A resonance disruptor. Safety goggles and gloves.",
+        "logic": "",
+        "class": "",
+        "load": 1,
+        "uses": 1,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 2000000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.e49f5deb0966aefc",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "74e97a20f9a0a931",
+      "name": "A Blade or Two",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "Perhaps you carry a butterfly knife. Or a big military-issue combat knife. Or a heavy butcher’s cleaver. Or a machete.",
+        "logic": "",
+        "class": "",
+        "load": 1,
+        "uses": 1,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 2100000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.e65f75e4d1d930b2",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "3f7f8b1c48a171f3",
+      "name": "Handcannon",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "A heavy, large-bore handgun that hits like a sledgehammer. Loud. Slow to reload.",
+        "logic": "",
+        "class": "",
+        "load": 1,
+        "uses": 0,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": true,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 2200000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.e8354b5531522341",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "2ec4488605c2aad4",
+      "name": "Climbing Gear",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "A large coil of nylon rope. Grappling hooks. A small pouch of chalk dust. A climbing harness with loops and carabiners. A set of steel pitons and a small mallet. Suction cups.",
+        "logic": "",
+        "class": "",
+        "load": 2,
+        "uses": 0,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": false,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "sort": 2300000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": "Compendium.blades68.blades68_items.Item.e9b44803e84c9c4a",
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268633568,
+        "modifiedTime": 1790268633568,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "name": "A loyal, clever pet",
+      "type": "item",
+      "img": "icons/svg/item-bag.svg",
+      "system": {
+        "description": "Companion might be a better word - a hunter. They never let you down (except when they do). Did you choose them, or did they choose you?",
+        "logic": "",
+        "class": "Hound",
+        "load": 0,
+        "uses": 1,
+        "uses_used": 0,
+        "additional_info": "",
+        "equipped": true,
+        "bonus_equipped": false,
+        "num_available": 1,
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790268891515,
+        "modifiedTime": 1790268891516,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_id": "VVgxBPWn7tcG50AO",
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "x9QzhRXLHvNY4JWG",
+      "name": "Gettin' Fucked Up",
+      "img": "systems/blades68/styles/assets/icons/Icon.1_72.webp",
+      "type": "vice",
+      "system": {
+        "description": "<p>Oblivion in the abuse of drugs, drinking to excess, getting beaten to a pulp in the fighting pits, etc.</p>\n<ul>\n  <li>Benson, the Black Goat (tavern), the Docks.</li>\n  <li>Rennie, the Eyrie (underground lounge bar), Crowfoot.</li>\n  <li>Harald Tipton, the House of Tomorrow (black lotus den), New Horizon.</li>\n  <li>Lemmy's smoking room and kaff house, Charhollow.</li>\n  <li>Amara, the Key Club (brothel), Silkshore.</li>\n  <li>Rasp, powder dealer, New Horizon.</li>\n  <li>Alfie's Adult Plasmocinema, Crowfoot.</li>\n  <li>The Silver Echoes, Groove Factory, Crowfoot.</li>\n  <li>Lorna, Xantara Pharm Pill Dispensary, Nightmarket.</li>\n</ul>",
+        "activation": {
+          "type": "",
+          "cost": 0,
+          "condition": ""
+        },
+        "duration": {
+          "value": null,
+          "units": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "long": null,
+          "units": ""
+        },
+        "uses": {
+          "value": 0,
+          "max": 0,
+          "per": null
+        },
+        "consume": {
+          "type": "",
+          "target": null,
+          "amount": null
+        }
+      },
+      "folder": null,
+      "sort": 600000,
+      "flags": {},
+      "effects": [],
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "blades68",
+        "systemVersion": "6.4.9",
+        "createdTime": 1790343703034,
+        "modifiedTime": 1790343703034,
+        "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    }
+  ],
+  "_stats": {
+    "coreVersion": "14.359",
+    "systemId": "blades68",
+    "systemVersion": "6.4.9",
+    "createdTime": 1790268633568,
+    "modifiedTime": 1790343690512,
+    "lastModifiedBy": "rUxMEpjg9WgNxtnv",
+    "compendiumSource": "Compendium.blades68.blades68_example_characters.Actor.cd578bb4387d9701",
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "blades68",
+      "uuid": "Actor.troJCVrkszBF6TJP",
+      "coreVersion": "14.359",
+      "systemId": "blades68",
+      "systemVersion": "6.4.9"
+    }
+  },
+  "ownership": {
+    "default": 0
+  }
+}

@@ -7,8 +7,87 @@
    ========================================================================== */
 
 const OPENROUTER_BASE = 'https://openrouter.ai/api/v1'
+const OPENROUTER_HOST = 'https://openrouter.ai'
 
 // ---- Types ----
+
+// ---- Decisions API (e.g. "~typesafe/jev-latest") ----
+// A separate router from chat/completions, confirmed from @openrouter/sdk (v1.3.32)
+// source: POST {host}/api/alpha/decisions, same OpenRouter API key.
+
+export type DecisionEntry = string | Record<string, unknown> | unknown[]
+
+export interface DecisionChoiceQuestion {
+	type: 'choice'
+	instructions: DecisionEntry
+	criteria: Record<string, DecisionEntry | null>
+}
+
+export interface DecisionNoulQuestion {
+	type: 'noul'
+	instructions: DecisionEntry
+	criteria?: { true: DecisionEntry; false: DecisionEntry }
+}
+
+export interface DecisionScoreQuestion {
+	type: 'score'
+	instructions: DecisionEntry
+	criteria: DecisionEntry[]
+}
+
+export type DecisionQuestion = DecisionChoiceQuestion | DecisionNoulQuestion | DecisionScoreQuestion
+
+/** A question that selects between named alternatives. `criteria` maps each label to a description (or null). */
+export function choice(instructions: DecisionEntry, criteria: Record<string, DecisionEntry | null>): DecisionChoiceQuestion {
+	return { type: 'choice', instructions, criteria }
+}
+
+/** A yes/no question, with optional descriptions of both outcomes. */
+export function noul(instructions: DecisionEntry, criteria?: { true: DecisionEntry; false: DecisionEntry }): DecisionNoulQuestion {
+	return { type: 'noul', instructions, criteria }
+}
+
+/** A question that assigns a score using an ordered rubric of at least two descriptions, indexed from zero. */
+export function score(instructions: DecisionEntry, criteria: DecisionEntry[]): DecisionScoreQuestion {
+	if (criteria.length < 2) throw new Error('Score criteria must have at least two entries.')
+	return { type: 'score', instructions, criteria }
+}
+
+export interface DecisionChoiceAnswer {
+	type: 'choice'
+	choice: string
+	confidence?: number
+	probabilities?: Record<string, number>
+}
+
+export interface DecisionNoulAnswer {
+	type: 'noul'
+	noul: number
+}
+
+export interface DecisionScoreAnswer {
+	type: 'score'
+	score: number
+	confidence?: number
+	legend?: Record<string, DecisionEntry>
+	probabilities?: Record<string, number>
+}
+
+export type DecisionAnswer = DecisionChoiceAnswer | DecisionNoulAnswer | DecisionScoreAnswer
+
+export interface DecisionsRequest {
+	model: string
+	state: string | Record<string, unknown> | unknown[]
+	questions: Record<string, DecisionQuestion>
+}
+
+export interface DecisionsResponse {
+	id?: string
+	model: string
+	provider?: string
+	answers: Record<string, DecisionAnswer>
+	usage: { inputTokens: number; outputTokens: number; cost?: number }
+}
 
 export interface LLMMessage {
 	role: 'system' | 'user' | 'assistant' | 'tool'
@@ -346,6 +425,34 @@ export class OpenRouterService {
 		// If we exited without [DONE], signal completion
 		console.debug('FoundryAI | Stream ended (no [DONE] received)')
 		onChunk({ done: true })
+	}
+
+	// ---- Decisions (e.g. "~typesafe/jev-latest") ----
+
+	async decisions(request: DecisionsRequest, signal?: AbortSignal): Promise<DecisionsResponse> {
+		if (!this.apiKey) throw new Error('OpenRouter API key not configured')
+		if (Object.keys(request.questions).length === 0) throw new Error('At least one question is required.')
+
+		console.log(
+			`FoundryAI | API decisions — model: ${request.model}, questions: ${Object.keys(request.questions).join(', ')}`,
+		)
+
+		const response = await fetch(`${OPENROUTER_HOST}/api/alpha/decisions`, {
+			method: 'POST',
+			headers: this.headers,
+			body: JSON.stringify(request),
+			signal,
+		})
+
+		if (!response.ok) {
+			const error = await response.json().catch(() => ({ message: response.statusText }))
+			console.error(`FoundryAI | Decisions API error (${response.status}):`, error)
+			throw new Error(
+				`OpenRouter Decisions error (${response.status}): ${error.message || error.error?.message || 'Unknown error'}`,
+			)
+		}
+
+		return response.json()
 	}
 
 	// ---- Embeddings ----

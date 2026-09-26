@@ -14,6 +14,7 @@ export interface FoundryAISettings {
 	embeddingModel: string
 	imageModel: string
 	ttsModel: string
+	jevModel: string
 	journalFolders: string[]
 	actorFolders: string[]
 	sceneFolders: string[]
@@ -111,6 +112,20 @@ export function registerSettings(): void {
 		default: 'openai/gpt-4o-mini-audio-preview',
 		onChange: () => {
 			Hooks.callAll(`${MODULE_ID}.settingsChanged`, 'ttsModel')
+		},
+	})
+
+	// Routed through OpenRouter's Decisions endpoint, not chat/completions —
+	// see openRouterService.decisions() and core/jev.ts.
+	game.settings.register(MODULE_ID, 'jevModel', {
+		name: 'FOUNDRYAI.Settings.JevModel',
+		hint: 'FOUNDRYAI.Settings.JevModelHint',
+		scope: 'world',
+		config: false,
+		type: String,
+		default: '~typesafe/jev-latest',
+		onChange: () => {
+			Hooks.callAll(`${MODULE_ID}.settingsChanged`, 'jevModel')
 		},
 	})
 

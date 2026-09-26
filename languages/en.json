@@ -1,124 +1,127 @@
 {
-	"FOUNDRYAI": {
-		"Title": "FoundryAI",
-		"Description": "AI-powered Player Character companion for Foundry VTT",
+  "FOUNDRYAI": {
+    "Title": "FoundryAI",
+    "Description": "AI-powered Player Character companion for Foundry VTT",
 
-		"Settings": {
-			"MenuName": "FoundryAI Configuration",
-			"MenuLabel": "Configure",
-			"MenuHint": "Configure your API key, models, and RAG knowledge base.",
+    "Settings": {
+      "MenuName": "FoundryAI Configuration",
+      "MenuLabel": "Configure",
+      "MenuHint": "Configure your API key, models, and RAG knowledge base.",
 
-			"ApiKey": "OpenRouter API Key",
-			"ApiKeyHint": "Your OpenRouter API key for accessing AI models. Get one at openrouter.ai",
+      "ApiKey": "OpenRouter API Key",
+      "ApiKeyHint": "Your OpenRouter API key for accessing AI models. Get one at openrouter.ai",
 
-			"ChatModel": "Chat Model",
-			"ChatModelHint": "The AI model to use for chat conversations.",
+      "JevModel": "Jev Model",
+      "JevModelHint": "OpenRouter Decisions model (e.g. ~typesafe/jev-latest) used to pick which party member should respond.",
 
-			"EmbeddingModel": "Embedding Model",
-			"EmbeddingModelHint": "The model used for generating text embeddings (RAG).",
+      "ChatModel": "Chat Model",
+      "ChatModelHint": "The AI model to use for chat conversations.",
 
-			"JournalFolders": "Journal Folders",
-			"JournalFoldersHint": "Select which journal folders to include in the AI's knowledge base.",
+      "EmbeddingModel": "Embedding Model",
+      "EmbeddingModelHint": "The model used for generating text embeddings (RAG).",
 
-			"ActorFolders": "Actor Folders",
-			"ActorFoldersHint": "Select which actor folders the AI can access for character information.",
+      "JournalFolders": "Journal Folders",
+      "JournalFoldersHint": "Select which journal folders to include in the AI's knowledge base.",
 
-			"ChatHistoryFolder": "Chat History Folder",
-			"ChatHistoryFolderHint": "The journal folder where raw chat sessions are saved.",
+      "ActorFolders": "Actor Folders",
+      "ActorFoldersHint": "Select which actor folders the AI can access for character information.",
 
-			"SessionRecapFolder": "Session Recaps Folder",
-			"SessionRecapFolderHint": "The journal folder where AI-generated session recaps are saved.",
+      "ChatHistoryFolder": "Chat History Folder",
+      "ChatHistoryFolderHint": "The journal folder where raw chat sessions are saved.",
 
-			"Temperature": "Temperature",
-			"TemperatureHint": "Controls randomness: 0 = deterministic, 2 = very creative. Default: 0.8",
+      "SessionRecapFolder": "Session Recaps Folder",
+      "SessionRecapFolderHint": "The journal folder where AI-generated session recaps are saved.",
 
-			"MaxTokens": "Max Tokens",
-			"MaxTokensHint": "Maximum number of tokens in the AI's response. Default: 4096",
+      "Temperature": "Temperature",
+      "TemperatureHint": "Controls randomness: 0 = deterministic, 2 = very creative. Default: 0.8",
 
-			"SystemPrompt": "System Prompt Override",
-			"SystemPromptHint": "Override the default player-character system prompt. Leave blank to use the built-in prompt.",
+      "MaxTokens": "Max Tokens",
+      "MaxTokensHint": "Maximum number of tokens in the AI's response. Default: 4096",
 
-			"StreamResponses": "Stream Responses",
-			"StreamResponsesHint": "Show AI responses as they are generated (real-time streaming).",
+      "SystemPrompt": "System Prompt Override",
+      "SystemPromptHint": "Override the default player-character system prompt. Leave blank to use the built-in prompt.",
 
-			"AutoIndex": "Auto-Index on Startup",
-			"AutoIndexHint": "Automatically index selected folders when Foundry loads.",
+      "StreamResponses": "Stream Responses",
+      "StreamResponsesHint": "Show AI responses as they are generated (real-time streaming).",
 
-			"EnableTools": "Enable Tool Use",
-			"EnableToolsHint": "Allow the AI to search journals, create entries, and interact with the world.",
+      "AutoIndex": "Auto-Index on Startup",
+      "AutoIndexHint": "Automatically index selected folders when Foundry loads.",
 
-			"ShowSidebarTab": "Show Sidebar Tab",
-			"ShowSidebarTabHint": "Add a FoundryAI tab to the sidebar.",
+      "EnableTools": "Enable Tool Use",
+      "EnableToolsHint": "Allow the AI to search journals, create entries, and interact with the world.",
 
-			"ImageModel": "Image Generation Model",
-			"ImageModelHint": "The model used for AI image generation (e.g. openai/dall-e-3).",
+      "ShowSidebarTab": "Show Sidebar Tab",
+      "ShowSidebarTabHint": "Add a FoundryAI tab to the sidebar.",
 
-			"TTSModel": "Text-to-Speech Model",
-			"TTSModelHint": "The model used for text-to-speech audio generation.",
+      "ImageModel": "Image Generation Model",
+      "ImageModelHint": "The model used for AI image generation (e.g. openai/dall-e-3).",
 
-			"MacroFolders": "Macro Folders",
-			"MacroFoldersHint": "Select which macro folders the AI can access and execute.",
+      "TTSModel": "Text-to-Speech Model",
+      "TTSModelHint": "The model used for text-to-speech audio generation.",
 
-			"EnableActorTools": "Enable Actor Tools",
-			"EnableActorToolsHint": "Allow the AI to create, update, and delete actors.",
+      "MacroFolders": "Macro Folders",
+      "MacroFoldersHint": "Select which macro folders the AI can access and execute.",
 
-			"EnableItemTools": "Enable Item Tools",
-			"EnableItemToolsHint": "Allow the AI to create, update, and delete world items.",
+      "EnableActorTools": "Enable Actor Tools",
+      "EnableActorToolsHint": "Allow the AI to create, update, and delete actors.",
 
-			"EnableMacroTools": "Enable Macro Tools",
-			"EnableMacroToolsHint": "Allow the AI to list, create, update, and execute macros.",
+      "EnableItemTools": "Enable Item Tools",
+      "EnableItemToolsHint": "Allow the AI to create, update, and delete world items.",
 
-			"EnableImageTools": "Enable Image Tools",
-			"EnableImageToolsHint": "Allow the AI to generate images and create scenes with AI maps."
-		},
+      "EnableMacroTools": "Enable Macro Tools",
+      "EnableMacroToolsHint": "Allow the AI to list, create, update, and execute macros.",
 
-		"Chat": {
-			"Placeholder": "Ask FoundryAI...",
-			"Generating": "Generating...",
-			"Send": "Send",
-			"NewChat": "New Chat",
-			"Sessions": "Chat Sessions",
-			"NoSessions": "No sessions yet. Start a new chat!",
-			"DeleteSession": "Delete this chat session? This cannot be undone.",
-			"SessionDeleted": "Session deleted.",
-			"Today": "Today"
-		},
+      "EnableImageTools": "Enable Image Tools",
+      "EnableImageToolsHint": "Allow the AI to generate images and create scenes with AI maps."
+    },
 
-		"Recap": {
-			"Generate": "Generate Session Recap",
-			"Generating": "Generating session recap...",
-			"Saved": "Session recap saved!",
-			"NoSessions": "No chat sessions available for recap.",
-			"Failed": "Recap generation failed."
-		},
+    "Chat": {
+      "Placeholder": "Ask FoundryAI...",
+      "Generating": "Generating...",
+      "Send": "Send",
+      "NewChat": "New Chat",
+      "Sessions": "Chat Sessions",
+      "NoSessions": "No sessions yet. Start a new chat!",
+      "DeleteSession": "Delete this chat session? This cannot be undone.",
+      "SessionDeleted": "Session deleted.",
+      "Today": "Today"
+    },
 
-		"Index": {
-			"Reindex": "Reindex Knowledge Base",
-			"Starting": "Starting indexing...",
-			"Complete": "Indexing complete!",
-			"Failed": "Indexing failed."
-		},
+    "Recap": {
+      "Generate": "Generate Session Recap",
+      "Generating": "Generating session recap...",
+      "Saved": "Session recap saved!",
+      "NoSessions": "No chat sessions available for recap.",
+      "Failed": "Recap generation failed."
+    },
 
-		"Errors": {
-			"NoApiKey": "Please configure your OpenRouter API key in FoundryAI settings.",
-			"ConnectionFailed": "Failed to connect to OpenRouter.",
-			"ChatFailed": "Chat request failed.",
-			"ToolFailed": "Tool execution failed."
-		},
+    "Index": {
+      "Reindex": "Reindex Knowledge Base",
+      "Starting": "Starting indexing...",
+      "Complete": "Indexing complete!",
+      "Failed": "Indexing failed."
+    },
 
-		"Welcome": {
-			"Title": "Welcome to FoundryAI",
-			"Subtitle": "Your AI Player Character",
-			"Description": "Configure your OpenRouter API key to get started.",
-			"OpenSettings": "Open Settings",
-			"Ready": "FoundryAI is ready! Click the brain icon to start chatting."
-		},
+    "Errors": {
+      "NoApiKey": "Please configure your OpenRouter API key in FoundryAI settings.",
+      "ConnectionFailed": "Failed to connect to OpenRouter.",
+      "ChatFailed": "Chat request failed.",
+      "ToolFailed": "Tool execution failed."
+    },
 
-		"Suggestions": {
-			"Scene": "Describe a scene",
-			"SkillCheck": "Skill check guidance",
-			"NPC": "NPC dialogue",
-			"Lore": "Search lore"
-		}
-	}
+    "Welcome": {
+      "Title": "Welcome to FoundryAI",
+      "Subtitle": "Your AI Players",
+      "Description": "Configure your OpenRouter API key to get started.",
+      "OpenSettings": "Open Settings",
+      "Ready": "FoundryAI is ready! Click the brain icon to start chatting."
+    },
+
+    "Suggestions": {
+      "Scene": "Describe a scene",
+      "SkillCheck": "Skill check guidance",
+      "NPC": "NPC dialogue",
+      "Lore": "Search lore"
+    }
+  }
 }

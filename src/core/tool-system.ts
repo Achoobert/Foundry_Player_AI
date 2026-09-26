@@ -1101,6 +1101,21 @@ const ACTOR_TOOLS: ToolDefinition[] = [
 			},
 		},
 	},
+	{
+		type: 'function',
+		function: {
+			name: 'get_actor_skills',
+			description:
+				"Get an actor's skills as a structured list of { name, value } pairs. Handles system-specific skill storage (Delta Green, Call of Cthulhu 7e, Mothership, Blades in the Dark) automatically based on the active game system.",
+			parameters: {
+				type: 'object',
+				properties: {
+					actor_id: { type: 'string', description: 'The ID of the actor to read skills from' },
+				},
+				required: ['actor_id'],
+			},
+		},
+	},
 ]
 
 // == Item Tools ==
@@ -1530,6 +1545,8 @@ export async function executeTool(toolCall: ToolCall): Promise<string> {
 				return await handleRemoveItemFromActor(args.actor_id, args.item_id)
 			case 'update_actor_item':
 				return await handleUpdateActorItem(args.actor_id, args.item_id, args.data)
+			case 'get_actor_skills':
+				return handleGetActorSkills(args.actor_id)
 
 			// Item tools
 			case 'create_item':
@@ -1740,6 +1757,89 @@ function handleGetActor(actorId: string): string {
 		type: actor?.type || 'Unknown',
 		folder: actor?.folder?.name || 'Root',
 		content,
+	})
+}
+
+export interface ActorSkill {
+	name: string
+	value: number
+}
+
+function extractSkillsDeltaGreen(actor: any): ActorSkill[] {
+	const skills = actor.system?.skills || {}
+	return Object.values(skills).map((s: any) => ({ name: s.label, value: s.proficiency }))
+}
+
+function extractSkillsCoC7(actor: any): ActorSkill[] {
+	return actor.items
+		.filter((i: any) => i.type === 'skill')
+		.map((i: any) => ({ name: i.name, value: i.system?.value ?? 0 }))
+}
+
+function extractSkillsMothership(actor: any): ActorSkill[] {
+	return actor.items
+		.filter((i: any) => i.type === 'skill')
+		.map((i: any) => ({ name: i.name, value: i.system?.bonus ?? 0 }))
+}
+
+function extractSkillsBladesInTheDark(actor: any): ActorSkill[] {
+	const groups = actor.system?.attributes || {}
+	const out: ActorSkill[] = []
+	for (const group of Object.values(groups) as any[]) {
+		for (const skill of Object.values(group.skills || {}) as any[]) {
+			out.push({ name: skill.label, value: skill.value })
+		}
+	}
+	return out
+}
+
+const SKILL_EXTRACTORS: Record<string, (actor: any) => ActorSkill[]> = {
+	deltagreen: extractSkillsDeltaGreen,
+	CoC7: extractSkillsCoC7,
+	mosh: extractSkillsMothership,
+	blades68: extractSkillsBladesInTheDark,
+}
+
+/**
+ * Read an actor's skills directly, bypassing the tool-call JSON envelope —
+ * for callers (like jev skill-relevance ranking) that need the structured
+ * list itself rather than a string. Returns `null` when the actor is
+ * missing, not in an allowed folder, or the active game system isn't one of
+ * `SKILL_EXTRACTORS`.
+ */
+export function getActorSkills(actorId: string): ActorSkill[] | null {
+	const actor = game.actors?.get(actorId)
+	if (!actor || !isActorFolderAllowed(actor.folder?.id)) return null
+
+	const systemId = game.system?.id
+	const extractor = systemId ? SKILL_EXTRACTORS[systemId] : undefined
+	if (!extractor) return null
+
+	return extractor(actor)
+}
+
+function handleGetActorSkills(actorId: string): string {
+	console.log(`FoundryAI | get_actor_skills: id="${actorId}"`)
+	const actor = game.actors?.get(actorId)
+	if (!actor) {
+		return JSON.stringify({ error: `Actor not found: ${actorId}` })
+	}
+
+	if (!isActorFolderAllowed(actor.folder?.id)) {
+		return JSON.stringify({ error: `Actor not found: ${actorId}` })
+	}
+
+	const systemId = game.system?.id
+	const extractor = systemId ? SKILL_EXTRACTORS[systemId] : undefined
+	if (!extractor) {
+		return JSON.stringify({ error: `get_actor_skills is not supported for game system "${systemId}"` })
+	}
+
+	return JSON.stringify({
+		id: actorId,
+		name: actor.name,
+		system: systemId,
+		skills: extractor(actor),
 	})
 }
 

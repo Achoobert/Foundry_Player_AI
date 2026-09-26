@@ -11,6 +11,7 @@ import { sessionRecapManager } from '@core/session-recap-manager'
 import { initPlayerAgents } from '@core/player-agent'
 import { ensureFoundryAIFolders } from '@core/folder-manager'
 import { rulesGlossary } from '@core/rules-glossary'
+import { jevTree } from '@core/jev-tree'
 import { openPopoutChat } from '@ui/svelte-application'
 import { buildSystemPrompt } from '@core/system-prompt'
 import ChatWindow from '@ui/components/ChatWindow.svelte'
@@ -124,6 +125,12 @@ Hooks.once('ready', async () => {
 			console.error('FoundryAI | Rules Glossary generation failed:', err)
 		})
 	}
+
+	// Seed the Jev Tree journal if it doesn't exist yet — a no-op once
+	// created, so the GM's edits are left untouched on subsequent loads.
+	jevTree.ensure().catch((err) => {
+		console.error('FoundryAI | Jev Tree creation failed:', err)
+	})
 
 	// Create/update the hotbar macro for easy access
 	await ensureChatMacro()

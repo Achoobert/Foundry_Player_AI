@@ -1,0 +1,4216 @@
+{
+  "type": "character",
+  "name": "Naomi Wall",
+  "flags": {
+    "coc7-fullscreen-wizard": {
+      "draft": false,
+      "step": "backstory",
+      "setupConfig": {
+        "points": {
+          "enabled": false,
+          "value": 460
+        },
+        "rolls": {
+          "enabled": true,
+          "str": "(3D6)*5",
+          "con": "(3D6)*5",
+          "siz": "(2D6+6)*5",
+          "dex": "(3D6)*5",
+          "app": "(3D6)*5",
+          "int": "(2D6+6)*5",
+          "pow": "(3D6)*5",
+          "edu": "(2D6+6)*5",
+          "luck": "(3D6)*5"
+        }
+      },
+      "ageAdjustmentsApplied": true
+    }
+  },
+  "img": "icons/svg/mystery-man.svg",
+  "system": {
+    "characteristics": {
+      "str": {
+        "formula": "",
+        "value": 20
+      },
+      "con": {
+        "formula": "",
+        "value": 70
+      },
+      "siz": {
+        "formula": "",
+        "value": 70
+      },
+      "dex": {
+        "formula": "",
+        "value": 35
+      },
+      "app": {
+        "formula": "",
+        "value": 1
+      },
+      "int": {
+        "formula": "",
+        "value": 65
+      },
+      "pow": {
+        "formula": "",
+        "value": 40
+      },
+      "edu": {
+        "formula": "",
+        "value": 64
+      }
+    },
+    "attribs": {
+      "hp": {
+        "value": 9,
+        "max": 3,
+        "auto": true
+      },
+      "mp": {
+        "value": 8,
+        "max": 8,
+        "auto": true
+      },
+      "lck": {
+        "value": 25
+      },
+      "san": {
+        "value": 40,
+        "max": 99,
+        "dailyLoss": 0,
+        "dailyLimit": 8,
+        "auto": true
+      },
+      "mov": {
+        "value": null,
+        "auto": true,
+        "type": "walk"
+      },
+      "db": {
+        "value": null,
+        "auto": true
+      },
+      "build": {
+        "value": null,
+        "auto": true
+      },
+      "armor": {
+        "notes": false,
+        "value": null
+      }
+    },
+    "conditions": {
+      "criticalWounds": {
+        "value": false
+      },
+      "unconscious": {
+        "value": false
+      },
+      "dying": {
+        "value": false
+      },
+      "dead": {
+        "value": false
+      },
+      "prone": {
+        "value": false
+      },
+      "tempoInsane": {
+        "value": false,
+        "realTime": false,
+        "duration": 0
+      },
+      "indefInsane": {
+        "value": false
+      }
+    },
+    "books": [],
+    "infos": {
+      "occupation": "",
+      "age": "75",
+      "sex": "",
+      "residence": "",
+      "birthplace": "",
+      "archetype": "",
+      "organization": "",
+      "playername": ""
+    },
+    "flags": {
+      "locked": true,
+      "manualCredit": false,
+      "mythosHardened": false,
+      "mythosInsanityExperienced": false,
+      "skillListMode": false,
+      "skillShowUncommon": true
+    },
+    "config": {
+      "luckAvoidUnconsciousness": 1
+    },
+    "monetary": {
+      "format": "decimalLeft",
+      "symbol": "$",
+      "values": [
+        {
+          "name": "CoC7.MonetaryDefaultPenniless",
+          "min": null,
+          "max": 0,
+          "cashType": "value",
+          "cashValue": 0.5,
+          "assetsType": "value",
+          "assetsValue": 0,
+          "spendingType": "value",
+          "spendingValue": 0.5
+        },
+        {
+          "name": "CoC7.MonetaryDefaultPoor",
+          "min": 1,
+          "max": 9,
+          "cashType": "multiplier",
+          "cashValue": 1,
+          "assetsType": "multiplier",
+          "assetsValue": 10,
+          "spendingType": "value",
+          "spendingValue": 2
+        },
+        {
+          "name": "CoC7.MonetaryDefaultAverage",
+          "min": 10,
+          "max": 49,
+          "cashType": "multiplier",
+          "cashValue": 2,
+          "assetsType": "multiplier",
+          "assetsValue": 50,
+          "spendingType": "value",
+          "spendingValue": 10
+        },
+        {
+          "name": "CoC7.MonetaryDefaultWealthy",
+          "min": 50,
+          "max": 89,
+          "cashType": "multiplier",
+          "cashValue": 5,
+          "assetsType": "multiplier",
+          "assetsValue": 500,
+          "spendingType": "value",
+          "spendingValue": 50
+        },
+        {
+          "name": "CoC7.MonetaryDefaultRich",
+          "min": 90,
+          "max": 98,
+          "cashType": "multiplier",
+          "cashValue": 20,
+          "assetsType": "multiplier",
+          "assetsValue": 2000,
+          "spendingType": "value",
+          "spendingValue": 250
+        },
+        {
+          "name": "CoC7.MonetaryDefaultSuperRich",
+          "min": 99,
+          "max": null,
+          "cashType": "value",
+          "cashValue": 50000,
+          "assetsType": "value",
+          "assetsValue": 5000000,
+          "spendingType": "value",
+          "spendingValue": 5000
+        }
+      ],
+      "spent": "",
+      "assetsDetails": "",
+      "spendingLevel": "",
+      "cash": "",
+      "assets": ""
+    },
+    "development": {
+      "personal": 130,
+      "occupation": 256,
+      "archetype": 0,
+      "experiencePackage": 0
+    },
+    "biography": [
+      {
+        "title": "Personal Description",
+        "value": ""
+      },
+      {
+        "title": "Ideology and Beliefs",
+        "value": "Member of a society or secret society (e.g. Freemason, Women’s Institute, Anonymous)."
+      },
+      {
+        "title": "Significant People",
+        "value": "Childhood friend (e.g. classmate, neighbor, imaginary friend). A feeling of regret (e.g. you should have died in their place, you fell out over something you said, you didn’t step up and help them when you had the chance)."
+      },
+      {
+        "title": "Meaningful Locations",
+        "value": "The grave of a significant person. Who? (e.g. a parent, a child, a lover)."
+      },
+      {
+        "title": "Treasured Possessions",
+        "value": "A memento of a departed person (e.g. jewelry, a photograph in your wallet, a letter)."
+      },
+      {
+        "title": "Traits",
+        "value": "Hedonist (e.g. life and soul of the party, entertaining drunk, \"live fast and die young\")."
+      },
+      {
+        "title": "Injuries and Scars",
+        "value": ""
+      }
+    ],
+    "sanityLossEvents": [],
+    "backstory": "",
+    "description": {
+      "keeper": ""
+    },
+    "notes": ""
+  },
+  "prototypeToken": {
+    "name": "Naomi Wall",
+    "displayName": 0,
+    "actorLink": true,
+    "width": 1,
+    "height": 1,
+    "depth": 1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": 1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": "attribs.hp"
+    },
+    "bar2": {
+      "attribute": "attribs.san"
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": true,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": {},
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null,
+    "flags": {},
+    "randomImg": false,
+    "appendNumber": false,
+    "prependAdjective": false
+  },
+  "items": [
+    {
+      "_id": "Wo40ORZxJSmP1wBa",
+      "name": "Accounting",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/money-stack.svg",
+      "sort": 100000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Accounting",
+        "specialization": "",
+        "description": {
+          "value": "<p>Grants understanding of accountancy procedures and reveals the financial functioning of a business or person. Inspecting the books, one might detect cheated employees, siphoned-off funds, payment of bribes or blackmail, and whether the financial condition is better or worse than claimed. Looking through old accounts, one could see how money was gained or lost in the past (grain, slave-trading, whiskey-running, etc.) and to whom and for what payment was made.</p><h2>Opposing skill/Difficulty level:</h2><p>If someone were trying to conceal something, the difficulty level would be based upon the Accountancy skill of the person doing the concealing.</p><ul><li>Regular difficulty: comprehensive and well-documented set of account books.</li><li>Hard difficulty: disorganized and partial accounts.</li></ul><h2>Pushing examples:</h2><p>Taking more time to review documents; visiting banks or businesses to validate findings; double checking the math and data.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Discussions between investigators and third parties alert some enemy faction to the investigators’ intentions; a vital part of the accounts is destroyed or lost (perhaps in their tired state the investigator spills coffee over them).</p><p>If an insane investigator fails a pushed roll, he or she might be found having partially eaten the accounts.</p>",
+          "keeper": ""
+        },
+        "base": "5",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 5
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.accounting",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849866,
+        "modifiedTime": 1789639849870,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "iKrVJPKDqjFASWip",
+      "name": "Anthropology",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/human-pyramid.svg",
+      "sort": 300000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Anthropology",
+        "specialization": "",
+        "description": {
+          "value": "<p>Enables the user to identify and understand an individual’s way of life through observation. If the skill-user observes another culture from within for a time, or works from accurate records concerning an extinct culture, then simple predictions can be made about that culture’s ways and morals, even though the evidence may be incomplete. Studying the culture for a month or more, the anthropologist begins to understand how the culture functions and, in combination with @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.JchiW0I3ovhWi1XQ]{Psychology}, may predict the actions and beliefs of those being studied.</p><h2>Opposing skill/Difficulty level:</h2><p>The difficulty for this skill is set according to the exposure of the skill-user to their subject.</p><ul><li>Regular difficulty: spending a month or more with the people.</li><li>Hard difficulty level: spending only a week or less with the people.</li></ul><h2>Pushing examples</h2><p>Pushing examples: taking more time to study the target/s; going “native” for a period; taking an active role in a ceremony, rite, etc.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Being attacked or imprisoned by the people studied, due to some perceived transgression of their laws or social mores; suffering severe side-effects as the result of being involved in a ceremony which involved ingesting psychotropic plants.<br>If an insane investigator fails a pushed roll, he or she will be lost among the culture being studied, for example like Dennis Hopper’s photojournalist character in the film Apocalypse Now. <br><br></p>",
+          "keeper": ""
+        },
+        "base": "1",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 1
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.anthropology",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "regencyPulp": true,
+              "regency": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849867,
+        "modifiedTime": 1789639849871,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "GN329p7pCkLnHUh4",
+      "name": "Appraise",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/glass-ball.svg",
+      "sort": 400000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Appraise",
+        "specialization": "",
+        "description": {
+          "value": "<p>Used to estimate the value of a particular item, including the quality, material used and workmanship. Where relevant, the skill-user could pinpoint the age of the item, assess its historical relevance and detect forgeries.</p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty: an item that was not rare at its time of manufacture, and is made of a common material (e.g. 50 year-old gold watch)</li><li>Hard difficulty: an unusual item, perhaps made of uncommon materials (e.g. a foreign-made object of several hundred years in age, such as an ancient tome).</li></ul><h2>Pushing examples:</h2><p>Checking an item’s validity with another expert; conducting testing; researching an item.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Accidentally ruining the item in question; bringing the item to the attention of other people, leading to its theft; activating whatever function the item might serve. <br><br></p>",
+          "keeper": ""
+        },
+        "base": "5",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 5
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.appraise",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849867,
+        "modifiedTime": 1789639849871,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "ZaetAPPD3lZmXNOq",
+      "name": "Archaeology",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/great-pyramid.svg",
+      "sort": 500000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Archaeology",
+        "specialization": "",
+        "description": {
+          "value": "<p>Allows dating and identification of artifacts from past cultures, and the detection of fakes. Ensures expertise in setting up and excavating a dig site. On inspecting a site, the user might deduce the purposes and way of life of those who left the remains. Anthropology might aid in this. Archaeology also helps identify written forms of extinct human languages.</p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty: sufficient time and resources to do the job properly</li><li>Hard difficulty: a lack of time and/or limited resources.</li></ul><h2>Pushing examples:</h2><p>Taking more time to study the site or item; conducting further research; consulting another expert.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>The site is spoiled, with finds ruined through incompetence, vandalism or theft; some higher authority seizes the site or the finds from your control; publicity leads to the finds being stolen.<br>If an insane investigator fails a pushed roll, he or she keeps digging deeper, ever deeper—the truth is down there somewhere.<br><br></p>",
+          "keeper": ""
+        },
+        "base": "1",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 1
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.archaeology",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849867,
+        "modifiedTime": 1789639849871,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "4Hex2NZusXF0pZZe",
+      "name": "Art/Craft (Acting)",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/theater-curtains.svg",
+      "sort": 600000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Acting",
+        "specialization": "Art/Craft",
+        "description": {
+          "value": "<p>The performer is trained in theatrical and/or film acting (in the modern era, this may also include television), able to adopt a persona, memorize scripts and utilize stage/movie make-up to alter their appearance. See @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.wkezUa6HM87zjHdn]{Disguise}.</p><p>See @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.BtdK68MeHyjd6Fp8]{Art/Craft (Any)} for details.</p>",
+          "keeper": ""
+        },
+        "base": "5",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 5
+        },
+        "properties": {
+          "special": true,
+          "push": true,
+          "noxpgain": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.art-craft-acting",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849867,
+        "modifiedTime": 1789639849871,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "TDPwLeOtbOepHTyM",
+      "name": "Charm",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/lorc/charm.svg",
+      "sort": 1100000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Charm",
+        "specialization": "",
+        "description": {
+          "value": "<p>Charm takes many forms, including physical attraction, seduction, flattery or simply warmth of personality. Charm may be used to compel someone to act in a certain way, but not in a manner completely contrary to that person’s normal behavior. Charm is opposed by the Charm or @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.JchiW0I3ovhWi1XQ]{Psychology} skills.<br>Charm may be used for bargaining, to haggle the price of an item or service down. If successful, the seller is won over and they may well reduce the price a little.</p><h2>Opposing skill/Difficulty level:</h2><p>An investigator may have a Charm skill of 75%, but this does not mean that he or she can charm anyone and everyone 75% of the time. The difficulty level is based on the opposing factor; in this case the matching social skill (either Charm, Fast Talk, Intimidate, or Persuade) or Psychology skill (whichever is higher). Thus, if the opposing skill is 50% or higher, a Hard success is required (a roll equal to or below half skill). If the opposing skill is 90% or higher, an Extreme success is required (a roll equal to or below one-fifth of skill). For the vast majority of non-player characters, these skills will be below 50%, and so the difficulty level will be Regular and the player only needs a regular success.</p><ul><li><p>If the non-player character is positively inclined towards the player’s goal, don’t bother rolling dice, but simply have them agree.</p></li><li><p>If the non-player character lacks strong feelings towards the player’s goal then no modification to the difficulty level is required.</p></li><li><p>If the non-player character is strongly opposed to the player’s goal, the difficulty is raised by one or two levels.</p></li><li><p>If the player comes up with something to support their case, such as a substantive argument (if using Persuade), or is holding a weapon and is clearly willing to use it (in the case of Intimidate), the Keeper should lower the difficulty by one level.</p></li></ul><p>The lowest chance of success requires an Extreme success (equal to or below one-fifth of the skill), but in some rare circumstances the Keeper may rule that there is no chance of success and that no roll is allowed.</p><h2>Pushing examples:</h2><p>Overtly flattering the target with affection; presenting an expensive gift; building trust by imparting a secret.<br>Remember this is about being ‘charming’: if the investigator begins to take an alternative approach, the Keeper may ask for a different skill to be used; if threats are used, it may become Intimidation; or if a protracted discussion ensues, it may become Persuasion. Switching from one to the other to gain a second roll still constitutes a Pushed roll.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>The target takes offence and will have nothing further to do with you; the target is associated in some way with your enemies and, whilst they may play along with you, they also inform on you; a third party intercedes to prevent you from chatting up their girl.<br>If an insane investigator fails a pushed roll, he or she falls head over heels in love with their target and will act as if the target had successfully used a Dominate spell (see Chapter 12: Grimoire) upon them.<br><br></p>",
+          "keeper": ""
+        },
+        "base": "15",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 15
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.charm",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849867,
+        "modifiedTime": 1789639849871,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "dNWW3QrbCGQ2BY4d",
+      "name": "Climb",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/mountain-road.svg",
+      "sort": 1200000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Climb",
+        "specialization": "",
+        "description": {
+          "value": "<p>This skill allows a character to climb trees, walls and other vertical surfaces with or without ropes and climbing gear.</p><p>The skill also encompasses abseiling.</p><p>Conditions such as firmness of surface, available handholds, wind, visibility, rain, etc., may all affect the difficulty level.</p><p>Failing this skill on the first roll indicates that the climb is perhaps beyond the investigator’s capability. Failing a pushed roll is likely to indicate a fall with resultant damage. One successful Climb roll should allow the investigator to complete the climb in almost all cases (rather than requiring repeated rolls). A challenging or longer climb should have an increased difficulty level.</p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty: plenty of handholds; perhaps a rope or drainpipe to climb.</li><li>Hard difficulty: few handholds, or surfaces slick with rain.</li></ul><h2>Pushing examples:</h2><p>Reassessing the climb; taking a longer route; straining one’s reach.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Fall and suffer damage ([[/r 1D6]] damage per ten feet on to grass, or [[/r 1D10]] damage per 10 feet on to concrete); lose a valuable possession as it falls from your pocket (you may not notice this until later); become stranded, unable to go up or down.</p><p>If an insane investigator fails a pushed roll, he or she holds on for dear life and screams at the top of their lungs for as long as they can.</p>",
+          "keeper": ""
+        },
+        "base": "20",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 20
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.climb",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849867,
+        "modifiedTime": 1789639849871,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "YyAR1QwXz1wH18Tl",
+      "name": "Credit Rating",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/credits-currency.svg",
+      "sort": 1400000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Credit Rating",
+        "specialization": "",
+        "description": {
+          "value": "<p>A measure of how prosperous and financially confident the investigator appears to be. Money opens doors; if the investigator is attempting to use his or her financial status to achieve a goal then use of the Credit Rating skill may be appropriate. Credit Rating can be used in place of APP to gauge first impressions. (i.e. the more wealthy tend to dress in more expensive clothing).<br>Credit Rating is not so much a skill as a gauge of financial wealth, and should not be ticked as other skills are. A high Credit Rating can be a useful resource in play and so should be paid for with skill points when creating an investigator.<br>Each occupation has a starting range for Credit Rating, and skill points should be spent to achieve a rating therein.<br>Call of Cthulhu is not a game that requires money to be carefully tracked; however it is useful to know the bounds of an investigator’s financial reach—for example, can the investigator afford to employ a team of archaeologists and workers to excavate an Egyptian tomb?<br>An investigator’s Credit Rating can change over time. Investigators of the Cthulhu Mythos are prone to insanity, and this may lead to loss of employment and thus a lowering of the investigator’s Credit Rating score.<br>See Credit Rating and Investigator Expenditure for a more in depth study of Credit Rating and its use.</p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty: getting a loan from a bank or business; bypassing a demand for credentials; gaining a line of credit in a store or casino; getting the best table in a fancy restaurant.</li><li>Hard difficulty: obtaining credit or a loan whilst implicated (or found guilty) in a criminal investigation; gaining favorable attention after being vilified in the media.</li></ul><h2>Pushing examples:</h2><p>You offer your house and/or other valuables to secure money from a loan shark; you attempt to pressure the bank manager in to giving you a loan.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>The loan shark turns nasty and directs his boys to teach you a lesson; the bank manager calls the police; you are loaned the money, but it is a ploy to put you in deeper debt with a mobster who plans to buy out your debt and later call on you for a ‘favor’. <br>If an insane investigator fails a pushed roll, he or she loses all faith in capitalism and begins freely handing out their money to passersby.</p>",
+          "keeper": ""
+        },
+        "base": "0",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 30,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 0
+        },
+        "properties": {
+          "noxpgain": true,
+          "push": true,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": true
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.credit-rating",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849867,
+        "modifiedTime": 1789640001407,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "G9CY3Bi86GTbRFsi",
+      "name": "Cthulhu Mythos",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/fish-monster.svg",
+      "sort": 1500000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Cthulhu Mythos",
+        "specialization": "",
+        "description": {
+          "value": "<p>No starting investigator may take points in Cthulhu Mythos as a starting skill (unless agreed with the Keeper). There is no tick-box for Cthulhu Mythos on the investigator sheet, as successful use of the skill does not offer an increase in the investigator’s percentiles in the skill. Instead, points in Cthulhu Mythos are gained by encounters with the Mythos that result in insanity, by insane insights into the true nature of the universe, and by reading forbidden books and other Mythos writings. A character’s Sanity may never be higher than 99 minus his or her Cthulhu Mythos skill. As Cthulhu Mythos points proliferate, they crowd out Sanity points, and leave the investigator vulnerable.<br>The Cthulhu Mythos skill is not founded on the accumulation of knowledge as academic skills are. Rather, it represents the opening and tuning of the human mind to the Cthulhu Mythos. Thus, Cthulhu Mythos skill derived from encountering Deep Ones (for example) is transferable to other situations and entities.<br>Also referred to as ‘that which man should not know’, the Cthulhu Mythos is antithetical to human understanding, and exposure to it undermines human sanity.<br>Whenever spoor or other evidence of Mythos monsters is found, a successful roll against this skill allows the investigator to identify the entity, deduce something about its behavior or guess at some property it may possess. A successful Cthulhu Mythos roll might also allow an investigator to remember some fact concerning the Mythos, identify a spell by seeing it cast, remember that a particular spell or piece of information may be found in a particular Mythos tome, or achieve some other task. The Cthulhu Mythos skill may also be used to manifest magical ‘spell-like’ effects.</p><h2>Opposing skill/Difficulty level:</h2><p>This skill begins at zero and often remains relatively low. The vast majority of skill rolls will be made at regular difficulty.</p><ul><li>Regular difficulty: to correctly identify a mythos entity based upon secondary evidence (spoor, wounds, firsthand accounts).</li><li>Hard difficulty: to identify a mythos entity based upon rumors, legends or minimal evidence; to identify a possible vulnerability or knowledge that grants some minor advantage over a mythos entity after thorough research and firsthand experience.</li></ul><h2>Pushing examples:</h2><p>Getting closer to the creature for a better view; consulting dread tomes or lore of humans (or otherwise) possessing specialist knowledge; conducting an autopsy to learn more; reading aloud as you retrace the strange cryptograms.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Get too close, exposing oneself to harm or suspicion; unwittingly read aloud a passage from a tome that activates a summoning spell; accidentally corrupt or destroy the evidence being studied.<br>If an insane investigator fails a pushed roll, he or she experiences a vision or revelation that reveals new truths about the Cthulhu Mythos, akin to an insane insight (with possible Cthulhu Mythos skill gain and/or associated Sanity loss)—see Insane Insight.</p>",
+          "keeper": ""
+        },
+        "base": "0",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 0
+        },
+        "properties": {
+          "noxpgain": true,
+          "special": false,
+          "rarity": false,
+          "push": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.cthulhu-mythos",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "invictus": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849867,
+        "modifiedTime": 1789639849872,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "HWaoMgZiyvvbpm4d",
+      "name": "Disguise",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/lorc/domino-mask.svg",
+      "sort": 1700000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Disguise",
+        "specialization": "",
+        "description": {
+          "value": "<p>To be used whenever you wish to appear to be someone other than whom you are. The user changes posture, costume and/or voice to enact a disguise, posing as another person or another sort of person. Theatrical makeup may help, as will fake ID.</p><h2>Opposing skill/Difficulty level:</h2><p>There are two distinct aspects to this skill: either you are trying to conceal your true identity (such as when the police are looking for you) or you are impersonating someone else.</p><ul><li>Regular difficulty: to convince strangers that you are who you say you are. For example, to return to the scene of a crime that you perpetrated yesterday and escape notice.</li><li><p>Hard difficulty: to convince professionals in a face-to-face meeting that you are who you say you are. For example, to pass as a bank employee to gain<br>access to a bank vault.</p></li></ul><p>Note that to pass as a specific person in a face-to-face meeting with someone who knows the person being imitated is beyond the scope of this skill, and may well indicate the need for a combined skill roll at a higher difficulty (with @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.maCSb7i5dgpLuyWm]{Persuade}, @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.Vvjn6cRIfsA9fMCh]{Charm} or @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.NSC5Gg9zqtElL3sI]{Fast Talk}).</p><h2>Pushing examples:</h2><p>Undergoing a fully immersive and intensive preparation (losing oneself in the ‘role’); stealing personal items and utilizing them in the disguise; overt exaggeration to confound the target; feigning a sudden attack of illness to disorientate the observer.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Being arrested; causing offence, leading to violence or criminal charges; finding that the person being imitated is wanted by a criminal gang who come looking for vengeance.</p><p>If an insane investigator fails a pushed roll, the investigator no longer recognizes his or her own face in the mirror, even when the disguise is removed. <br><br></p>",
+          "keeper": ""
+        },
+        "base": "5",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 5
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.disguise",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849867,
+        "modifiedTime": 1789639849872,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "IWV2WTvc3jd0sdUa",
+      "name": "Dodge",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/lorc/dodging.svg",
+      "sort": 1900000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Dodge",
+        "specialization": "",
+        "description": {
+          "value": "<p>Allows an investigator to instinctively evade blows, thrown missiles and so forth. A character may attempt to use dodge any number of times in a combat round (but only once against a specific attack - see Chapter 6: Combat). Dodge can increase through experience, like other skills. If an attack can be seen, a character can try to dodge it. It is impossible to dodge bullets because they cannot be seen when in motion; the best a character can do is to take evasive action that results in being harder to hit (“diving for cover”).</p><h2>Opposing skill/Difficulty level:</h2><p>The Dodge skill is mostly used in combat as part of an opposed roll and so no difficulty level is set.</p><p><strong>Note :</strong> as a combat skill, this cannot be pushed.</p>",
+          "keeper": ""
+        },
+        "base": "1/2*@DEX",
+        "adjustments": {
+          "personal": 75,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 0
+        },
+        "properties": {
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "push": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": true
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.dodge",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849867,
+        "modifiedTime": 1789640001407,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "kYVZYnwd06A5MvdM",
+      "name": "Drive Auto",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/skoll/race-car.svg",
+      "sort": 2000000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Drive Auto",
+        "specialization": "",
+        "description": {
+          "value": "<p>Anyone with this skill can drive a car or light truck, make ordinary maneuvers and cope with ordinary vehicle problems. If the investigator wants to lose a pursuer or tail someone, a Drive roll would be appropriate.</p><p>Some other cultures might replace this skill with a comparative one; the Inuit might use Drive Dogsled or a Victorian might use Drive Carriage.</p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty: to successfully weave through light traffic at speed to avoid pursuit.</li><li>Hard difficulty: to successfully weave through heavy traffic at speed to avoid pursuit.</li></ul><h2>Pushing examples:</h2><p>Driving the vehicle to its limit; not slowing down, regardless of the risk.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Crashing; skidding to a halt, unable to proceed; being pursued by the police.</p><p>If an insane investigator fails a pushed roll, he or she will be found behind the wheel of a stationary vehicle making ‘brum-brum’ noises. <br><br></p>",
+          "keeper": ""
+        },
+        "base": "20",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 20
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.drive-auto",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849868,
+        "modifiedTime": 1789639849872,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "aKR8qGMpuyoy3n4i",
+      "name": "Electrical Repair",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/electrical-resistance.svg",
+      "sort": 2100000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Electrical Repair",
+        "specialization": "",
+        "description": {
+          "value": "<p>Enables the investigator to repair or reconfigure electrical equipment, such as auto ignitions, electric motors, fuse boxes, and burglar alarms. In the present day, this skill has little to do with Electronics. To fix an electrical device may require special parts or tools. Jobs in the 1920s may call for this skill and for @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.ySzVwKOtmlKTl2IF]{Mechanical Repair} in combination.</p><p>Electrical Repair may also be used in conjunction with modern explosives, such as blasting caps, C-4 plastic explosives and mines. These weapons are designed to be easy to deploy; only a fumble result will lead to misfire (remember the roll can be Pushed). Defusing explosives is far trickier, as they may be fitted with anti-tamper mechanisms; raise the level of difficulty when disarming explosives—see Demolitions.<br></p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty: repairing or creating a standard electrical device.</li><li>Hard difficulty: repairing something that is badly damaged; working without the proper tools.</li></ul><h2>Pushing examples:</h2><p>Taking longer to repair or reconfigure the equipment; taking a risky short cut.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Take damage from an electric shock; blow the fuses and plunge the building in to darkness; wreck the thing you are working on beyond repair.</p><p>If an insane investigator fails a pushed roll, he or she attempts to harness the electrical power of living organisms into the device. <br><br></p>",
+          "keeper": ""
+        },
+        "base": "10",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 10
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.electrical-repair",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849868,
+        "modifiedTime": 1789639849872,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "17ZfILkVDtxyky7l",
+      "name": "Fast Talk",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/lorc/back-forth.svg",
+      "sort": 2300000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Fast Talk",
+        "specialization": "",
+        "description": {
+          "value": "<p>Fast Talk is specifically limited to verbal trickery, deception and misdirection, such as bamboozling a bouncer to let you inside a club, getting someone to sign a form they haven’t read, making a policeman look the other way, and so on. The skill is opposed by @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.JchiW0I3ovhWi1XQ]{Psychology} or Fast Talk. After a brief period (usually after the fast talker has left the scene) the target will realize that they have been conned. The effect is always temporary, though it will last longer if a higher level of success is achieved.</p><p>Fast Talk may be used to haggle the price of an item or service down. If successful, the seller momentarily thinks that they have struck a good deal; however, if the buyer returns and attempts to purchase another item, the seller may well decide to refuse any further haggling and even increase the price in order to recoup what they lost on the previous sale!</p><h2>Opposing skill/Difficulty level:</h2><p>An investigator may have a Charm skill of 75%, but this does not mean that he or she can charm anyone and everyone 75% of the time. The difficulty level is based on the opposing factor; in this case the matching social skill (either Charm, Fast Talk, Intimidate, or Persuade) or Psychology skill (whichever is higher). Thus, if the opposing skill is 50% or higher, a Hard success is required (a roll equal to or below half skill). If the opposing skill is 90% or higher, an Extreme success is required (a roll equal to or below one-fifth of skill). For the vast majority of non-player characters, these skills will be below 50%, and so the difficulty level will be Regular and the player only needs a regular success.</p><ul><li><p>If the non-player character is positively inclined towards the player’s goal, don’t bother rolling dice, but simply have them agree.</p></li><li><p>If the non-player character lacks strong feelings towards the player’s goal then no modification to the difficulty level is required.</p></li><li><p>If the non-player character is strongly opposed to the player’s goal, the difficulty is raised by one or two levels.</p></li><li><p>If the player comes up with something to support their case, such as a substantive argument (if using Persuade), or is holding a weapon and is clearly willing to use it (in the case of Intimidate), the Keeper should lower the difficulty by one level.</p></li></ul><p>The lowest chance of success requires an Extreme success (equal to or below one-fifth of the skill), but in some rare circumstances the Keeper may rule that there is no chance of success and that no roll is allowed.</p><h2>Pushing examples:</h2><p>Getting up close and personal to the target; talking outlandishly, aiming to confuse the target. Remember this is Fast Talk, so if the investigator begins to take an alternative approach, the Keeper may ask for a different skill to be used; if threats are used, it may become Intimidate, or if a protracted discussion ensues, it may become Persuade. Switching from one to the other to gain a second roll still constitutes a Pushed roll.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Cause great offence leading to violence, outrage or criminal proceedings.</p><p>If an insane investigator fails a pushed roll, he or she begins hurling random abusive phrases at people. <br><br></p>",
+          "keeper": ""
+        },
+        "base": "5",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 5
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": true
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.fast-talk",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "invictus": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849868,
+        "modifiedTime": 1789639957736,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "IVPA2QNmmtlZrJED",
+      "name": "Fighting (Brawl)",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/lorc/mailed-fist.svg",
+      "sort": 2600000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Brawl",
+        "specialization": "Fighting",
+        "description": {
+          "value": "<p>Includes all unarmed fighting and basic weapons that anyone could pick up and make use of, such as clubs (up to cricket bats or baseball bats), knives, and many improvised weapons, such as bottles and chair legs. To determine the damage done with an improvised weapon, the Keeper should refer to the weapon chart and pick something comparable.</p>",
+          "keeper": ""
+        },
+        "base": "25",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 25
+        },
+        "properties": {
+          "special": true,
+          "fighting": true,
+          "noxpgain": false,
+          "rarity": false,
+          "push": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.fighting-brawl",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849868,
+        "modifiedTime": 1789639849872,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "4JbIsVJOmKcFSZ5e",
+      "name": "Firearms (Handgun)",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/john-colburn/pistol-gun.svg",
+      "sort": 3800000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Handgun",
+        "specialization": "Firearms",
+        "description": {
+          "value": "<p>Use for all pistol-like firearms when firing discrete shots. For machine pistols (MAC-11, Uzi, etc.) in Modern era games, use the Submachine Gun skill when firing bursts.</p><p>See @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.lQvteecCBlEOmiG9]{Firearms (Any)} for details.</p>",
+          "keeper": ""
+        },
+        "base": "20",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 20
+        },
+        "properties": {
+          "special": true,
+          "firearm": true,
+          "noxpgain": false,
+          "rarity": false,
+          "push": false,
+          "fighting": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.firearms-handgun",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849868,
+        "modifiedTime": 1789639849872,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "MaLLZQ5c4tSKR7SE",
+      "name": "Firearms (Rifle/Shotgun)",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/skoll/winchester-rifle.svg",
+      "sort": 4100000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Rifle/Shotgun",
+        "specialization": "Firearms",
+        "description": {
+          "value": "<p>With this skill any type of rifle (whether lever-action, bolt-action or semi-automatic) or scatter-gun can be fired. Since the load from a shotgun expands in a spreading pattern, the user’s chance to hit does not decrease with range, but the damage dealt does. When an assault rifle fires a single shot (or multiple singles) use this skill.</p><p>See @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.lQvteecCBlEOmiG9]{Firearms (Any)} for details.<br></p>",
+          "keeper": ""
+        },
+        "base": "25",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 25
+        },
+        "properties": {
+          "special": true,
+          "firearm": true,
+          "noxpgain": false,
+          "rarity": false,
+          "push": false,
+          "fighting": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.firearms-rifle-shotgun",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849868,
+        "modifiedTime": 1789639849873,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "ShTUMYyEHqp3Wqfx",
+      "name": "First Aid",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/first-aid-kit.svg",
+      "sort": 4300000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "First Aid",
+        "specialization": "",
+        "description": {
+          "value": "<p>The user is able to provide emergency medical care. This might encompass: applying a splint to a broken leg, stemming bleeding, treating a burn, resuscitating a drowning victim, dressing and cleaning a wound, etc. First Aid cannot be used to treat diseases (where the @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.J3T3udUgUenlApDh]{Medicine} skill is required).</p><p>To be effective, First Aid must be delivered within one hour, in which case it grants 1 hit point recovery. It may be attempted once, with subsequent attempts constituting a Pushed roll. Two people can work together to administer First Aid, with a success granted if either one of them rolls a success. Successful use of First Aid can rouse an unconscious person to consciousness. A character is limited to one successful treatment of both First Aid and Medicine until further damage is taken.</p><p>When treating a dying character, successful First Aid stabilizes a dying character for one hour and grants 1 temporary hit point (lasting one hour, after which it fades). First Aid (and only First Aid) can save the life of a dying character, after which they must receive a successful Medicine roll or be hospitalized (within one hour), if this does not happen, the temporary hit point is lost and the character is dying. In the case of a dying character, a CON roll must be made at the end of each round; if the roll is failed, the character dies. If the character survives until the following round, First Aid can be attempted again (by up to two individuals). This can be continued (without constituting a Pushed roll) until stabilization or death. Thus, First Aid is an important skill to have, alongside Medicine, if you wish to bean all-round medic.</p><h2>Opposing skill/Difficulty level:</h2><p>Administering First Aid to a fellow human is always of Regular difficulty level. If one were treating an alien being whose physiology was unfamiliar, the difficulty level should be higher.</p><h2>Pushing examples:</h2><p>Taking longer to treat the patient; employing high risk methods to stabilize the wound.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Make things worse, causing an additional point of damage.</p><p>If an insane investigator fails a pushed roll, he or she feels compelled to ‘heal’ the person, even if it means amputation or worse. In effect their endeavors constitute physical attacks which may lead to murder if they are not stopped.</p>",
+          "keeper": ""
+        },
+        "base": "30",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 45,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 30
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": true
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.first-aid",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "invictus": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849868,
+        "modifiedTime": 1789640001407,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "UzvxrlKM2gnLbEE8",
+      "name": "History",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/book-pile.svg",
+      "sort": 4400000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "History",
+        "specialization": "",
+        "description": {
+          "value": "<p>Enables an investigator to remember the significance of a country, city, region or person, as pertinent. A successful roll might be used to help identify tools, techniques or ideas familiar to ancestors, but little known today.</p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty: to recall some pertinent and useful information.</li><li>Hard difficulty: to know some obscure, detailed and useful information.</li></ul><h2>Pushing examples:</h2><p>Taking more time to examine; conducting further research; consulting another expert; hiring assistants to conduct detailed research, taking months, and at a huge cost.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Consultations alert your adversaries, who become aware of your intent; your facts are erroneous and lead you in to danger; much time and money is wasted on fruitless research.</p><p>If an insane investigator fails a pushed roll, he or she is convinced that they are somehow displaced in time, or perhaps they start believing they are living in a historic period, dressing and speaking in an archaic manner. <br><br></p>",
+          "keeper": ""
+        },
+        "base": "5",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 70,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 5
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": true
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.history",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849868,
+        "modifiedTime": 1789640001407,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "0NfyK3zHeRgi1itB",
+      "name": "Intimidate",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/tired-eye.svg",
+      "sort": 4600000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Intimidate",
+        "specialization": "",
+        "description": {
+          "value": "<p>Intimidation can take many forms, including physical force, psychological manipulation and threats. It is used to frighten or compel a person to act in a certain way. Intimidate is opposed by Intimidate or @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.JchiW0I3ovhWi1XQ]{Psychology}.</p><p>Backing up intimidation with a weapon or some other powerful threat or incentive may reduce the difficulty level. When Pushing an Intimidation roll, one possible consequence of failure is carrying out one’s threat, perhaps beyond the level of that which was intended.</p><p>Intimidate may be used to force down the price of an item or service. If successful, the seller is may reduce the price, or hand the item over free of charge, but depending on the situation they may later report the incident to the police or to members of the local organized crime gang.</p><h2>Opposing skill/Difficulty level:</h2><p>An investigator may have a Charm skill of 75%, but this does not mean that he or she can charm anyone and everyone 75% of the time. The difficulty level is based on the opposing factor; in this case the matching social skill (either Charm, Fast Talk, Intimidate, or Persuade) or Psychology skill (whichever is higher). Thus, if the opposing skill is 50% or higher, a Hard success is required (a roll equal to or below half skill). If the opposing skill is 90% or higher, an Extreme success is required (a roll equal to or below one-fifth of skill). For the vast majority of non-player characters, these skills will be below 50%, and so the difficulty level will be Regular and the player only needs a regular success.</p><ul><li><p>If the non-player character is positively inclined towards the player’s goal, don’t bother rolling dice, but simply have them agree.</p></li><li><p>If the non-player character lacks strong feelings towards the player’s goal then no modification to the difficulty level is required.</p></li><li><p>If the non-player character is strongly opposed to the player’s goal, the difficulty is raised by one or two levels.</p></li><li><p>If the player comes up with something to support their case, such as a substantive argument (if using Persuade), or is holding a weapon and is clearly willing to use it (in the case of Intimidate), the Keeper should lower the difficulty by one level.</p></li></ul><p>The lowest chance of success requires an Extreme success (equal to or below one-fifth of the skill), but in some rare circumstances the Keeper may rule that there is no chance of success and that no roll is allowed.</p><h2>Pushing examples:</h2><p>Causing actual physical harm to the target or to something or someone that the target cares about. Remember that this is Intimidation; if the investigator begins to take an alternative approach, the Keeper may ask for a different skill to be used. If the threats are retracted and the investigator then tries to befriend the target, it may become Charm; or if a protracted and unthreatening discussion ensues, it may become Persuade. Switching from one to the other to gain a second roll still constitutes a Pushed roll.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Accidentally pulling the trigger of the gun you’re waving in the target’s face; the target’s mind snaps, resulting in violence or inane babbling, after which no more can be gained; the target simply laughs in your face and won’t break no matter what you do; the target somehow turns the tables and intimidates the intimidator.</p><p>It is important to note that Pushing an Intimidate roll means taking things to the limit. This could involve days of interrogation, or an ultimatum with a gun to the head. Either way, a Pushed roll either gains the required information or renders some kind of end to the situation.</p><p>If an insane investigator fails a pushed roll, he or she becomes intensely fearful of the target and does their bidding.</p>",
+          "keeper": ""
+        },
+        "base": "15",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 15
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.intimidate",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849868,
+        "modifiedTime": 1789639849873,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "TWI3x4XTxOPieUiN",
+      "name": "Jump",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/jump-across.svg",
+      "sort": 4700000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Jump",
+        "specialization": "",
+        "description": {
+          "value": "<p>With success, the investigator may leap up or down vertically, or jump horizontally from a standing or running start. When falling, Jump may be used to lessen the potential fall damage.</p><p>Judgment must be exercised as to what constitutes a regular jump, a difficult jump or an extreme jump (respectively requiring Regular success, Hard success and Extreme success). As a guide, a regular success would be required for an investigator to safely leap down vertically to his or her own height, jump horizontally from a standing start across a gap for a distance equal to the jumper’s own height, or run and then jump horizontally to a distance of twice the jumper’s own height. One might achieve double this distance with an Extreme success, although bear in mind the world record for the long jump is around 29 feet.</p><p>If falling from a height, a successful Jump prepares for the fall, reducing resultant damage by half.</p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty: safely leap down vertically a distance equal to the jumper’s own height; jump horizontally from a standing start, across a gap for a distance equal to the jumper’s own height; run and then jump horizontally to a distance of twice the jumper’s own height.</li><li>Hard difficulty: as for a regular difficulty but increase distances by 50%; perhaps attempting to jump from a rooftop and through the window of a neighboring building across the alley.</li></ul><h2>Pushing examples:</h2><p>Delaying and taking time to assess the jump; throwing all your weight and force behind the jump—really stretching for it. In some instances a Pushed roll is not possible; if one leaps across an abyss one cannot have a second attempt. However, if one is trapped in a pit and jumping to escape, one could have any number of attempts, which would then be summarized by one Pushed skill roll.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Fall and suffer physical harm; achieve the jump but a valuable possession (of the Keeper’s choice) is dropped in the process.</p><p>If an insane investigator fails a pushed roll, he or she will become convinced that they can fly.</p>",
+          "keeper": ""
+        },
+        "base": "20",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 20
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.jump",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849868,
+        "modifiedTime": 1789639849873,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "ETGTX36R3KCAGb9U",
+      "name": "Language (Czech)",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/skoll/talk.svg",
+      "sort": 4800000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Czech",
+        "specialization": "Language",
+        "description": {
+          "value": "<p>See @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.bLREcyXP11sbPOiv]{Language (Own)} if learned in infancy and early childhood, or @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.TFwiqXNmo55bOoBK]{Language (Other)} if learned as a foreign language.</p>",
+          "keeper": ""
+        },
+        "base": "1",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 1
+        },
+        "properties": {
+          "special": true,
+          "push": true,
+          "noxpgain": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.language-czech",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849869,
+        "modifiedTime": 1789639849873,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "hx9cRJgh1QoK2ida",
+      "name": "Language (Czech)",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/skoll/talk.svg",
+      "sort": 4800000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Czech",
+        "specialization": "Language",
+        "description": {
+          "value": "<p>See @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.bLREcyXP11sbPOiv]{Language (Own)} if learned in infancy and early childhood, or @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.TFwiqXNmo55bOoBK]{Language (Other)} if learned as a foreign language.</p>",
+          "keeper": ""
+        },
+        "base": "1",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 1
+        },
+        "properties": {
+          "special": true,
+          "push": true,
+          "noxpgain": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": true
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.language-czech",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849869,
+        "modifiedTime": 1789639957736,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "Jdw9YO9C9o7MAHxD",
+      "name": "Law",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/3d-hammer.svg",
+      "sort": 5100000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Law",
+        "specialization": "",
+        "description": {
+          "value": "<p>Represents the chance of knowing pertinent law, precedent, legal maneuvers or court procedure. The practice of law as a profession can lead to great rewards and political office, but it requires intense application over many years—a high @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.S7o329b25Xcd3rof]{Credit Rating} is also usually crucial in this regard. In the United States, the State Bar of a particular commonwealth or state must sanction one’s practice of law.</p><p>When in a foreign country, it is suggested that the level of difficulty be increased when using this skill, unless the character has spent many months studying that nation’s legal system.</p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty level: understanding and utilizing the details of a relevant law or legal procedure.</li><li>Hard difficulty: remembering or understanding an obscure legal precedent, or cross-examining a highly competent hostile witness.</li></ul><h2>Pushing examples:</h2><p>Delaying to consider your argument; explaining in high detail the nuances of the case/situation; taking significant time to conduct research; bending the letter of the law to drive your argument.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Misinterpreting a law or stepping outside of the accepted legal procedure leads you to break the law and draws police attention; wasting valuable time and money on research and legal fees; you are held in contempt of court and thrown in the cells for at least 24 hours.</p><p>If a Pushed roll is failed, an insane investigator will now believe that he or she is above the law.</p>",
+          "keeper": ""
+        },
+        "base": "5",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 5
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.law",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849869,
+        "modifiedTime": 1789639849873,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "mE2VrlNR5nynaIZ7",
+      "name": "Library Use",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/archive-research.svg",
+      "sort": 5200000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Library Use",
+        "specialization": "",
+        "description": {
+          "value": "<p>Library Use enables an investigator to find a piece of information, such as a certain book, newspaper or reference in a library, collection of documents or database, assuming the item is there. Use of this skill marks several hours of continuous search.</p><p>This skill can locate a locked case or rare-book special collection, but Persuade, Fast Talk, Charm, Intimidate, Credit Rating or special credentials may have to be used to get access to the books or information in question.</p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty: locating a book or piece of information in a library.</li><li>Hard difficulty: identifying piece of information in a disorganized library, or if you are extremely pressed for time.</li></ul><h2>Pushing examples:</h2><p>Pressing the librarian for extensive assistance; taking longer to systematically work through the stacks.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Finding a similar book, containing misleading information, which will lead the investigators in to danger; entanglement with an adversary—perhaps they are alerted to your research and act against you, or they check out book you are searching for (or simply tear out the pages in question); getting in to an argument with the librarian, resulting in your library membership being revoked.</p><p>If an insane investigator fails a pushed roll, he or she hoards books, cutting out pages to stick to their bedroom wall, making copious bizarre notes, linking the pages with threads of cotton and pins. Alternatively, the investigator is obsessed with finding the ‘correct’ book or piece of information, spending all of their time pilfering and poring over books.</p>",
+          "keeper": ""
+        },
+        "base": "20",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 55,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 20
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": true
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.library-use",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849869,
+        "modifiedTime": 1789640001407,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "cIDDDRGG8BTyB5Bf",
+      "name": "Listen",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/sound-on.svg",
+      "sort": 5300000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Listen",
+        "specialization": "",
+        "description": {
+          "value": "<p>Measures the ability of an investigator to interpret and understand sound, including overheard conversations, mutters behind a closed door and whispered words in a cafe. The Keeper may use it to determine the course of an impending encounter: was your investigator awakened by that cracking twig? By extension, a high Listen skill can indicate a good level of general awareness in a character.</p><h2>Opposing skill/Difficulty level:</h2><p>Listen can be opposed by @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.jeZixExzr8y2s02A]{Stealth} when someone is creeping up on you.</p><ul><li>Regular difficulty: hearing something approaching you (with a Stealth skill of below 50); eavesdropping on a nearby conversation.</li><li>Hard difficulty: hearing something creep up on you (with a Stealth skill of 50 to 89); eavesdropping on whispered conversation.</li></ul><h2>Pushing examples:</h2><p>Stopping dead still and listening; getting closer to the presumed source (e.g. putting your ear to the train track or the door); telling everyone to be quiet (making a noise yourself) and then listening.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>The ‘thing’ has caught you unawares (you are surprised); you misheard the conversation and get the facts mixed up; you are caught trying to eavesdrop, and find yourself in a very embarrassing predicament.</p><p>If an insane investigator fails a pushed roll, he or she becomes overly sensitive to all sounds and is unable to operate without earplugs or similar.</p>",
+          "keeper": ""
+        },
+        "base": "20",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 20
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.listen",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849869,
+        "modifiedTime": 1789639849874,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "mKdQZgvJetw0DDrp",
+      "name": "Locksmith",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/house-keys.svg",
+      "sort": 5400000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Locksmith",
+        "specialization": "",
+        "description": {
+          "value": "<p>A locksmith can open car doors, hot-wire autos, jimmy library windows, figure out Chinese puzzle boxes and penetrate ordinary commercial alarm systems. The user may repair locks, make keys or open locks with the aid of skeleton keys, picks and other tools. Especially difficult locks may be of a higher difficulty level.</p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty: opening or repairing a standard lock.</li><li>Hard difficulty: opening a high security lock.</li></ul><h2>Pushing examples:</h2><p>Completely dismantling the lock; taking longer; using force to pry the mechanism.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>The lock is damaged beyond repair (perhaps your lock pick has snapped off inside the lock); you break the puzzle box (perhaps only smashing it will open it now); you trip an alarm, or make enough noise for someone or something to come looking…</p><p>If an insane investigator fails a pushed roll, he or she gives up on the lock in question and realizes the higher purpose of unlocking their own mind; a veil has been lifted from their eyes, and they see the world in a new way that makes complete sense to them, but no sense to anyone of sound mind.</p>",
+          "keeper": ""
+        },
+        "base": "1",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 1
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.locksmith",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849869,
+        "modifiedTime": 1789639849874,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "HBoO4NHo4LkRuwLJ",
+      "name": "Mechanical Repair",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/lorc/mechanical-arm.svg",
+      "sort": 5600000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Mechanical Repair",
+        "specialization": "",
+        "description": {
+          "value": "<p>This allows the investigator to repair a broken machine or to create a new one. Basic carpentry and plumbing projects can be performed, as well as constructing items (such as pulley system) and repairing items (such as a steam pump). Special tools or parts may be required. This skill can be used to open common household locks, but nothing more advanced—see the Locksmith skill for more complex locks. Mechanical Repair is a companion skill to @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.P5kEcIG4HfTVyBB9]{Electrical Repair}, and both may be necessary to fix complex devices, such as a car or an aircraft.</p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty: repair or create a simple device; open a basic lock.</li><li>Hard difficulty: repair a very badly damaged device; create a complex device with limited resources.</li></ul><h2>Pushing examples:</h2><p>Completely dismantling the device; taking longer; risk using excessive force to ‘knock’ the device into action (e.g. hitting the thing till it works).</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>You have broken the device beyond repair; you hurt yourself whilst working on the device (perhaps cutting your hand, etc.); you become obsessed with the device and find you have spent the whole day and night working on it.</p><p>If an insane investigator fails a pushed roll, he or she fills a telephone directory sized notepad with scribbled designs, culminating in the creation of a bizarre device using organic matter and household appliances.</p>",
+          "keeper": ""
+        },
+        "base": "10",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 10
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.mechanical-repair",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849869,
+        "modifiedTime": 1789639849874,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "RtBGXVUaVTIrOWsg",
+      "name": "Medicine",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/plague-doctor-profile.svg",
+      "sort": 5700000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Medicine",
+        "specialization": "",
+        "description": {
+          "value": "<p>The user diagnoses and treats accidents, injuries, diseases, poisonings, etc., and makes public health recommendations. If an era has no good treatment for a malady, the effort is limited, uncertain, or inconclusive. The Medicine skill grants knowledge of a wide variety of drugs and potions, natural and man-made, and understanding of the side effects and contraindications.</p><p>Treatment using the Medicine skill takes a minimum of one hour and can be delivered any time after damage is taken, but if this is not performed on the same day, the difficulty level is increased (requiring a Hard success). A person treated successfully with Medicine recovers 1D3 hit points (in addition to any First Aid they have received), except in the case of a dying character, which must initially receive successful First Aid to stabilized them before a Medicine roll is made.</p><p>A character is limited to one treatment of both First Aid and Medicine until further damage is taken. Successful use of Medicine can rouse an unconscious person to consciousness.</p><p>In treating Major Wounds, successful use of the Medicine skill provides the patient a Bonus die on their weekly recovery roll.</p><p>The Keeper may grant automatic success for medical treatment in a contemporary, well-equipped hospital.</p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty: diagnosis and treatment of standard medical ailments, with access to equipment (at least a doctor’s bag containing drugs and instruments) and a suitable environment.</li><li>Hard difficulty: diagnosis and treatment in a dirty and unsafe environment, with the minimum of equipment.</li></ul><h2>Pushing examples:</h2><p>Consulting with colleagues; conducting further research; trying something experimental or more risky; performing some form of clinical experiment.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>You misdiagnose the ailment and you worsen the patient’s condition (perhaps even killing them); your good standing comes into question and you are investigated for malpractice. In the case of a dying character, if a Pushed Medicine roll is failed, the patient dies.</p><p>If an insane investigator fails a Pushed roll, the results will be disturbing in the extreme, perhaps involving amputation or blood poisoning as a result of failed attempts to graft animal parts to the person.</p>",
+          "keeper": ""
+        },
+        "base": "1",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 1
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.medicine",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849869,
+        "modifiedTime": 1789639849874,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "mFtZyyrrayGs9E6j",
+      "name": "Natural World",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/forest.svg",
+      "sort": 5800000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Natural World",
+        "specialization": "",
+        "description": {
+          "value": "<p>Originally the study of plant and animal life in its environment. By the nineteenth century, this study had long separated into a range of academic disciplines (e.g. Biology, Botany, etc.) As a skill, Natural World represents the traditional (unscientific) knowledge and personal observation of farmers, fishermen, inspired amateurs and hobbyists. It can identify species, habits and habitats in a general way, and identify tracks, spoors and calls, as well as allowing guesses as to what may be important to a particular species. For a scientific understanding of the natural world, one should look to the Biology, Botany and Zoology skills.</p><p>Natural World may or may not be accurate—this is the region of appreciation, judgment, folk tradition and enthusiasm. Use Natural World to judge horseflesh at the county fair, or decide whether a butterfly collection is excellent or just excellently framed.</p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty: identifying a particular species; remembering some common lore; knowing the best place to catch some fish.</li><li>Hard difficulty: identifying an unusual specimen; locating a rare species of plant or animal; remembering a very obscure fact or piece of lore.</li></ul><h2>Pushing examples:</h2><p>Spending much longer (forgetful of the time) examining the habitat; tasting the unknown mushroom or plant to get a better idea what it is; consulting with the old woman in the village about the local wildlife.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>You spend long hours obsessively poring over books to identify the species; you get the facts wrong, and instead of the wasps being repelled by your concoction of swamp mud and herbs, they are drawn to you (with painful results); you picked the wrong mushroom and find yourself, hours later, walking naked towards a policeman.</p><p>If an insane investigator fails a pushed roll, he or she goes native and will be lost in the wilderness until friends come to their aid.</p>",
+          "keeper": ""
+        },
+        "base": "10",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 10
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.natural-world",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "invictus": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849869,
+        "modifiedTime": 1789639849874,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "SyK8RsFVpSULX97c",
+      "name": "Navigate",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/earth-america.svg",
+      "sort": 5900000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Navigate",
+        "specialization": "",
+        "description": {
+          "value": "<p>Allows the user to find his or her way in storms or clear weather, in day or at night. Those of higher skill are familiar with astronomical tables, charts, instruments and satellite location gear, as they exist in the era of play. One could also use this skill to measure and map an area (cartography), whether an island of many square miles or the interior of a single room—use of modern technology may lower or negate the difficultly level.</p><p>Rolls for this skill may be made as concealed rolls by the Keeper—a matter for the investigators to attempt, and later witness the results.</p><p>If the character is familiar with the area, a bonus die should be granted to the roll.</p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty: keep on the right route; use the sun and stars to identify compass positions; map a small area of terrain.</li><li>Hard difficulty: head in the right direction when there is no clear route or landmarks; map a large area of complex terrain.</li></ul><h2>Pushing examples:</h2><p>Getting the map out and delaying whilst you attempt to work out where you are; going back to where you started from and trying again.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>You get lost and find yourself being watched or ambushed by a bear; you go round and round in circles, and your companions stop following you (you’re on your own now…); you mistake the stars, and rather than getting away from the cultist’s search parties, you end up back at the cult’s hidden base.</p><p>If an insane investigator fails a pushed roll, he or she throws away the map (as happens in The Blair Witch Project) and follows their intuition. Their intuition does not work.</p>",
+          "keeper": ""
+        },
+        "base": "10",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 10
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.navigate",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "invictus": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849869,
+        "modifiedTime": 1789639849874,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "ZnuqOpcqnZMAFAmI",
+      "name": "Occult",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/lorc/evil-book.svg",
+      "sort": 6000000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Occult",
+        "specialization": "",
+        "description": {
+          "value": "<p>The user recognizes occult paraphernalia, words and concepts, as well as folk traditions, and can identify grimoires of magic and occult codes. The occultist is familiar with the families of secret knowledge passed down from Egypt<br>and Sumer, from the Medieval and Renaissance West, and perhaps from Asia and Africa as well.</p><p>Comprehending certain books may provide percentiles of Occult. This skill does not apply to spells, books and magic of the Cthulhu Mythos, although worshipers of the Great Old Ones often adopt occult ideas.</p><p>Whether non-Mythos magic is real or fraudulent in your game is for the Keeper to determine (see Chapter 9: Magic).</p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty: recall information from folklore or occult theories; understand the meaning of tarot cards or other divination techniques.</li><li>Hard difficulty: identify rare or unique occult tomes; recall the finer details of secret occult practices and rituals.</li></ul><h2>Pushing examples:</h2><p>Taking more time to study the site or item; conducting further research; consulting another expert; purging oneself and undertaking extreme personal preparation in advance of ritual performance.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Information is misremembered, and the ritual is performed incorrectly with disastrous consequences (perhaps the house is burned to the ground); in preparing the circle of protection, you use the wrong ingredients, and rather than ward off the spirits you genuinely summon something malevolent; your research has uncovered a hitherto unknown Mythos link, and your realization shatters your mind (SAN loss).</p><p>If an insane investigator fails a pushed roll, this is likely to manifest in some form on obsession; perhaps the investigator tattoos occult symbols upon his or her cheeks and palms, or cannot act without first using a scrying crystal to divine their future.</p>",
+          "keeper": ""
+        },
+        "base": "5",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 56,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 5
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": true
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.occult",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "invictus": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849869,
+        "modifiedTime": 1789640001407,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "pkhLAQDVM2b20OZ5",
+      "name": "Persuade",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/lorc/conversation.svg",
+      "sort": 6200000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Persuade",
+        "specialization": "",
+        "description": {
+          "value": "<p>Use Persuade to convince a target about a particular idea, concept or belief through reasoned argument, debate and discussion. Persuade may be employed without reference to truth. The successful application of Persuade takes time: at least half an hour. If you want to persuade someone quickly, you should use @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.NSC5Gg9zqtElL3sI]{Fast Talk}.</p><p>Depending on the goal expressed by the player, if the investigator takes sufficient time, the effect may linger indefinitely and insidiously; for years perhaps, until events or another Persuade turn the target’s mind in another direction. Persuade may be used for bargaining, to haggle the price of an item or service down. If successful, the seller is thoroughly convinced that they have struck a good deal.</p><h2>Opposing skill/Difficulty level:</h2><p>An investigator may have a Charm skill of 75%, but this does not mean that he or she can charm anyone and everyone 75% of the time. The difficulty level is based on the opposing factor; in this case the matching social skill (either Charm, Fast Talk, Intimidate, or Persuade) or Psychology skill (whichever is higher). Thus, if the opposing skill is 50% or higher, a Hard success is required (a roll equal to or below half skill). If the opposing skill is 90% or higher, an Extreme success is required (a roll equal to or below one-fifth of skill). For the vast majority of non-player characters, these skills will be below 50%, and so the difficulty level will be Regular and the player only needs a regular success.</p><ul><li><p>If the non-player character is positively inclined towards the player’s goal, don’t bother rolling dice, but simply have them agree.</p></li><li><p>If the non-player character lacks strong feelings towards the player’s goal then no modification to the difficulty level is required.</p></li><li><p>If the non-player character is strongly opposed to the player’s goal, the difficulty is raised by one or two levels.</p></li><li><p>If the player comes up with something to support their case, such as a substantive argument (if using Persuade), or is holding a weapon and is clearly willing to use it (in the case of Intimidate), the Keeper should lower the difficulty by one level.</p></li></ul><p>The lowest chance of success requires an Extreme success (equal to or below one-fifth of the skill), but in some rare circumstances the Keeper may rule that there is no chance of success and that no roll is allowed.</p><h2>Pushing examples:</h2><p>Getting close and personal to advance your argument or appeal to the target’s reason; demonstrating through logical reasoning and examples, in detail; using carefully preplanned suggestion techniques (possibly also subliminal messages) to make the target as receptive as possible; putting on a grand show (staging, fireworks, free gifts, free drinks, bribes, etc.) in order to really push your point of view front and center for a group of people.</p><p>Remember that this is Persuade; if the investigator begins to take an alternative approach, the Keeper may ask for a different skill to be used. If threats are used, it may become Intimidate; or if the investigator is relying on befriending the target, it may become Charm. Switching from one to the other to gain a second roll still constitutes a Pushed roll.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>The target takes great offence and refuses to have any more to do with you; your bribe worked and the target signed the forms—however in the cold light of morning they feel they have been duped, and now their solicitor has employed a private eye to find out what you’re up to, or is suing you for malpractice; the target doesn’t like your big talk and, from out of nowhere, they pull a knife on you; you persuaded the security guard to turn a blind eye to your robbery—however they lose their job and, wracked with guilt, they commit suicide (the full implications of your actions hit you and you lose Sanity for causing the death of an innocent).</p><p>If an insane investigator fails a pushed roll, they may be found later on a street corner trying to convince passersby of their argument or bizarre point of view.</p>",
+          "keeper": ""
+        },
+        "base": "10",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 10
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.persuade",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849869,
+        "modifiedTime": 1789639849874,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "kMpigVJfEav5bROK",
+      "name": "Pilot (Aircraft)",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/skoll/airplane.svg",
+      "sort": 6300000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Aircraft",
+        "specialization": "Pilot",
+        "description": {
+          "value": "<p>Understands and is increasingly competent with a general class of aircraft named below. Upon any landing, even under the best conditions, a Pilot roll must be made. The consequence of failure is situation-dependent. Failing a (Pushed) skill roll to land in a flat, grassy field on a calm summer’s day may simply indicate a bumpy landing, perhaps deterring more delicate passengers from flying again. At the other extreme, failing a (Pushed) skill roll to land on icy tundra during a storm may well result in the destruction of the airplane and death or injury of all involved.</p><p>Failure commonly represents damage to the craft, which must be repaired before the next take-off. A result of 100 is a memorable disaster.</p><p>See @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.NyaK92bFsoDqJa0P]{Pilot (Any)} for details.</p>",
+          "keeper": ""
+        },
+        "base": "1",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 1
+        },
+        "properties": {
+          "special": true,
+          "push": true,
+          "noxpgain": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.pilot-aircraft",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849870,
+        "modifiedTime": 1789639849874,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "xWakgf2gcbi9eOJK",
+      "name": "Psychoanalysis",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/lorc/psychic-waves.svg",
+      "sort": 6600000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Psychoanalysis",
+        "specialization": "",
+        "description": {
+          "value": "<p>The skill refers to the range of emotional therapies, not just to Freudian procedures. Formal psychotherapy was still in its infancy in the 1890s, though some procedures are as old as humanity. Sometimes it was looked on as a fraudulent study even in the 1920s. The common term then for an analyst or scholar of emotional disorders was ‘alienist’. In the present day, a combination of therapies has evolved, and this skill now could be justly named Psychiatric Treatment.</p><p>Intensive psychoanalysis can return Sanity points to an investigator patient. Once per game month, to learn the progress of the therapy, make a [[/r 1D100]] roll against the analyst or doctor’s Psychoanalysis skill. If the roll succeeds, the patient gains [[/r 1D3]] Sanity points. If the roll fails, add no points. If the roll is fumbled, then the patient loses [[/r 1D6]] Sanity points, and treatment by that analyst concludes: there has been some sort of serious incident or dramatic setback in the therapy, and the relationship between patient and therapist has broken down beyond saving.</p><p>In the game, psychoanalysis alone does not speed recovery from indefinite insanity, which requires [[/r 1D6]] months of institutional (or similar) care, of which psychotherapy may form a part.</p><p>Successful use of this skill can allow another person to cope with the subject of their phobia for a short time, or to see delusions for what they are. In play this would allow for an insane investigator to ignore the effects of a phobia or mania for a brief period, allowing a claustrophobe to hide in a broom cupboard for ten minutes, for example. Equally a person might make a Psychoanalysis roll to help a delusional investigator see through their hallucination for a brief period.</p><p>Treatment by a psychotherapist can add Sanity points during indefinite insanity (see Sanity).</p><p>Psychoanalysis cannot increase a person’s Sanity points above 99–Cthulhu Mythos.</p><h2>Opposing skill/Difficulty level:</h2><ul><li>Regular difficulty: standard therapy within a hospital setting.</li><li>Hard difficulty: intermittent therapy over a longer period.</li></ul><h2>Pushing examples:</h2><p>This is a skill, which can be attempted month after month without requiring a Pushed skill roll. However, if one failed the skill roll in a given month, one might choose to push a roll during a single session on the following day with some form of radical intervention (if a quick result was required). For example, forcing a patient to ‘face’ their fear by actively forcing them to confront its physical reality; getting the patient’s friends and close colleagues to actively participate in the therapy.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Curing the patient’s fear of spiders by locking them in a room full of tarantulas backfires as the patient goes berserk (possible damage to self and to others) and now thinks they are the ‘spider king’ (the patient now has a new mania and has lost additional Sanity points—the therapist should make a Sanity roll too, as their actions caused this!)</p><p>Much like the blind leading the blind, it is possible for an insane character to practice psychoanalysis. An insane character who fails a pushed roll could seek to become a cult leader, with his or her patients as recruits.</p>",
+          "keeper": ""
+        },
+        "base": "1",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 1
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.psychoanalysis",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849870,
+        "modifiedTime": 1789639849874,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "IcoDbhRMaoJOilEf",
+      "name": "Psychology",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/all-seeing-eye.svg",
+      "sort": 6700000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Psychology",
+        "specialization": "",
+        "description": {
+          "value": "<p>A perception skill common to all humans, it allows the user to study an individual and form an idea of another person’s motives and character. The Keeper may choose to make concealed Psychology skill rolls on the player’s behalf, announcing only the information, true or false, that the user gained by employing it.</p><h2>Opposing skill/Difficulty level:</h2><p>Psychology can be used to oppose all forms of social interaction rolls: @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.zqlNs7cqzgR7OLay]{Intimidate}, @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.NSC5Gg9zqtElL3sI]{Fast Talk}, @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.maCSb7i5dgpLuyWm]{Persuade} and @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.Vvjn6cRIfsA9fMCh]{Charm}. It can also be used to see through someone’s disguise (such as when using the @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.wkezUa6HM87zjHdn]{Disguise} skill).</p><ul><li>Regular difficulty: read someone’s intent or determine if the person is lying if their relevant skill (Intimidate, Fast Talk, Persuade and Charm) is below 50%.</li><li>Hard difficulty: read someone’s intent or determine if the person is lying if their relevant skill (Intimidate, Fast Talk, Persuade and Charm) is between 50% and 89%.</li></ul><h2>Pushing examples:</h2><p>Being very unsubtle and asking highly personal, intimate or downright direct questions of the target; immersing yourself in data regarding a specific person (the target of your study) in order to think like them and understand their motivations.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>You somehow reveal your own motivations to the target; the target is offended by your prying questions or curious stare, and refuses to speak with you further, or takes action against you (perhaps violence or a call to the police); unknown to you, the target is connected with your adversaries, and you unwittingly reveal your own agenda to them; spending all week locked in your room in order to build the profile has left you a physical and mental wreck (penalty die to all rolls until you recover).</p><p>If an insane investigator fails a pushed roll, he or she believes that they hear the target’s evil thoughts, and launches a physical attack upon them.</p>",
+          "keeper": ""
+        },
+        "base": "10",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 10
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.psychology",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849870,
+        "modifiedTime": 1789639849875,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "HeXOmSGLADLXKVnr",
+      "name": "Ride",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/horse-head.svg",
+      "sort": 6900000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Ride",
+        "specialization": "",
+        "description": {
+          "value": "<p>This skill is intended to apply to saddle horses, donkeys or mules, and grants knowledge of basic care of the riding animal, riding gear, and how to handle the steed at a gallop or on difficult terrain. Should a steed unexpectedly rear or stumble, the rider’s chance of remaining mounted equals his or her Ride skill. Riding side-saddle increases the level of difficulty by one level. An unfamiliar mount (such as a camel) might be ridden successfully, but the level of difficulty would be higher.</p><p>If an investigator falls from a mount, either because the animal has collapsed, fallen or died (or because a pushed Ride roll failed), at least [[/r 1D6]] hit points are lost in the accident—although a Jump roll can negate this loss.</p><h2>Opposing skill/Difficulty level:</h2><p>Basic animal handling or riding a mount at walking pace does not require a ride roll.</p><ul><li>Regular difficulty: riding at speed; holding on to a scared mount.</li><li>Hard difficulty: riding a mount at speed in rough, unfamiliar terrain where weather conditions are poor (e.g. a heavily wooded forest at night in the pouring rain).</li></ul><h2>Pushing examples:</h2><p>Whipping or pushing the mount aggressively—perhaps forcing a horse to jump a ravine or high ditch; taking the risk of keeping your mount rather than jumping clear as trouble approaches.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Rider is thrown from mount and takes falling damage; mount is injured; rider’s foot is entangled in the mount’s bridle and the rider ends up being dragged for some distance.</p><p>If an insane investigator fails a pushed roll, he or she becomes obsessed with the animal.</p>",
+          "keeper": ""
+        },
+        "base": "5",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 5
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.ride",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "invictus": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849870,
+        "modifiedTime": 1789639849875,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "qTK7ftAdY9jVRnB3",
+      "name": "Science (Astronomy)",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/lorc/ringed-planet.svg",
+      "sort": 7100000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Astronomy",
+        "specialization": "Science",
+        "description": {
+          "value": "<p>The user knows how to find out which stars and planets are overhead at a particular day or hour of the day or night, when eclipses and meteor showers occur, and the names of important stars. The skill also provides knowledge of current perceptions about life on other worlds, the existence or the formation of galaxies, and so on. An academic might be able to calculate orbits, discuss stellar life cycles and (in the modern day), have knowledge of infrared astronomy or long-baseline interferometry.</p><p>See @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.rLWCxomxG1VUpw7m]{Science (Any)} for details.</p>",
+          "keeper": ""
+        },
+        "base": "1",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 1
+        },
+        "properties": {
+          "special": true,
+          "push": true,
+          "noxpgain": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.science-astronomy",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849870,
+        "modifiedTime": 1789639849875,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "jEyfQ8W41TV1KpNl",
+      "name": "Sleight of Hand",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/lorc/hand.svg",
+      "sort": 8400000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Sleight of Hand",
+        "specialization": "",
+        "description": {
+          "value": "<p>Allows the visual covering-up, secreting or masking of an object or objects, perhaps with debris, cloth, or other intervening or illusion-promoting materials, perhaps by using a secret panel or false compartment. Larger objects of any sort should be increasingly hard to conceal.</p><p>Sleight of hand includes pick-pocketing, palming a card and clandestine use of a cell phone.</p><h2>Opposing skill/Difficulty level:</h2><p>Sleight of Hand is commonly opposed by @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.vEjTaE4yLL3R3No0]{Spot Hidden}. Adjust the difficulty level according to the size of the task. If it is a small item (which would fit in a pocket or up a sleeve) that is being palmed or concealed, no adjustment is required. If the item is larger, the level of difficulty may be increased.</p><ul><li>Regular difficulty: picking the pocket of someone with less than 50% Spot Hidden skill.</li><li>Hard difficulty: picking the pocket of someone with 50% to 89% Spot Hidden skill.</li></ul><h2>Pushing examples:</h2><p>Taking more time to study the target and their behaviors; physically touching or bumping into the target; setting up an elaborate rig inside one’s jacket to conceal a card or loaded dice; having someone cause a distraction.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>You feel a policeman’s hand on your shoulder; whilst no one can prove you pick-pocketed the priceless diamond, someone has their suspicions and you begin to notice that for the last week you have been tailed by a mysterious dark figure; you’re caught red-handed and the mobster doesn’t take kindly to thieves! You’re taken out back and shown the business end of a couple of baseball bats.</p><p>If an insane investigator fails a pushed roll, he or she acts like a kleptomaniac.</p>",
+          "keeper": ""
+        },
+        "base": "10",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 10
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.sleight-of-hand",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849870,
+        "modifiedTime": 1789639849875,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "x3ugUD0v8jpdv7EG",
+      "name": "Spot Hidden",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/lorc/magnifying-glass.svg",
+      "sort": 8500000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Spot Hidden",
+        "specialization": "",
+        "description": {
+          "value": "<p>This skill allows the user to spot a secret door or compartment, notice a hidden intruder, find an inconspicuous clue, recognize a repainted automobile, become aware of ambushers, notice a bulging pocket, or anything similar. This is an important skill in the armory of an investigator.</p><p>When a player is searching for a character who is hiding, the opponent’s Stealth skill is used to set the difficulty level for the roll.</p><p>If a character has only a fleeting chance to spot something, perhaps while running past it, the Keeper may raise the level of difficulty. If the character is conducting a thorough search, the Keeper might award an automatic success. The difficulty level might also be adapted to reflect the environment, it being harder to spot something in a cluttered room.</p><h2>Opposing skill/Difficulty level:</h2><p>When searching for a character who is hiding, the opponent’s Stealth skill is used to set the difficulty level for the roll.</p><ul><li>Regular difficulty: searching a room for clues.</li><li>Hard difficulty: searching for something that has been purposefully well hidden.</li></ul><h2>Pushing examples:</h2><p>Taking more time to observe the area; pulling the place apart; dismantling the furniture and smashing the porcelain statuettes.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Inadvertently drop something of your own while searching, which will make it clear that you have been there (the investigator will not realize this at the time); you fail to the spot the paw print in the mud and are surprised when the red-eyed beast leaps at you from the trees; whilst you managed to find a clue, you didn’t notice the cultists arriving home.</p><p>If an insane investigator fails a pushed roll, he or she is convinced that something is there and that they will find it under the wallpaper, hidden in the plaster or beneath the floorboards.</p>",
+          "keeper": ""
+        },
+        "base": "25",
+        "adjustments": {
+          "personal": 50,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 25
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": true
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.spot-hidden",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "invictus": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849870,
+        "modifiedTime": 1789640001407,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "M3DoVq5yR2PrElXb",
+      "name": "Stealth",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/lorc/hidden.svg",
+      "sort": 8600000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Stealth",
+        "specialization": "",
+        "description": {
+          "value": "<p>The art of moving quietly and/or hiding, without alerting those who might hear or see. When attempting to avoid detection, the player should attempt a Stealth skill roll. Ability with the skill suggests either that the character is adept at moving quietly (‘light-footed’) and/or skilled in camouflage techniques. The skill might also suggest that the character can maintain a level of patience and cool headedness to remain still and unseen for long periods.</p><h2>Opposing skill/Difficulty level:</h2><p>When attempting to hide, the opponent’s @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.vEjTaE4yLL3R3No0]{Spot Hidden} or @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.TjRJDTBlFtx08yOT]{Listen} skill is used to set the difficulty level for the roll. Situational modifiers may also apply (e.g. darkness or loud noises).</p><ul><li>Regular difficulty: moving quietly around the house to avoid detection by average people (those with Spot Hidden and Listen skills of less than 50%).</li><li>Hard difficulty: sneaking past an attentive guard dog; having only seconds to find a hiding place.</li></ul><h2>Pushing examples:</h2><p>Taking more time to study the area; removing your shoes; causing a distraction; sitting tight until the coast appears clear.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>Unbeknown to you, you have been spotted and rather than approach you directly, the cultists decide to summon ‘something’ to get you; you hear the cupboard door behind which you are hiding being locked then nailed shut.</p><p>If an insane investigator fails a pushed roll the investigator may believe he or she is invisible, when in fact everyone can see them.</p>",
+          "keeper": ""
+        },
+        "base": "20",
+        "adjustments": {
+          "personal": 5,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 20
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.stealth",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "invictus": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849870,
+        "modifiedTime": 1789640001407,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "LtKisyQJiIvDY5Hs",
+      "name": "Survival (Alpine)",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/lorc/campfire.svg",
+      "sort": 9100000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Alpine",
+        "specialization": "Survival",
+        "description": {
+          "value": "<p>See @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.d9PfOGTOMewjVLaI]{Survival (Any)} for more details.</p>",
+          "keeper": ""
+        },
+        "base": "10",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 10
+        },
+        "properties": {
+          "special": true,
+          "push": true,
+          "noxpgain": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.survival-alpine",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849870,
+        "modifiedTime": 1789639849875,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "TrcBaMXgC5Zz4XIu",
+      "name": "Swim",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/swimfins.svg",
+      "sort": 8900000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Swim",
+        "specialization": "",
+        "description": {
+          "value": "<p>The ability to float and to move through water or other liquid. Only roll Swim in times of crisis or danger, or when the Keeper judges it appropriate. Failing a pushed Swim roll can result in loss of hit points. It may also lead to the person being washed away downstream, partially or completely drowned.</p><h2>Opposing skill/Difficulty level:</h2><p>Modifiers may be awarded for the conditions or situation.</p><ul><li>Swimming a length in the swimming pool: no roll required.</li><li>Regular difficulty: swimming in a fast-moving current.</li><li>Hard difficulty: swimming against a rapid current while fully dressed; adverse weather conditions.</li></ul><h2>Pushing examples:</h2><p>Taking a big breath and really ‘going for it’ with all your remaining strength; pushing your physical limits.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>The current pulls you under and you lose consciousness, awaking on an unknown beach; you are pulled under and are injured by being dashed against rocks; you strive for the lifeboat and, just as you make it, you feel something cold and slimy grab your ankle.</p><p>If an insane investigator fails a pushed roll, he or she keeps on swimming and probably considers dry ground dangerous for some reason.</p>",
+          "keeper": ""
+        },
+        "base": "20",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 20
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.swim",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849870,
+        "modifiedTime": 1789639849875,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "05aOdDXa9NFuuJ3S",
+      "name": "Throw",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/throwing-ball.svg",
+      "sort": 3200000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Throw",
+        "specialization": "",
+        "description": {
+          "value": "<p>To hit a target with an object or to hit a target with the right part of the object thrown (such as the blade of a knife or hatchet), use Throw.</p><p>A palm-sized object of reasonable balance can be hurled up to STR in yards.</p><p>If the Throw roll fails, the object lands at some random distance from the target. The Keeper should compare the closeness of the die roll result to the highest number which would have indicated success, and choose a distance between target and thrown object that feels comparable.</p><p>The Throw skill is used in combat when throwing knives, rocks, spears, grenades or boomerangs.<br></p><h2>Opposing skill/Difficulty level:</h2><p>Modifiers might be applied for the weight of the object being thrown or, in the case of a very light object, the prevailing wind conditions.</p><ul><li>Regular difficulty: throw a basketball through a hoop.</li><li>Hard difficulty: an accurate shot at a distance; throw a basketball through a hoop from center court.</li></ul><p>Once an item has been thrown, it is quite literally out of the investigator’s hands and therefore there is nothing the player can do to justify Pushing the roll. If multiple missiles are available, there is no risk connected with failure and it is only a matter of time until the investigator is successful, don’t roll dice. If multiple missiles are available and there is a distinct risk connected with failure then the Keeper might ask for a Pushed roll.</p><h2>Pushing examples:</h2><p>Taking more time to assess the distance or waiting some time for more favorable conditions; putting every ounce of strength into the throw and throwing yourself as you launch the item; throwing a lot of items in quick succession hoping one will hit the target; taking a massive run-up and risking your momentum taking you over the ravine.</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>You send the object flying to your companion as you stumble and fall, hitting your head against the jagged rocks; you throw too hard and the object flies over the high church wall in to the graveyard; the dynamite stick slips from your hand—you look for it in vain but fail to see it in your hood, and only then do you smell the burning fuse.</p><p>If an insane investigator fails a pushed roll, he or she will refuse to let go of the item to be thrown.</p>",
+          "keeper": ""
+        },
+        "base": "20",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 20
+        },
+        "properties": {
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "push": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.throw",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849870,
+        "modifiedTime": 1789639849875,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "UlD6U5Whi2tJD6jO",
+      "name": "Track",
+      "img": "modules/cha-coc-fvtt-en-keeperitems/assets/game-icons/delapouite/deer-track.svg",
+      "sort": 9000000,
+      "folder": null,
+      "type": "skill",
+      "system": {
+        "skillName": "Track",
+        "specialization": "",
+        "description": {
+          "value": "<p>With Track, an investigator can follow a person, vehicle or animal over earth and plant/leaves. Factors such as time passed since the tracks were made, rain and the type of ground covered may affect the difficulty level.</p><h2>Opposing skill/Difficulty level:</h2><p>If tracking someone who is trying to conceal their tracks, the opponent’s @UUID[Compendium.cha-coc-fvtt-en-keeperitems.skills.Item.jeZixExzr8y2s02A]{Stealth} skill should be used to set the difficulty level; modifiers might also be applied for the prevailing weather and terrain.</p><ul><li>Regular difficulty: tracking an animal or human in the forest under normal (temperate) conditions.</li><li>Hard difficulty: following a trail that is several (or more) days old.</li></ul><h2>Pushing examples:</h2><p>Backtracking and taking more time to study the area; walking in increasing spirals to locate the tracks (taking longer, possibly making more noise and making oneself more visible).</p><h2>Sample Consequences of failing a Pushed roll:</h2><p>The tracks you are following lead you directly into the path of a hungry bear/lion/cannibal; you find yourself going round and round in circles, and night is falling as you realize you are now totally lost; you follow the tracks, only to be ambushed or caught in a trap laid by the thing you are following.</p><p>If an insane investigator fails a pushed roll, he or she will compulsively follow any tracks (convinced they are the right ones) until they are physically restrained or convinced otherwise.</p>",
+          "keeper": ""
+        },
+        "base": "10",
+        "adjustments": {
+          "personal": 0,
+          "occupation": 0,
+          "archetype": 0,
+          "experience": 0,
+          "experiencePackage": 0,
+          "base": 10
+        },
+        "properties": {
+          "push": true,
+          "noxpgain": false,
+          "special": false,
+          "rarity": false,
+          "fighting": false,
+          "firearm": false,
+          "ranged": false,
+          "requiresname": false,
+          "picknameonly": false,
+          "own": false,
+          "keepbasevalue": false
+        },
+        "flags": {
+          "archetype": false,
+          "developement": false,
+          "experiencePackage": false,
+          "occupation": false
+        }
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.skill.track",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAgesPulp": true,
+              "darkAges": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "invictus": true,
+              "modernPulp": true,
+              "modern": true,
+              "pulp": true,
+              "regencyPulp": true,
+              "regency": true,
+              "reignOfTerror": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849870,
+        "modifiedTime": 1789639849875,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "KazkOJszxw0TS0Yy",
+      "name": "Punch",
+      "type": "weapon",
+      "img": "systems/CoC7/assets/icons/skills/fighting_brawl.svg",
+      "system": {
+        "skill": {
+          "main": {
+            "name": "i.skill.brawl",
+            "id": ""
+          },
+          "alternativ": {
+            "name": "",
+            "id": ""
+          }
+        },
+        "range": {
+          "normal": {
+            "damage": "1D3",
+            "value": ""
+          },
+          "long": {
+            "value": "",
+            "damage": ""
+          },
+          "extreme": {
+            "value": "",
+            "damage": ""
+          }
+        },
+        "usesPerRound": {
+          "max": "",
+          "normal": "1",
+          "burst": null
+        },
+        "bullets": null,
+        "malfunction": null,
+        "properties": {
+          "rngd": false,
+          "addb": true,
+          "mnvr": false,
+          "thrown": false,
+          "shotgun": false,
+          "dbrl": false,
+          "impl": false,
+          "brst": false,
+          "auto": false,
+          "ahdb": false,
+          "slnt": false,
+          "spcl": false,
+          "mont": false,
+          "blst": false,
+          "stun": false,
+          "rare": false,
+          "burn": false
+        },
+        "description": {
+          "value": "",
+          "special": "",
+          "keeper": ""
+        },
+        "ammo": 0,
+        "blastRadius": null,
+        "price": {}
+      },
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.weapon.brawl",
+            "lang": "en",
+            "priority": 0
+          }
+        }
+      },
+      "effects": [],
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639849925,
+        "modifiedTime": 1789639849925,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "_id": "ofGqcrZ5b5XDAKqJ",
+      "name": "Researcher",
+      "img": "icons/svg/ice-aura.svg",
+      "sort": 0,
+      "folder": null,
+      "type": "occupation",
+      "system": {
+        "description": {
+          "value": "<p>The academic world sponsors a good deal of research, particularly in the fields of astronomy, physics, and other theoretical sciences. The private sector employs thousands of researchers, especially chemists, pharmacists, and engineers. Oil companies hire many trained geologists. Researchers spend most of their time indoors, working and writing, but some go onto become field researchers.</p><p>Field researchers are usually highly experienced, independent, and resourceful, possibly employed by private interests or undertaking academic research for a university. Oil companies send geologists into the field to explore potential petroleum fields, anthropologists study primitive tribes in forgotten corners of the globe, and archaeologists spend years of their lives unearthing treasures in deserts and jungles, bargaining with native workers and local governments.</p><p><strong>Suggested Contacts:</strong></p><ul><li>scholars and academics</li><li>large businesses and corporations</li><li>foreign governments and individuals</li></ul>",
+          "keeper": ""
+        },
+        "source": "",
+        "type": {
+          "classic": false,
+          "lovecraftian": false,
+          "modern": false,
+          "pulp": false
+        },
+        "occupationSkillPoints": {
+          "str": {
+            "multiplier": null,
+            "selected": false,
+            "optional": false
+          },
+          "con": {
+            "multiplier": null,
+            "selected": false,
+            "optional": false
+          },
+          "siz": {
+            "multiplier": null,
+            "selected": false,
+            "optional": false
+          },
+          "dex": {
+            "multiplier": null,
+            "selected": false,
+            "optional": false
+          },
+          "app": {
+            "multiplier": null,
+            "selected": false,
+            "optional": false
+          },
+          "int": {
+            "multiplier": null,
+            "selected": false,
+            "optional": false
+          },
+          "pow": {
+            "multiplier": null,
+            "selected": false,
+            "optional": false
+          },
+          "edu": {
+            "multiplier": 4,
+            "selected": true,
+            "optional": false
+          }
+        },
+        "creditRating": {
+          "min": 9,
+          "max": 30
+        },
+        "groups": [
+          {
+            "options": 1,
+            "itemDocuments": [],
+            "itemKeys": [
+              "i.skill.charm",
+              "i.skill.fast-talk",
+              "i.skill.intimidate",
+              "i.skill.persuade"
+            ]
+          }
+        ],
+        "personal": 3,
+        "personalText": "",
+        "itemDocuments": [],
+        "itemKeys": [
+          "i.skill.history",
+          "i.skill.library-use",
+          "i.skill.language-any",
+          "i.skill.spot-hidden"
+        ]
+      },
+      "effects": [],
+      "flags": {
+        "CoC7": {
+          "cocidFlag": {
+            "id": "i.occupation.researcher",
+            "lang": "en",
+            "priority": 10,
+            "eras": {
+              "standard": true,
+              "investigators": true,
+              "gasLight": true,
+              "gasLightPulp": true,
+              "darkAges": true,
+              "darkAgesPulp": true,
+              "downDarkerTrails": true,
+              "downDarkerTrailsPulp": true,
+              "invictus": true,
+              "modern": true,
+              "modernPulp": true,
+              "pulp": true,
+              "regency": true,
+              "regencyPulp": true
+            }
+          }
+        }
+      },
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "CoC7",
+        "systemVersion": "8.15",
+        "createdTime": 1789639957750,
+        "modifiedTime": 1789639957750,
+        "lastModifiedBy": "NzWbjZjD1trZJjKU",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "ownership": {
+        "default": 0
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "GUfVxUHOAcoXFOhL",
+  "_stats": {
+    "coreVersion": "14.359",
+    "systemId": "CoC7",
+    "systemVersion": "8.15",
+    "createdTime": 1789639849708,
+    "modifiedTime": 1789640813331,
+    "lastModifiedBy": "NzWbjZjD1trZJjKU",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "coc7",
+      "uuid": "Actor.1CyQNWH05w2V6o7A",
+      "coreVersion": "14.359",
+      "systemId": "CoC7",
+      "systemVersion": "8.15"
+    }
+  },
+  "ownership": {
+    "default": 0
+  }
+}

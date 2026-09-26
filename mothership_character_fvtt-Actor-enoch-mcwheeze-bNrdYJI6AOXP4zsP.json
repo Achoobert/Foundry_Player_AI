@@ -1,0 +1,603 @@
+{
+  "folder": "d446jd6wn1Svg8gT",
+  "name": "Enoch McWheeze",
+  "type": "character",
+  "img": "icons/svg/mystery-man.svg",
+  "system": {
+    "health": {
+      "value": 17,
+      "min": 0,
+      "max": 17,
+      "label": "Health"
+    },
+    "hits": {
+      "value": 0,
+      "min": 0,
+      "max": 3,
+      "label": "Wounds"
+    },
+    "netHP": {
+      "value": 20,
+      "min": 0,
+      "max": 20,
+      "label": "Net HP"
+    },
+    "bleeding": {
+      "value": 0,
+      "min": 0,
+      "label": "Bleeding"
+    },
+    "biography": "",
+    "notes": "",
+    "weight": {
+      "current": 0,
+      "capacity": 0
+    },
+    "class": {
+      "value": "Android",
+      "uuid": "Compendium.fvtt_mosh_1e_psg.items_classes_1e.Item.zwu8YwLpOFihp7fE"
+    },
+    "rank": {
+      "value": ""
+    },
+    "pronouns": {
+      "value": ""
+    },
+    "credits": {
+      "value": "140"
+    },
+    "stressdesc": {
+      "value": ""
+    },
+    "xp": {
+      "value": 0,
+      "html": 0,
+      "selectedSkill": ""
+    },
+    "attributes": {
+      "level": {
+        "value": "0"
+      }
+    },
+    "stats": {
+      "strength": {
+        "value": 23,
+        "mod": 0,
+        "min": 0,
+        "max": 99,
+        "label": "Strength",
+        "rollLabel": "Strength Check"
+      },
+      "speed": {
+        "value": 34,
+        "mod": 0,
+        "min": 0,
+        "max": 99,
+        "label": "Speed",
+        "rollLabel": "Speed Check"
+      },
+      "intellect": {
+        "value": 59,
+        "mod": 0,
+        "min": 0,
+        "max": 99,
+        "label": "Intellect",
+        "rollLabel": "Intellect Check"
+      },
+      "combat": {
+        "value": 42,
+        "mod": 0,
+        "min": 0,
+        "max": 99,
+        "label": "Combat",
+        "rollLabel": "Combat Check"
+      },
+      "sanity": {
+        "value": 18,
+        "mod": 0,
+        "min": 0,
+        "max": 99,
+        "label": "Sanity",
+        "rollLabel": "Sanity Save"
+      },
+      "fear": {
+        "value": 79,
+        "mod": 0,
+        "min": 0,
+        "max": 99,
+        "label": "Fear",
+        "rollLabel": "Fear Save"
+      },
+      "body": {
+        "value": 18,
+        "mod": 0,
+        "min": 0,
+        "max": 99,
+        "label": "Body",
+        "rollLabel": "Body Save"
+      },
+      "armor": {
+        "value": 0,
+        "mod": 0,
+        "min": 0,
+        "max": 99,
+        "damageReduction": 0,
+        "cover": "none",
+        "label": "Armor",
+        "rollLabel": "Armor Save"
+      }
+    },
+    "other": {
+      "stress": {
+        "value": 2,
+        "min": 2,
+        "max": 20,
+        "label": "Stress"
+      },
+      "resolve": {
+        "value": 0,
+        "min": 0,
+        "max": 15,
+        "label": "Resolve"
+      },
+      "stressdesc": {
+        "value": "Fear saves made by close friendly players are at disadvantage."
+      }
+    }
+  },
+  "prototypeToken": {
+    "name": "Enoch McWheeze",
+    "displayName": 20,
+    "actorLink": true,
+    "width": 1,
+    "height": 1,
+    "depth": 1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": 1,
+    "displayBars": 20,
+    "bar1": {
+      "attribute": "system.health"
+    },
+    "bar2": {
+      "attribute": "system.hits"
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": {},
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null,
+    "flags": {},
+    "randomImg": false,
+    "appendNumber": false,
+    "prependAdjective": false
+  },
+  "items": [
+    {
+      "name": "Linguistics",
+      "type": "skill",
+      "img": "icons/skills/trades/music-singing-voice-blue.webp",
+      "effects": [],
+      "flags": {
+        "core": {
+          "sourceId": "Compendium.world.mosh.0b95fRthZlrx2HBs"
+        }
+      },
+      "system": {
+        "description": "",
+        "rank": "Trained",
+        "bonus": 10,
+        "prerequisite_ids": []
+      },
+      "sort": 0,
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "mosh",
+        "systemVersion": "0.6.1",
+        "createdTime": 1789648476960,
+        "modifiedTime": 1789648476961,
+        "lastModifiedBy": "d3zgFO96cxHhzXI0",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "_id": "IEtiAWQ3vZ5tbaSN",
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "name": "Botany",
+      "type": "skill",
+      "img": "icons/commodities/flowers/lily-grey-orange.webp",
+      "effects": [],
+      "flags": {
+        "core": {
+          "sourceId": "Compendium.world.mosh.HwNWE4tCXdVdn5TQ"
+        }
+      },
+      "system": {
+        "description": "",
+        "rank": "Trained",
+        "bonus": 10,
+        "prerequisite_ids": []
+      },
+      "sort": 0,
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "mosh",
+        "systemVersion": "0.6.1",
+        "createdTime": 1789648476960,
+        "modifiedTime": 1789648476961,
+        "lastModifiedBy": "d3zgFO96cxHhzXI0",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "folder": null,
+      "_id": "qhdpvuHm216KPxY8",
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "name": "Vaccsuit",
+      "type": "armor",
+      "img": "modules/fvtt_mosh_1e_psg/icons/armor/vaccsuit.png",
+      "system": {
+        "description": "<p>Designed for outer space operations.<br><br><strong>Includes</strong> short-range comms, headlamp, and radiation shielding. Decompression within [[/r 1d5]] rounds if punctured.</p>",
+        "armorPoints": 3,
+        "damageReduction": 0,
+        "speed": "[-]",
+        "oxygenMax": 12,
+        "oxygenCurrent": 12,
+        "weight": 0,
+        "cost": 10000,
+        "features": "",
+        "equipped": false
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "mosh",
+        "systemVersion": "0.6.1",
+        "createdTime": 1789648477150,
+        "modifiedTime": 1789648477152,
+        "lastModifiedBy": "d3zgFO96cxHhzXI0",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_id": "lYfsxSK6RKnqo74V",
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "name": "Ammo",
+      "type": "item",
+      "img": "modules/fvtt_mosh_1e_psg/icons/equipment/ammo.png",
+      "system": {
+        "description": "<p>A supply of munitions, exploding substances, and projectiles that are put in guns, cannons, and other weapons.</p>",
+        "quantity": 1,
+        "weight": 0,
+        "cost": 450
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "mosh",
+        "systemVersion": "0.6.1",
+        "createdTime": 1789648477150,
+        "modifiedTime": 1789648477152,
+        "lastModifiedBy": "d3zgFO96cxHhzXI0",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_id": "ZZDOLPNAE8cEdEoO",
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "name": "Long-range Comms",
+      "type": "item",
+      "img": "modules/fvtt_mosh_1e_psg/icons/equipment/long_range_comms.png",
+      "system": {
+        "description": "<p>Rucksack-sized communication device for use in surface-to-ship comunication.</p>",
+        "quantity": 1,
+        "weight": 0,
+        "cost": 1000
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "mosh",
+        "systemVersion": "0.6.1",
+        "createdTime": 1789648477150,
+        "modifiedTime": 1789648477152,
+        "lastModifiedBy": "d3zgFO96cxHhzXI0",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_id": "7x3CiKFq8X30zA3m",
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "name": "Satchel",
+      "type": "item",
+      "img": "modules/fvtt_mosh_1e_psg/icons/equipment/satchel.png",
+      "system": {
+        "description": "<p>A bag with a strap, traditionally used for carrying books.</p>",
+        "quantity": 1,
+        "weight": 0,
+        "cost": 45
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "mosh",
+        "systemVersion": "0.6.1",
+        "createdTime": 1789648477151,
+        "modifiedTime": 1789648477152,
+        "lastModifiedBy": "d3zgFO96cxHhzXI0",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_id": "Ki577kKKsLENEu0W",
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "name": "Revolver",
+      "type": "weapon",
+      "img": "modules/fvtt_mosh_1e_psg/icons/weapons/revolver.png",
+      "system": {
+        "description": "<p>A repeating handgun that has a multichambered cylinder behind a single barrel.</p>",
+        "antiArmor": false,
+        "damage": "1d10+1",
+        "ammo": 0,
+        "shots": 6,
+        "curShots": 6,
+        "shotsPerFire": "1",
+        "useAmmo": true,
+        "ammoType": "",
+        "wound": "",
+        "critDmg": "",
+        "woundEffect": "Gunshot",
+        "bonus": 0,
+        "weight": 0,
+        "cost": 750,
+        "ranges": {
+          "short": 0,
+          "medium": 0,
+          "long": 0,
+          "value": "Close"
+        },
+        "settings": {
+          "firstEdition": false
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "mosh",
+        "systemVersion": "0.6.1",
+        "createdTime": 1789648477151,
+        "modifiedTime": 1789648477153,
+        "lastModifiedBy": "d3zgFO96cxHhzXI0",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_id": "wOBa1EBCQOOedDDK",
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "name": "”Girl’s Best Friend” (Diamond)",
+      "type": "item",
+      "img": "modules/fvtt_mosh_1e_psg/icons/rolltables/patch.png",
+      "system": {
+        "description": "<p>Patch</p>",
+        "quantity": 1,
+        "weight": 0,
+        "cost": 0
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "mosh",
+        "systemVersion": "0.6.1",
+        "createdTime": 1789648477151,
+        "modifiedTime": 1789648477153,
+        "lastModifiedBy": "d3zgFO96cxHhzXI0",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_id": "SisoGDBVOaiimEcw",
+      "ownership": {
+        "default": 0
+      }
+    },
+    {
+      "name": "10m x 10m Tarp",
+      "type": "item",
+      "img": "modules/fvtt_mosh_1e_psg/icons/rolltables/trinket.png",
+      "system": {
+        "description": "<p>Trinket</p>",
+        "quantity": 1,
+        "weight": 0,
+        "cost": 0
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "coreVersion": "14.359",
+        "systemId": "mosh",
+        "systemVersion": "0.6.1",
+        "createdTime": 1789648477152,
+        "modifiedTime": 1789648477153,
+        "lastModifiedBy": "d3zgFO96cxHhzXI0",
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null
+      },
+      "_id": "Yd31crDSMCcq7VrL",
+      "ownership": {
+        "default": 0
+      }
+    }
+  ],
+  "effects": [],
+  "flags": {
+    "mosh-greybearded-qol": {
+      "greybeardCharacterCreation": {
+        "ready": true,
+        "preparation": {
+          "completed": true,
+          "timestamp": "2026-09-17T12:34:02.058Z"
+        },
+        "rolledAttributes": {
+          "completed": true,
+          "timestamp": "2026-09-17T12:34:02.112Z"
+        },
+        "selectedClass": {
+          "completed": true,
+          "timestamp": "2026-09-17T12:34:04.790Z"
+        },
+        "selectedAttributes": {
+          "completed": true,
+          "timestamp": "2026-09-17T12:34:10.314Z"
+        },
+        "rolledHealth": {
+          "completed": true,
+          "timestamp": "2026-09-17T12:34:10.383Z"
+        },
+        "selectedSkills": {
+          "completed": true,
+          "timestamp": "2026-09-17T12:34:37.048Z"
+        },
+        "rolledLoadout": {
+          "completed": true,
+          "timestamp": "2026-09-17T12:34:37.220Z"
+        },
+        "completed": true
+      }
+    }
+  },
+  "_stats": {
+    "coreVersion": "14.359",
+    "systemId": "mosh",
+    "systemVersion": "0.6.1",
+    "createdTime": 1789648440240,
+    "modifiedTime": 1789648479888,
+    "lastModifiedBy": "d3zgFO96cxHhzXI0",
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": {
+      "worldId": "mosh0",
+      "uuid": "Actor.bNrdYJI6AOXP4zsP",
+      "coreVersion": "14.359",
+      "systemId": "mosh",
+      "systemVersion": "0.6.1"
+    }
+  },
+  "ownership": {
+    "default": 0
+  }
+}
